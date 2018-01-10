@@ -9,15 +9,27 @@
         MapInit: function () {
             //init location
             this.RefreshCurrentLocation();
-            _map = new BMap.Map("redPackestMap", { minZoom: 10, enableMapClick: false });
+            _map = new BMap.Map("redPackestMap", { minZoom: 10, enableClicking: true });
             _map.enableScrollWheelZoom(true);
         },
         MarkCurrentLocation: function () {
+            try {
+                var locationIcon = new BMap.Icon("img/location.png", new BMap.Size(100, 100));
+                var marker = new BMap.Marker(_currentLocationPoint, { icon: locationIcon });
+                _map.addOverlay(marker);
 
-            var locationIcon = new BMap.Icon("img/location.png", new BMap.Size(100, 100));
-            var marker = new BMap.Marker(_currentLocationPoint, { icon: locationIcon });
-            _map.addOverlay(marker);
-            //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //flash
+                var label = new BMap.Label("我的位置", { offset: new BMap.Size(20, -10) });
+                marker.setLabel(label);
+                label.setStyle({
+                    fontSize: "12px",
+                    backgroundColor: "rgba(0,0,0,0)",
+                    border: "0",
+                    fontWeight: "bold"
+                });
+
+                //marker.setAnimation(BMAP_ANIMATION_DROP); //flash useless in mobile
+            }
+            catch (e) { console.log(e);}
         },
         ResetMapBounds: function () {
             var b = new BMap.Bounds(new BMap.Point(121.50228608265713, 30.247565690084752), new BMap.Point(121.70228608265713, 32.247565690084752));
@@ -29,8 +41,9 @@
         },
         RefreshVisibleCircle: function () {
             var circle = new BMap.Circle(_currentLocationPoint, _visibleBounds / 2, {
-                strokeColor: "blue",
+                strokeColor: "black",
                 strokeWeight: 2,
+                strokeStyle: "solid",//dashed or solid
                 fillColor: "#E2E8F1",
                 fillOpacity: 0.5
             });
@@ -77,7 +90,7 @@
                 RedPackets.MarkCurrentLocation();
 
                 //reset visible map bounds
-                RedPackets.ResetMapBounds();
+                //RedPackets.ResetMapBounds();
 
                 _map.setCenter(data.points[0]);
             }
