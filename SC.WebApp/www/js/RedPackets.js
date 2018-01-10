@@ -13,12 +13,14 @@
             _map.enableScrollWheelZoom(true);
         },
         MarkCurrentLocation: function () {
-            var marker = new BMap.Marker(_currentLocationPoint);
+
+            var locationIcon = new BMap.Icon("img/location.png", new BMap.Size(100, 100));
+            var marker = new BMap.Marker(_currentLocationPoint, { icon: locationIcon });
             _map.addOverlay(marker);
             //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //flash
         },
         ResetMapBounds: function () {
-            var b = new BMap.Bounds(new BMap.Point(116.027143, 39.772348), new BMap.Point(116.832025, 40.126349));
+            var b = new BMap.Bounds(new BMap.Point(121.50228608265713, 30.247565690084752), new BMap.Point(121.70228608265713, 32.247565690084752));
             try {
                 BMapLib.AreaRestriction.setBounds(_map, b);
             } catch (e) {
@@ -66,6 +68,7 @@
 
                 //refresh location
                 _currentLocationPoint = data.points[0];
+                console.log("point converted: Longitude:" + _currentLocationPoint.lng + "\n Latitude:" + _currentLocationPoint.lat);
                 //refresh center and zoom
                 _map.centerAndZoom(_currentLocationPoint, 17);
                 //rewrite visible circle
@@ -74,7 +77,7 @@
                 RedPackets.MarkCurrentLocation();
 
                 //reset visible map bounds
-                //this.ResetMapBounds();
+                RedPackets.ResetMapBounds();
 
                 _map.setCenter(data.points[0]);
             }
