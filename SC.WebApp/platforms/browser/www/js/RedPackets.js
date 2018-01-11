@@ -3,6 +3,7 @@
     var _currentLocationPoint;
     var _map;
     var _visibleBounds = 1000;// km
+    var _config = new AppConfig();
 
     return {
 
@@ -24,13 +25,33 @@
                     fontSize: "12px",
                     backgroundColor: "rgba(0,0,0,0)",
                     border: "0",
-                    fontWeight: "bold"
+                    fontWeight: "bold",
+                    color:"black"
                 });
 
                 //marker.setAnimation(BMAP_ANIMATION_DROP); //flash useless in mobile
             }
-            catch (e) { console.log(e);}
+            catch (e) { console.log(e); }
         },
+        RefreshRedPackets: function () {
+            try {
+                $.get(_config.redPacketsUrl, function (data) {
+                    $.each(data, function () {
+
+                        var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);
+                        RedPackets.AddMarker(point);
+                    })
+                });
+            }
+            catch (e) {
+                console.log(e);
+            }
+        },
+        AddMarker: function (point) {
+            var marker = new BMap.Marker(point);
+            _map.addOverlay(marker);
+        },
+
         ResetMapBounds: function () {
             var b = new BMap.Bounds(new BMap.Point(121.50228608265713, 30.247565690084752), new BMap.Point(121.70228608265713, 32.247565690084752));
             try {
@@ -43,7 +64,7 @@
             var circle = new BMap.Circle(_currentLocationPoint, _visibleBounds / 2, {
                 strokeColor: "black",
                 strokeWeight: 2,
-                strokeStyle: "solid",//dashed or solid
+                strokeStyle: "dashed",//dashed or solid
                 fillColor: "#E2E8F1",
                 fillOpacity: 0.5
             });
@@ -88,7 +109,8 @@
                 RedPackets.RefreshVisibleCircle();
                 //mark point
                 RedPackets.MarkCurrentLocation();
-
+                //mark red packets
+                RedPackets.RefreshRedPackets();
                 //reset visible map bounds
                 //RedPackets.ResetMapBounds();
 

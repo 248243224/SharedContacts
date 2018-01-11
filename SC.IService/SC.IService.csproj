@@ -42,7 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRedPacketService.cs" />
+    <Compile Include="ISCUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SC.Model\SC.Model.csproj">
+      <Project>{672b96cc-b59a-499c-afdf-61699e5edb27}</Project>
+      <Name>SC.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

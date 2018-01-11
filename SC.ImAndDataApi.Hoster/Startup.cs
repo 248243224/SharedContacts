@@ -4,6 +4,12 @@ using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
 using Microsoft.Owin.Cors;
+using Autofac;
+using System.Reflection;
+using Autofac.Integration.WebApi;
+using SC.IService;
+using SC.Dal.Service;
+using Microsoft.AspNet.SignalR;
 
 [assembly: OwinStartup(typeof(SC.ImAndDataApi.Hoster.Startup))]
 
@@ -19,15 +25,41 @@ namespace SC.ImAndDataApi.Hoster
 
             config.Routes.MapHttpRoute(
                 name: "SC.Api",
-                routeTemplate: "api/{controller}/{action}/{id}",
+                routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 
 
             app.UseCors(CorsOptions.AllowAll);
-            app.MapSignalR();
+            app.UseSignalr();
             app.UseWebApi(config);
 
+            //register autofac
+            AutofacRgister(config);
         }
+
+
+
+        public void AutofacRgister(HttpConfiguration config)
+        {
+            var builder = new ContainerBuilder();
+            SetupResolveRules(builder);
+
+            // Register your Web API controllers.
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            // OPTIONAL: Register the Autofac filter provider.
+            builder.RegisterWebApiFilterProvider(config);
+
+            // Set the dependency resolver to be Autofac.
+            var container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+        }
+
+        private static void SetupResolveRules(ContainerBuilder builder)
+        {
+            builder.RegisterType<RedPacketService>().As<IRedPacketService>().InstancePerRequest();
+        }
+
     }
 }

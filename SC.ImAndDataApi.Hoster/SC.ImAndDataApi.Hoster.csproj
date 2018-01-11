@@ -36,6 +36,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.4.1.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
@@ -90,12 +96,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\MessageController.cs" />
+    <Compile Include="Controller\RedPacketController.cs" />
     <Compile Include="Entry.cs" />
+    <Compile Include="Extenstions.cs" />
     <Compile Include="Hubs\ImHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SC.Dal\SC.Dal.csproj">
+      <Project>{50e606de-0657-40e2-b8d1-8327f8466522}</Project>
+      <Name>SC.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SC.IService\SC.IService.csproj">
+      <Project>{ad03e015-d2d9-449e-86f4-9dc7cd82fc56}</Project>
+      <Name>SC.IService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SC.Model\SC.Model.csproj">
       <Project>{672b96cc-b59a-499c-afdf-61699e5edb27}</Project>
       <Name>SC.Model</Name>

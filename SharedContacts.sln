@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.Model", "SC.Model\SC.Model.csproj", "{672B96CC-B59A-499C-AFDF-61699E5EDB27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.Dal", "SC.Dal\SC.Dal.csproj", "{50E606DE-0657-40E2-B8D1-8327F8466522}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.IService", "SC.IService\SC.IService.csproj", "{AD03E015-D2D9-449E-86F4-9DC7CD82FC56}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.Service", "SC.Service\SC.Service.csproj", "{9C314D1C-A1A8-4FBA-9A9A-BCE80E793F04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.ImAndDataApi.Hoster", "SC.ImAndDataApi.Hoster\SC.ImAndDataApi.Hoster.csproj", "{367337B6-C10D-4B3C-B39B-580CBB3A263C}"
 EndProject
@@ -54,10 +52,6 @@ Global
 		{AD03E015-D2D9-449E-86F4-9DC7CD82FC56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD03E015-D2D9-449E-86F4-9DC7CD82FC56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD03E015-D2D9-449E-86F4-9DC7CD82FC56}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C314D1C-A1A8-4FBA-9A9A-BCE80E793F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C314D1C-A1A8-4FBA-9A9A-BCE80E793F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C314D1C-A1A8-4FBA-9A9A-BCE80E793F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C314D1C-A1A8-4FBA-9A9A-BCE80E793F04}.Release|Any CPU.Build.0 = Release|Any CPU
 		{367337B6-C10D-4B3C-B39B-580CBB3A263C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{367337B6-C10D-4B3C-B39B-580CBB3A263C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{367337B6-C10D-4B3C-B39B-580CBB3A263C}.Release|Any CPU.ActiveCfg = Release|Any CPU

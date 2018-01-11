@@ -1,12 +1,8 @@
 ﻿var ImClient = (function () {
 
     var userId = "jane";
-    var serverUrl = "http://10.229.18.134:8089/signalr";
 
     return {
-        GetServerUrl: function () {
-            return serverUrl;
-        },
 
         MessageArrived: function (content) {
             alert(content);
@@ -26,5 +22,4 @@
     };
 
 })();
-
-var imConnection = new ImHubConnection(ImClient.GetServerUrl(), ImClient.MessageArrived, ImClient.ConnectionEstablishedFunction);
+var imConnection = new ImHubConnection(new AppConfig().iMServer, ImClient.MessageArrived, ImClient.ConnectionEstablishedFunction);
