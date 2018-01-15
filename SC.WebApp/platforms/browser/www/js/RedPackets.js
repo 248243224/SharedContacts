@@ -4,13 +4,14 @@
     var _map;
     var _visibleBounds = 1000;// km
     var _config = new AppConfig();
+    var _visibleCircle;
 
     return {
 
         MapInit: function () {
             //init location
             this.RefreshCurrentLocation();
-            _map = new BMap.Map("redPackestMap", { minZoom: 10, enableClicking: true });
+            _map = new BMap.Map("redPackestMap", { minZoom: 17, enableClicking: true });
             _map.enableScrollWheelZoom(true);
         },
         MarkCurrentLocation: function () {
@@ -19,14 +20,14 @@
                 var marker = new BMap.Marker(_currentLocationPoint, { icon: locationIcon });
                 _map.addOverlay(marker);
 
-                var label = new BMap.Label("我的位置", { offset: new BMap.Size(20, -10) });
+                var label = new BMap.Label("我的位置(可见范围一公里)", { offset: new BMap.Size(20, -10) });
                 marker.setLabel(label);
                 label.setStyle({
                     fontSize: "12px",
                     backgroundColor: "rgba(0,0,0,0)",
                     border: "0",
                     fontWeight: "bold",
-                    color:"black"
+                    color: "black"
                 });
 
                 //marker.setAnimation(BMAP_ANIMATION_DROP); //flash useless in mobile
@@ -51,9 +52,18 @@
             var marker = new BMap.Marker(point);
             _map.addOverlay(marker);
         },
-
+        GetCurrentCenter: function () { return _currentLocationPoint },
         ResetMapBounds: function () {
-            var b = new BMap.Bounds(new BMap.Point(121.50228608265713, 30.247565690084752), new BMap.Point(121.70228608265713, 32.247565690084752));
+            //可见范围为圆弧半径加200米
+            var visibleCircleBounds = new BMap.Circle(_currentLocationPoint, _visibleBounds / 2 + 200, {
+                strokeColor: "black",
+                strokeWeight: 0.1,
+                strokeStyle: "dashed",//dashed or solid
+                fillColor: "#E2E8F1",
+                fillOpacity: 0.1
+            });
+            _map.addOverlay(visibleCircleBounds);
+            var b = visibleCircleBounds.getBounds();
             try {
                 BMapLib.AreaRestriction.setBounds(_map, b);
             } catch (e) {
@@ -61,14 +71,14 @@
             }
         },
         RefreshVisibleCircle: function () {
-            var circle = new BMap.Circle(_currentLocationPoint, _visibleBounds / 2, {
+            _visibleCircle = new BMap.Circle(_currentLocationPoint, _visibleBounds / 2, {
                 strokeColor: "black",
                 strokeWeight: 2,
                 strokeStyle: "dashed",//dashed or solid
                 fillColor: "#E2E8F1",
                 fillOpacity: 0.5
             });
-            _map.addOverlay(circle);            //add circle
+            _map.addOverlay(_visibleCircle);            //add circle
         },
         RefreshCurrentLocation: function () {
             // onSuccess Callback
@@ -112,7 +122,7 @@
                 //mark red packets
                 RedPackets.RefreshRedPackets();
                 //reset visible map bounds
-                //RedPackets.ResetMapBounds();
+                RedPackets.ResetMapBounds();
 
                 _map.setCenter(data.points[0]);
             }

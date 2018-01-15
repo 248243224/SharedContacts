@@ -28,10 +28,16 @@ namespace SC.Dal
 
             modelBuilder.Entity<SCUser>().ToTable("SCUser");
             modelBuilder.Entity<RedPacket>().ToTable("RedPacket");
+            modelBuilder.Entity<Profit>().ToTable("Profit");
+            modelBuilder.Entity<WithdrawApply>().ToTable("WithdrawApply");
+            modelBuilder.Entity<MessageRecord>().ToTable("MessageRecord");
         }
 
         public DbSet<SCUser> SCUsers { get; set; }
         public DbSet<RedPacket> RedPackets { get; set; }
+        public DbSet<Profit> Profits { get; set; }
+        public DbSet<WithdrawApply> WithdrawApplys { get; set; }
+        public DbSet<MessageRecord> MessageRecords { get; set; }
 
         public static SCContext NewInstance
         {

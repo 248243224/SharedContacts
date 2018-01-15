@@ -38,34 +38,9 @@ var BMapLib = window.BMapLib = BMapLib || {};
             return;
         }
 
-        var curBounds = _map.getBounds(),
-            curBoundsSW = curBounds.getSouthWest(),
-            curBoundsNE = curBounds.getNorthEast(),
-            _boundsSW = _bounds.getSouthWest(),
-            _boundsNE = _bounds.getNorthEast();
-
-        var boundary = { n: 0, e: 0, s: 0, w: 0 };
-
-        boundary.n = (curBoundsNE.lat < _boundsNE.lat) ?
-            curBoundsNE.lat :
-            _boundsNE.lat;
-
-        boundary.e = (curBoundsNE.lng < _boundsNE.lng) ?
-            curBoundsNE.lng :
-            _boundsNE.lng;
-
-        boundary.s = (curBoundsSW.lat < _boundsSW.lat) ?
-            _boundsSW.lat :
-            curBoundsSW.lat;
-
-        boundary.w = (curBoundsSW.lng < _boundsSW.lng) ?
-            _boundsSW.lng :
-            curBoundsSW.lng;
-
-        var center = new BMap.Point(boundary.w + (boundary.e - boundary.w) / 2,
-            boundary.s + (boundary.n - boundary.s) / 2);
         setTimeout(function () {
-            _map.panTo(center, { noAnimation: "no" });
+            _map.panTo(RedPackets.GetCurrentCenter(), { noAnimation: "no" });
+            alert("只显示附近一公里");
         }, 1);
     };
 

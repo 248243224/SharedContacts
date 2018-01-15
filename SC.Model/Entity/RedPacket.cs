@@ -21,6 +21,14 @@ namespace SC.Model.Entity
         public int RestNumber { get; set; }
         [NotMapped]
         public int MissNumber { get; set; }
+        [MaxLength(200, ErrorMessage = "红包文字内容长度不能超过200")]
+        public string TextContent { get; set; }
+        /// <summary>
+        /// split by “,”
+        /// </summary>
+        public string ImageContent { get; set; }
+
+        public DateTime CreateTime { get; set; }
 
         [ForeignKey("SCUser")]
         public int UserId { get; set; }
