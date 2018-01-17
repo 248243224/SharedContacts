@@ -34,5 +34,7 @@ namespace SC.Model.Entity
         public int UserId { get; set; }
 
         public virtual SCUser SCUser { get; set; }
+
+        public virtual List<RedPacketCheckRecord> CheckRecords { get; set; }
     }
 }

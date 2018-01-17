@@ -31,6 +31,7 @@ namespace SC.Dal
             modelBuilder.Entity<Profit>().ToTable("Profit");
             modelBuilder.Entity<WithdrawApply>().ToTable("WithdrawApply");
             modelBuilder.Entity<MessageRecord>().ToTable("MessageRecord");
+            modelBuilder.Entity<RedPacketCheckRecord>().ToTable("RedPacketCheckRecord");
         }
 
         public DbSet<SCUser> SCUsers { get; set; }
@@ -38,6 +39,7 @@ namespace SC.Dal
         public DbSet<Profit> Profits { get; set; }
         public DbSet<WithdrawApply> WithdrawApplys { get; set; }
         public DbSet<MessageRecord> MessageRecords { get; set; }
+        public DbSet<RedPacketCheckRecord> RedPacketCheckRecords { get; set; }
 
         public static SCContext NewInstance
         {
