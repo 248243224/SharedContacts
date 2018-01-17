@@ -47,6 +47,7 @@
     <Compile Include="Entity\MessageRecord.cs" />
     <Compile Include="Entity\Profit.cs" />
     <Compile Include="Entity\RedPacket.cs" />
+    <Compile Include="Entity\RedPacketCheckRecord.cs" />
     <Compile Include="Entity\SCUser.cs" />
     <Compile Include="Entity\WithdrawApply.cs" />
     <Compile Include="Message.cs" />
