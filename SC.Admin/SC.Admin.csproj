@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -116,6 +117,7 @@
     <Content Include="Content\assets\css\datepicker.css" />
     <Content Include="Content\assets\css\daterangepicker.css" />
     <Content Include="Content\assets\css\dropzone.css" />
+    <Content Include="Content\assets\css\dropzone.min.css" />
     <Content Include="Content\assets\css\font-awesome.min.css" />
     <Content Include="Content\assets\css\fullcalendar.css" />
     <Content Include="Content\assets\css\fullcalendar.print.css" />
@@ -488,7 +490,7 @@
     <Content Include="Content\scripts\JqLib\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\scripts\JsEncry.js" />
     <Content Include="Content\scripts\Layout.js" />
-    <Content Include="Content\scripts\Project.js" />
+    <Content Include="Content\scripts\Redpacket.js" />
     <Content Include="Content\scripts\require.js" />
     <Content Include="Content\scripts\User.js" />
     <Content Include="Global.asax" />
@@ -500,6 +502,8 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ControlCenterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\RedpacketController.cs" />
+    <Compile Include="Controllers\WithdrawApplyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -694,6 +698,8 @@
     <Content Include="Views\ControlCenter\Page.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\_Login.cshtml" />
+    <Content Include="Views\WithdrawApply\Index.cshtml" />
+    <Content Include="Views\Redpacket\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

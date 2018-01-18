@@ -14,7 +14,7 @@ namespace SC.Admin
     {
         //
         // GET: /Account/Index
-        public ActionResult Index(string returnUrl)
+        public ActionResult Index()
         {
             return View();
         }

@@ -1,86 +1,23 @@
-﻿<title>Welcome</title>
-<text>welcome!</text>
+﻿var RedpacketScript = (function () {
+    var fd = new FormData();
+    return {
+        //Init
+        Init: function () {
 
-<link href="~/Content/assets/css/dropzone.min.css" rel="stylesheet" />
-
-<div class="page-content">
-    
-
-    <div class="row">
-        <div class="col-xs-12">
-            <!-- PAGE CONTENT BEGINS -->
-            <div>
-                <div action="./dummy.html" class="dropzone well" id="dropzone">
-                    <div class="fallback">
-                        <input name="file" type="file" multiple="" />
-                    </div>
-                </div>
-            </div>
-
-            <div id="preview-template" class="hide">
-                <div class="dz-preview dz-file-preview">
-                    <div class="dz-image">
-                        <img data-dz-thumbnail="" />
-                    </div>
-
-                    <div class="dz-details">
-                        <div class="dz-size">
-                            <span data-dz-size=""></span>
-                        </div>
-
-                        <div class="dz-filename">
-                            <span data-dz-name=""></span>
-                        </div>
-                    </div>
-
-                    <div class="dz-progress">
-                        <span class="dz-upload" data-dz-uploadprogress=""></span>
-                    </div>
-
-                    <div class="dz-error-message">
-                        <span data-dz-errormessage=""></span>
-                    </div>
-
-                    <div class="dz-success-mark">
-                        <span class="fa-stack fa-lg bigger-150">
-                            <i class="fa fa-circle fa-stack-2x white"></i>
-
-                            <i class="fa fa-check fa-stack-1x fa-inverse green"></i>
-                        </span>
-                    </div>
-
-                    <div class="dz-error-mark">
-                        <span class="fa-stack fa-lg bigger-150">
-                            <i class="fa fa-circle fa-stack-2x white"></i>
-
-                            <i class="fa fa-remove fa-stack-1x fa-inverse red"></i>
-                        </span>
-                    </div>
-                </div>
-            </div><!-- PAGE CONTENT ENDS -->
-        </div><!-- /.col -->
-    </div><!-- /.row -->
-</div><!-- /.page-content -->
-
-<script src="~/Content/assets/js/dropzone.min.js"></script>
-<!-- page specific plugin scripts -->
-<script type="text/javascript">
-	var scripts = [null, null]
-	ace.load_ajax_scripts(scripts, function() {
-	  //inline scripts related to this page
-        jQuery(function ($) {
             try {
-                Dropzone.autoDiscover = false;
 
+                Dropzone.autoDiscover = false;
                 var myDropzone = new Dropzone('#dropzone', {
                     previewTemplate: $('#preview-template').html(),
 
                     thumbnailHeight: 120,
                     thumbnailWidth: 120,
                     maxFilesize: 0.5,
+                    acceptedFiles: "image/*",
+                    uploadMultiple: true,
                     addRemoveLinks: true,
-                    //addRemoveLinks : true,
-                    //dictRemoveFile: 'Remove',
+                    maxFiles: 9,
+                    dictRemoveFile: '移除',
 
                     dictDefaultMessage:
                     '<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
@@ -98,10 +35,18 @@
                             });
                             setTimeout(function () { $(file.previewElement).addClass("dz-image-preview"); }, 1);
                         }
+                    },
+                    init: function () {
+                        this.on("addedfile", function (file) {
+                            // actions...
+                        });
+                        this.on("removedfile", function (file) {
+                            // actions...
+
+                        });
                     }
 
                 });
-
 
                 //simulating upload progress
                 var minSteps = 6,
@@ -132,6 +77,7 @@
                                         self.emit("success", file, 'success', null);
                                         self.emit("complete", file);
                                         self.processQueue();
+                                        $(".dz-progress").hide();
                                     }
                                 };
                             }(file, totalSteps, step), duration);
@@ -139,6 +85,28 @@
                     }
                 }
 
+                $("#btnPublish").on("click", function () {
+
+                    var packetInfo = {
+                        TotalNumber: $("#TotalNumber").val(),
+                        Amount: $("#TotalNumber").val(),
+                        Lng: $("#TotalNumber").val(),
+                        Lat: $("#TotalNumber").val(),
+                        TextContent: $("#TotalNumber").val()
+                    };
+                    fd.append('packetInfo', packetInfo);
+                    $.each(myDropzone.files, function (i, file) {
+                        var reader = new FileReader();
+                        reader.onload = function (event) {
+                            // event.target.result contains base64 encoded image
+                            var fileBytes = event.target.result;
+                            fd.append('files', fileBytes);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+
+                    RedpacketScript.AddPacket(fd);
+                });
 
                 //remove dropzone instance when leaving this page in ajax mode
                 $(document).one('ajaxloadstart.page', function (e) {
@@ -150,6 +118,16 @@
             } catch (e) {
                 alert('Dropzone.js does not support older browsers!');
             }
-	})
-	});
-</script>
+        },
+        AddPacket: function (packetData) {
+            var deffer = $.ajax({
+                url: "127.0.0.1/",
+                type: 'POST',
+                contentType: false,
+                data: packetData,
+                cache: false,
+                processData: false
+            });
+        }
+    };
+})();

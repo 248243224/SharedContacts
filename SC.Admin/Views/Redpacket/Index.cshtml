@@ -1,0 +1,145 @@
+﻿<title>红包</title>
+
+<link href="~/Content/assets/css/dropzone.min.css" rel="stylesheet" />
+
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+    <h1>
+        红包
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            红包发布
+        </small>
+    </h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">红包个数</label>
+
+                <div class="col-sm-9">
+                    <input type="text" id="TotalNumber" onkeypress='return event.charCode >= 49 && event.charCode <= 57' class="col-xs-10 col-sm-5" />
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">总金额</label>
+
+                <div class="col-sm-9">
+                    <input type="text" id="Amount" onkeypress='return event.charCode >= 49 && event.charCode <= 57' class="col-xs-10 col-sm-5" />
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Lng</label>
+
+                <div class="col-sm-9">
+                    <input type="number" id="Lng" min="0" class="col-xs-10 col-sm-5" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Lat</label>
+
+                <div class="col-sm-9">
+                    <input type="number" id="Lat" min="0" class="col-xs-10 col-sm-5" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">文字内容</label>
+
+                <div class="col-sm-9">
+                    <textarea id="TextContent" cols="40" rows="5" class="col-xs-10 col-sm-5"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">图片内容</label>
+
+                <div class="col-sm-9">
+                    <div>
+                        <div action="#" class="dropzone well" id="dropzone">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple="" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="preview-template" class="hide">
+                        <div class="dz-preview dz-file-preview">
+                            <div class="dz-image">
+                                <img data-dz-thumbnail="" />
+                            </div>
+
+                            <div class="dz-details">
+                                <div class="dz-size">
+                                    <span data-dz-size=""></span>
+                                </div>
+
+                                <div class="dz-filename">
+                                    <span data-dz-name=""></span>
+                                </div>
+                            </div>
+
+                            <div class="dz-progress">
+                                <span class="dz-upload" data-dz-uploadprogress=""></span>
+                            </div>
+
+                            <div class="dz-error-message">
+                                <span data-dz-errormessage=""></span>
+                            </div>
+
+                            <div class="dz-success-mark">
+                                <span class="fa-stack fa-lg bigger-150">
+                                    <i class="fa fa-circle fa-stack-2x white"></i>
+
+                                    <i class="fa fa-check fa-stack-1x fa-inverse green"></i>
+                                </span>
+                            </div>
+
+                            <div class="dz-error-mark">
+                                <span class="fa-stack fa-lg bigger-150">
+                                    <i class="fa fa-circle fa-stack-2x white"></i>
+
+                                    <i class="fa fa-remove fa-stack-1x fa-inverse red"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <span class="btn btn-info" id="btnPublish" type="button">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        发布
+                    </span>
+
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+    var scripts = [null,
+        "/Content/assets/js/dropzone.min.js",
+        "/Content/scripts/Redpacket.js",
+        null]
+    ace.load_ajax_scripts(scripts, function () {
+        //inline scripts related to this page
+        jQuery(function ($) {
+            RedpacketScript.Init();
+        });
+    });
+</script>

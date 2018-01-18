@@ -13,7 +13,7 @@
         msgHtml += "所属权：<span class='red lighter'>" + centerInfo.companyName + "&copy; 2016-2017</span>";
 
         bootbox.dialog({
-            title: "<i class='fa fa-leaf'></i>&nbsp&nbsp&nbsp&nbsp软件评测在线申报系统",
+            title: "<i class='fa fa-leaf'></i>&nbsp&nbsp&nbsp&nbsp共享人脉后台管理平台",
             message: msgHtml
         });
     });
@@ -21,11 +21,11 @@
 
 var centerInfo = {
     version: "1.1",
-    latestUpdateTime: "2016-10-18",
-    companyName: "厦门市软件评测中心",
+    latestUpdateTime: "2018-01-18",
+    companyName: "福州搜索互动有限公司",
     companyTel: "0592-2970280 ",
-    email: "xmstc@xmstc.org.cn",
-    address: "软件园2期观日路34号之一301A、301I"
+    email: "fzss@contact.com",
+    address: "福州市鼓楼区"
 }
 
 var WaitDialog = {

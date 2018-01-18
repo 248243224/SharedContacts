@@ -9,16 +9,23 @@
             var options = {
                 content_url: function (url) {
                     switch (url) {
-                        case "Page":
-                        case "Home":
-                            return '/ControlCenter/Home'//控制台
+                        case "page":
+                        case "home":
+                            return '/controlcenter/home';
+                            break;
+                        case "redpacket":
+                            return '/redpacket/index';
+                            break;
+                        case "withdrawapply":
+                            return '/withdrawapply/index';
+                            break;
                         default:
 
                     }
                 },
                 loading_icon: 'fa-spinner fa-2x blue',
                 loading_text: '',
-                default_url: '#Home'//default url
+                default_url: '#home'//default url
             }
             ace.enable_ajax_content($, options)
         }
