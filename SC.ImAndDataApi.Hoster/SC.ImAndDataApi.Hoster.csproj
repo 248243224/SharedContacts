@@ -82,6 +82,7 @@
     <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
@@ -97,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Controller\MessageController.cs" />
     <Compile Include="Controller\RedPacketController.cs" />
+    <Compile Include="Controller\WithdrawApplyController.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="Extenstions.cs" />
     <Compile Include="Hubs\ImHub.cs" />
@@ -104,6 +106,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SC.Common\SC.Common.csproj">
+      <Project>{19ed91ab-2fe5-440b-8ef4-d8e8a3bb5697}</Project>
+      <Name>SC.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SC.Dal\SC.Dal.csproj">
       <Project>{50e606de-0657-40e2-b8d1-8327f8466522}</Project>
       <Name>SC.Dal</Name>

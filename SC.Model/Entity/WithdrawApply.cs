@@ -18,6 +18,14 @@ namespace SC.Model.Entity
         [ForeignKey("SCUser")]
         public int UserId { get; set; }
 
+        public WithdrawApplyStatu Statu { get; set; }
+
         public virtual SCUser SCUser { get; set; }
+    }
+
+    public enum WithdrawApplyStatu
+    {
+        NotCompleted,
+        Completed
     }
 }

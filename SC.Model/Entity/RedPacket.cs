@@ -13,6 +13,8 @@ namespace SC.Model.Entity
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PacketId { get; set; }
         [Required]
+        public double Amount { get; set; }
+        [Required]
         public double Lng { get; set; }
         [Required]
         public double Lat { get; set; }

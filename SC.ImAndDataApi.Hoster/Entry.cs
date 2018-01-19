@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin.Hosting;
+using SC.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,14 +21,17 @@ namespace SC.ImAndDataApi.Hoster
 
         public void ApiStart()
         {
-            // AddLocalhostCertificateToTrustedRootIfNotAlreadyAdded();
-            using (WebApp.Start("http://192.168.0.110:8089"))
+            if (SCEnvironment.Init())
             {
-                Console.WriteLine("web api has been hosted");
-                //this must be blocked, else webapp will stop
-                while (!_stopEvent.Wait(TimeSpan.FromHours(1)))
+                // AddLocalhostCertificateToTrustedRootIfNotAlreadyAdded();
+                using (WebApp.Start("http://localhost:8047"))
                 {
-                    System.Diagnostics.Trace.TraceInformation("Im and data api still running " + System.DateTime.Now);
+                    Console.WriteLine("web api has been hosted");
+                    //this must be blocked, else webapp will stop
+                    while (!_stopEvent.Wait(TimeSpan.FromHours(1)))
+                    {
+                        System.Diagnostics.Trace.TraceInformation("Im and data api still running " + System.DateTime.Now);
+                    }
                 }
             }
         }

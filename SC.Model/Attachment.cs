@@ -18,7 +18,7 @@ namespace SC.Model.Entity
 
     public enum AttachmentCategory
     {
-        Avatar,
-        RedPacketImageContent
+        RedPacketImg,
+        AvatarImg
     }
 }

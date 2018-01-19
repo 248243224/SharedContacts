@@ -480,19 +480,15 @@
     <Content Include="Content\images\error.png" />
     <Content Include="Content\images\logo.gif" />
     <Content Include="Content\images\logo.png" />
-    <Content Include="Content\scripts\Account.js" />
-    <Content Include="Content\scripts\Analysis.js" />
-    <Content Include="Content\scripts\Commission.js" />
-    <Content Include="Content\scripts\CommissionDisplay.js" />
     <Content Include="Content\scripts\JqLib\jquery.unobtrusive-ajax.min.js" />
     <None Include="Content\scripts\JqLib\jquery.validate-vsdoc.js" />
     <Content Include="Content\scripts\JqLib\jquery.validate.min.js" />
     <Content Include="Content\scripts\JqLib\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\scripts\JsEncry.js" />
     <Content Include="Content\scripts\Layout.js" />
+    <Content Include="Content\scripts\WithdrawApply.js" />
     <Content Include="Content\scripts\Redpacket.js" />
     <Content Include="Content\scripts\require.js" />
-    <Content Include="Content\scripts\User.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -710,6 +706,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SC.Model\SC.Model.csproj">
+      <Project>{672b96cc-b59a-499c-afdf-61699e5edb27}</Project>
+      <Name>SC.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

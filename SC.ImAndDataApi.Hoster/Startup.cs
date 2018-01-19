@@ -59,6 +59,8 @@ namespace SC.ImAndDataApi.Hoster
         private static void SetupResolveRules(ContainerBuilder builder)
         {
             builder.RegisterType<RedPacketService>().As<IRedPacketService>().InstancePerRequest();
+            builder.RegisterType<WithdrawService>().As<IWithdrawService>().InstancePerRequest();
+            builder.RegisterType<AttachmentService>().As<IAttachmentService>().InstancePerRequest();
         }
 
     }

@@ -10,5 +10,6 @@ namespace SC.IService
     public interface IRedPacketService
     {
         IEnumerable<RedPacket> GetAll();
+        void Add(RedPacket packet);
     }
 }

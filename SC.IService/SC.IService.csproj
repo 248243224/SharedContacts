@@ -45,6 +45,7 @@
     <Compile Include="IAttachmentService.cs" />
     <Compile Include="IRedPacketService.cs" />
     <Compile Include="ISCUserService.cs" />
+    <Compile Include="IWithdrawService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

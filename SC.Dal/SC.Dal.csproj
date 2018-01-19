@@ -54,6 +54,7 @@
     <Compile Include="SCContext.cs" />
     <Compile Include="Service\AttachmentService.cs" />
     <Compile Include="Service\RedPacketService.cs" />
+    <Compile Include="Service\WithdrawService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

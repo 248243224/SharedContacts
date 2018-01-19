@@ -1,5 +1,4 @@
 ﻿var RedpacketScript = (function () {
-    var fd = new FormData();
     return {
         //Init
         Init: function () {
@@ -87,25 +86,24 @@
 
                 $("#btnPublish").on("click", function () {
 
+                    WaitDialog.show();
+
+                    var fd = new FormData();
+
                     var packetInfo = {
                         TotalNumber: $("#TotalNumber").val(),
-                        Amount: $("#TotalNumber").val(),
-                        Lng: $("#TotalNumber").val(),
-                        Lat: $("#TotalNumber").val(),
-                        TextContent: $("#TotalNumber").val()
+                        Amount: $("#Amount").val(),
+                        Lng: $("#Lng").val(),
+                        Lat: $("#Lat").val(),
+                        TextContent: $("#TextContent").val(),
+                        UserId: 0
                     };
-                    fd.append('packetInfo', packetInfo);
+                    fd.append('packetinfo', JSON.stringify(packetInfo));
                     $.each(myDropzone.files, function (i, file) {
-                        var reader = new FileReader();
-                        reader.onload = function (event) {
-                            // event.target.result contains base64 encoded image
-                            var fileBytes = event.target.result;
-                            fd.append('files', fileBytes);
-                        };
-                        reader.readAsDataURL(file);
+                        fd.append('files', file);
                     });
-
-                    RedpacketScript.AddPacket(fd);
+                    RedpacketScript.AddPacket(fd)
+                        .done(WaitDialog.hide);
                 });
 
                 //remove dropzone instance when leaving this page in ajax mode
@@ -119,9 +117,44 @@
                 alert('Dropzone.js does not support older browsers!');
             }
         },
+        InitMap: function () {
+            var map = new BMap.Map("allmap");    
+            var navigationControl = new BMap.NavigationControl({
+                anchor: BMAP_ANCHOR_TOP_LEFT,
+                type: BMAP_NAVIGATION_CONTROL_LARGE,
+                enableGeolocation: true
+            });
+            map.addControl(navigationControl);
+
+            function getLocation(e) {
+                map.clearOverlays();
+                var mk = new BMap.Marker(e.point);
+                map.addOverlay(mk);
+                map.centerAndZoom(e.point, 17);
+                $("#Lng").val(e.point.lng);
+                $("#Lat").val(e.point.lat);
+            }
+            map.addEventListener("click", getLocation);
+
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function (r) {
+                if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                    map.centerAndZoom(r.point, 17);
+                    map.enableScrollWheelZoom(true);     
+
+                    var mk = new BMap.Marker(r.point);
+                    map.addOverlay(mk);
+                    $("#Lng").val(r.point.lng);
+                    $("#Lat").val(r.point.lat);
+                }
+                else {
+                    alert('failed' + this.getStatus());
+                }
+            }, { enableHighAccuracy: true })
+        },
         AddPacket: function (packetData) {
-            var deffer = $.ajax({
-                url: "127.0.0.1/",
+            return deffer = $.ajax({
+                url: config.redpacketApiUrl,
                 type: 'POST',
                 contentType: false,
                 data: packetData,

@@ -48,6 +48,9 @@
             padding-left: 20px;
             background: url(/Content/images/error.png) 0 0 no-repeat;
         }
+        .anchorBL {
+            display: none;
+        }
     </style>
     @RenderSection("css", required: false)
 </head>
@@ -118,6 +121,7 @@
     <script src="/Content/assets/js/ace.min.js"></script>
     <script src="/Content/assets/js/bootbox.min.js"></script>
     <script src="/Content/scripts/Layout.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=iRgb4mnUr0w1bwoU4kTIWyzCKHYdpXEZ"></script>
 
     @RenderBody()
 </body>

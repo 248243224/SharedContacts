@@ -1,11 +1,69 @@
-﻿<title>Withdraw Apply</title>
-<text>Withdraw Apply!</text>
+﻿<title>提现申请</title>
+
+<link href="~/Content/assets/css/daterangepicker.css" rel="stylesheet" />
+
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+    <h1>
+        提现申请
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            在这里您可以处理用户的提现申请
+        </small>
+    </h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="table-header">
+                    提现申请列表
+                </div>
+                <!-- <div class="table-responsive"> -->
+                <!-- <div class="dataTables_borderWrap"> -->
+                <div>
+                    <table id="withdrawTable" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>姓名</th>
+                                <th>金额</th>
+                                <th>
+                                    <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
+                                    申请日期
+                                </th>
+                               
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <!-- tbody是必须的 -->
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+<!--不要改变脚本加载顺序,否则会导致表格初始化失败,原因待查-->
+<script src="/Content/assets/js/date-time/moment.min.js"></script>
 <!-- page specific plugin scripts -->
 <script type="text/javascript">
-    var scripts = [null, null]
+    var scripts = [null,
+        "/Content/assets/js/date-time/daterangepicker.min.js",
+        "/Content/assets/js/jquery.dataTables.min.js",
+        "/Content/scripts/Project.js",
+        null]
     ace.load_ajax_scripts(scripts, function () {
         //inline scripts related to this page
-        jQuery(function ($) {
-        })
+        ace.load_ajax_scripts([null, "/Content/assets/js/jquery.dataTables.bootstrap.js", null], function () {
+            jQuery(function ($) {
+                ProjectScript.MyAcceptInit();
+            });
+        });
     });
 </script>
+

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.Model", "SC.Model\SC.Model.csproj", "{672B96CC-B59A-499C-AFDF-61699E5EDB27}"
 EndProject
@@ -36,6 +36,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SC.WebApp", "SC.WebApp\", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.Admin", "SC.Admin\SC.Admin.csproj", "{86CD2EED-4824-434B-A56F-A126A2592438}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.Common", "SC.Common\SC.Common.csproj", "{19ED91AB-2FE5-440B-8EF4-D8E8A3BB5697}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{86CD2EED-4824-434B-A56F-A126A2592438}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86CD2EED-4824-434B-A56F-A126A2592438}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86CD2EED-4824-434B-A56F-A126A2592438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19ED91AB-2FE5-440B-8EF4-D8E8A3BB5697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19ED91AB-2FE5-440B-8EF4-D8E8A3BB5697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19ED91AB-2FE5-440B-8EF4-D8E8A3BB5697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19ED91AB-2FE5-440B-8EF4-D8E8A3BB5697}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -50,6 +50,8 @@
     <Compile Include="Entity\RedPacketCheckRecord.cs" />
     <Compile Include="Entity\SCUser.cs" />
     <Compile Include="Entity\WithdrawApply.cs" />
+    <Compile Include="JqTableData.cs" />
+    <Compile Include="JqTableParams.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

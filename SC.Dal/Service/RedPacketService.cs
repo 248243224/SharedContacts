@@ -18,5 +18,14 @@ namespace SC.Dal.Service
                 return context.RedPackets.ToList();
             }
         }
+
+        public void Add(RedPacket packet)
+        {
+            using (var context = SCContext.NewInstance)
+            {
+                context.RedPackets.Add(packet);
+                context.SaveChanges();
+            }
+        }
     }
 }
