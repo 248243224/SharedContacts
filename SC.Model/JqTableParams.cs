@@ -8,10 +8,6 @@ namespace SC.Model
     public class JqTableParams
     {
         /// <summary>
-        /// 需要获取的数据类型（自定义的）
-        /// </summary>
-        public string tableType { get; set; }
-        /// <summary>
         /// DataTable请求服务器端次数
         /// </summary>       
         public string sEcho { get; set; }

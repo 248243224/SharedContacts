@@ -19,9 +19,6 @@ namespace SC.Model.Entity
 
         public virtual RedPacket RedPacket { get; set; }
 
-        [ForeignKey("SCUser")]
         public int UserId { get; set; }
-
-        public virtual SCUser SCUser { get; set; }
     }
 }
