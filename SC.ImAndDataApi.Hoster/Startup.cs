@@ -10,6 +10,7 @@ using Autofac.Integration.WebApi;
 using SC.IService;
 using SC.Dal.Service;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
 
 [assembly: OwinStartup(typeof(SC.ImAndDataApi.Hoster.Startup))]
 
@@ -28,7 +29,7 @@ namespace SC.ImAndDataApi.Hoster
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
             app.UseCors(CorsOptions.AllowAll);
             app.UseSignalr();

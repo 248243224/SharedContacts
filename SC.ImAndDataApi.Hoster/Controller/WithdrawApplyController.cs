@@ -20,7 +20,7 @@ namespace SC.Admin.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetPagedList(JqTableParams param)
+        public IHttpActionResult GetPagedList([FromUri]JqTableParams param)
         {
             try
             {

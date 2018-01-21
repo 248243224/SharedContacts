@@ -24,7 +24,7 @@ namespace SC.ImAndDataApi.Hoster
             if (SCEnvironment.Init())
             {
                 // AddLocalhostCertificateToTrustedRootIfNotAlreadyAdded();
-                using (WebApp.Start("http://localhost:8047"))
+                using (WebApp.Start("http://192.168.0.110:8089"))
                 {
                     Console.WriteLine("web api has been hosted");
                     //this must be blocked, else webapp will stop
