@@ -40,11 +40,11 @@ var WaitDialog = {
 };
 
 var WithdrawApplyStatu = {
-    NotCompleted,
-    Completed
+    NotCompleted: 0,
+    Completed: 1
 }
 
 var config = {
-    withdrawApplyApiUrl: "http://localhost:8047/api/WithdrawApply",
-    redpacketApiUrl:"http://localhost:8047/api/RedPacket"
+    withdrawApplyApiUrl: "http://192.168.0.110:8089/api/WithdrawApply",
+    redpacketApiUrl: "http://192.168.0.110:8089/api/RedPacket"
 }

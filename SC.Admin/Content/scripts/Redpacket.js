@@ -118,7 +118,7 @@
             }
         },
         InitMap: function () {
-            var map = new BMap.Map("allmap");    
+            var map = new BMap.Map("allmap");
             var navigationControl = new BMap.NavigationControl({
                 anchor: BMAP_ANCHOR_TOP_LEFT,
                 type: BMAP_NAVIGATION_CONTROL_LARGE,
@@ -130,7 +130,7 @@
                 map.clearOverlays();
                 var mk = new BMap.Marker(e.point);
                 map.addOverlay(mk);
-                map.centerAndZoom(e.point, 17);
+                map.centerAndZoom(e.point, 18);
                 $("#Lng").val(e.point.lng);
                 $("#Lat").val(e.point.lat);
             }
@@ -139,11 +139,11 @@
             var geolocation = new BMap.Geolocation();
             geolocation.getCurrentPosition(function (r) {
                 if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-                    map.centerAndZoom(r.point, 17);
-                    map.enableScrollWheelZoom(true);     
-
+                    map.enableScrollWheelZoom(true);
                     var mk = new BMap.Marker(r.point);
                     map.addOverlay(mk);
+                    map.centerAndZoom(r.point, 18);
+
                     $("#Lng").val(r.point.lng);
                     $("#Lat").val(r.point.lat);
                 }

@@ -34,8 +34,9 @@
                                     <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
                                     申请日期
                                 </th>
-                               
+
                                 <th>状态</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -55,13 +56,13 @@
     var scripts = [null,
         "/Content/assets/js/date-time/daterangepicker.min.js",
         "/Content/assets/js/jquery.dataTables.min.js",
-        "/Content/scripts/Project.js",
+        "/Content/scripts/WithdrawApply.js",
         null]
     ace.load_ajax_scripts(scripts, function () {
         //inline scripts related to this page
         ace.load_ajax_scripts([null, "/Content/assets/js/jquery.dataTables.bootstrap.js", null], function () {
             jQuery(function ($) {
-                ProjectScript.MyAcceptInit();
+                WithdrawApplyScript.Init();
             });
         });
     });

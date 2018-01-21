@@ -1,10 +1,8 @@
 ﻿var WithdrawApplyScript = (function () {
     var table;
     return {
-        //Init
 
-        WithdrawApplyInit: function () {
-
+        Init: function () {
             table = $('#withdrawTable')
                 .dataTable({
                     "bAutoWidth": false,
@@ -28,113 +26,21 @@
                     "<'row'<'col-sm-5'l<'#refresh'>><'col-sm-7'<'#mytoolbox'>f>r>" +
                     "t" +
                     "<'row'<'col-sm-6'i><'col-sm-6'p>>",
-                    "initComplete": ProjectScript.InitComplete,
+                    "initComplete": WithdrawApplyScript.InitComplete,
                     "fnDrawCallback": function (oSettings) { //重新加载回调
-                        //开始受理
-                        $(".beginAccept").on(ace.click_event, function () {
-                            var projectId = $(this).data("id");
-                            var currentStatu = $(this).data("statu");
-                            bootbox.confirm("确认将项目状态切换至受理中吗", function (result) {
-                                if (result) {
-                                    WaitDialog.show();
-                                    $.ajax({
-                                        url: "/Project/ChangeOrderStatus",
-                                        type: "POST",
-                                        data: { projectId: projectId, currentStatu: currentStatu, status: EnumProjectStatus.受理中 },
-                                        dataType: 'json'
-                                    })
-                                        .done(function (returnMsg) {
-                                            //刷新列表
-                                            $("#acceptTable").dataTable().fnDraw(false);
-                                            $.gritter.add({
-                                                title: '消息提示',
-                                                text: returnMsg,
-                                                class_name: 'gritter-success'
-                                            });
-                                        })
-                                        .error(function (ajaxContext) {
-                                            $.gritter.add({
-                                                title: '消息提示',
-                                                text: ajaxContext.responseText,
-                                                class_name: 'gritter-error'
-                                            });
-                                        })
-                                        .complete(function () {
-                                            WaitDialog.hide();
-                                        })
-                                }
-                            });
-                        });
-                        $(".acceptSucceed").on(ace.click_event, function () {
-                            //初始化受理单
-                            $("#accectForm")[0].reset();
-                            $("#ProjectId").val($(this).data("id"));
-                            $("#CurrentProjectStatu").val($(this).data("statu"));
-                            $("#ProjectName").val($(this).data("projectname") + " " + $(this).data("version"));
-                            $("#CompanyName").val($(this).data("companyname"));
-                            $("#ProjectCode").val($(this).data("projectcode"));
-                            $("#AcceptTime").val(ProjectScript.GetNowFormatDate());
-                            $("#Category").val($(this).data("category"));
-
-                            $(".isMoneyPayOff").on("click", function () {
-                                $("#IsMoneyPayOff").val($(this).data("id"));
-                            });
-                        });
-                        $(".acceptFailed").on(ace.click_event, function () {
-                            var projectId = $(this).data("id");
-                            var currentStatu = $(this).data("statu");
-                            bootbox.prompt("请填写受理失败反馈信息", function (result) {
-                                if (result === null) {
-                                }
-                                else if ($.trim(result) == "") {
-                                    $.gritter.add({
-                                        title: '消息提示',
-                                        text: "操作失败,反馈信息不能为空",
-                                        class_name: 'gritter-error'
-                                    });
-                                }
-                                else if ($.trim(result).length > 300) {
-                                    $.gritter.add({
-                                        title: '消息提示',
-                                        text: "操作失败,反馈信息不能超过300个字",
-                                        class_name: 'gritter-error'
-                                    });
-                                }
-                                else {
-                                    WaitDialog.show();
-                                    $.ajax({
-                                        url: "/Project/ChangeOrderStatus",
-                                        type: "POST",
-                                        data: { projectId: projectId, currentStatu: currentStatu, errorBackMsg: result, status: EnumProjectStatus.受理失败 },
-                                        dataType: 'json'
-                                    })
-                                        .done(function (returnMsg) {
-                                            //刷新列表
-                                            $("#acceptTable").dataTable().fnDraw(false);
-                                            $.gritter.add({
-                                                title: '消息提示',
-                                                text: returnMsg,
-                                                class_name: 'gritter-success'
-                                            });
-                                        })
-                                        .error(function (ajaxContext) {
-                                            $.gritter.add({
-                                                title: '消息提示',
-                                                text: ajaxContext.responseText,
-                                                class_name: 'gritter-error'
-                                            });
-                                        })
-                                        .complete(function () {
-                                            WaitDialog.hide();
-                                        })
-                                }
-                            });
-                        });
 
                     },
                     "fnRowCallback": function (nRow, aData, iDisplayIndex) {// 当创建了行，但还未绘制到屏幕上的时候调用，通常用于改变行的class风格 
                         var applyTime = $('td:eq(3)', nRow).html();
                         $('td:eq(3)', nRow).html(applyTime.substring(0, 10));
+                        if (aData.Statu == WithdrawApplyStatu.Completed) {
+                            $('td:eq(5) span:eq(1)', nRow).show();
+                            $('td:eq(5) span:eq(0)', nRow).hide();
+                        }
+                        else if (aData.Statu == WithdrawApplyStatu.NotCompleted) {
+                            $('td:eq(5) span:eq(1)', nRow).hide();
+                            $('td:eq(5) span:eq(0)', nRow).show();
+                        }
                         return nRow;
                     },
                     "columns": [
@@ -167,17 +73,12 @@
                             "data": "ApplyId",
                             "render": function (data, type, full) {
                                 return "<div class='hidden-sm hidden-xs btn-group'>" +
-                                    "<span data-id='" + data + "' class='btn btn-xs btn-warning'><i class='ace-icon fa fa-exchange'></i>切换状态</span>" +
+                                    "<span data-id='" + data + "' class='btn btn-xs btn-success'><i class='ace-icon fa fa-check'></i>标记已处理</span>" +
+                                    "<span data-id='" + data + "' class='btn btn-xs btn-danger'><i class='ace-icon fa fa-undo'></i>取消已处理</span>" +
                                     "</div>";
                             }
                         }]
                 });
-
-            //初始化model时间控件
-            $('.date-picker').datepicker({
-                autoclose: true,
-                todayHighlight: true
-            });
         },
 
         GetNowFormatDate: function () {
