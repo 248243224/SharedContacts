@@ -26,7 +26,7 @@ namespace SC.Dal.Service
 
             using (var context = SCContext.NewInstance)
             {
-                var orderQuery = context.WithdrawApplys.Include("SCUsers").OrderByDescending(w => w.ApplyTime);
+                var orderQuery = context.WithdrawApplys.Include("SCUser").OrderByDescending(w => w.ApplyTime);
                 var query = orderQuery.Where(w => (w.SCUser.Name.Contains(searchValue) || w.SCUser.WechatId.Contains(searchValue)) && (w.ApplyTime >= startTime
                        && w.ApplyTime <= endTime));//根据微信号或姓名查询
                 return query.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
