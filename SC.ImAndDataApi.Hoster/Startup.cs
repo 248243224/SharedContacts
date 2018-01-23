@@ -62,6 +62,9 @@ namespace SC.ImAndDataApi.Hoster
             builder.RegisterType<RedPacketService>().As<IRedPacketService>().InstancePerRequest();
             builder.RegisterType<WithdrawService>().As<IWithdrawService>().InstancePerRequest();
             builder.RegisterType<AttachmentService>().As<IAttachmentService>().InstancePerRequest();
+            builder.RegisterType<SCUserService>().As<ISCUserService>().InstancePerRequest();
+            builder.RegisterType<UserContactService>().As<IUserContactService>().InstancePerRequest();
+            builder.RegisterType<MessageRecordService>().As<IMessageRecordService>().InstancePerRequest();
         }
 
     }

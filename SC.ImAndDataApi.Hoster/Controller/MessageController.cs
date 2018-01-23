@@ -12,10 +12,12 @@ namespace SC.ImAndDataApi.Hoster.Controller
     public class MessageController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult Send(string content)
+        public IHttpActionResult Send(int userId, int friendId, string content)
         {
             ImHub.Send(new Message
             {
+                From = userId,
+                To = friendId,
                 Content = content
             });
 

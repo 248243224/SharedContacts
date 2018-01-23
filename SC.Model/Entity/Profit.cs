@@ -13,7 +13,7 @@ namespace SC.Model.Entity
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProfitId { get; set; }
         [Required]
-        public float Amount { get; set; }
+        public double Amount { get; set; }
         [Required]
         public ProfitType Type { get; set; }
         public DateTime CreateTime { get; set; }

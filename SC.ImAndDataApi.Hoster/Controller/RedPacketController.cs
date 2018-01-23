@@ -36,6 +36,35 @@ namespace SC.ImAndDataApi.Hoster.Controller
                 return InternalServerError();
             }
         }
+        [HttpGet]
+        public IHttpActionResult GetByLocation(int userId, double lon, double lat, int instance = 1000)
+        {
+            try
+            {
+                return Ok(_redPacketService.GetByLocation(userId, lon, lat, instance));
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"RedPacketController::GetByLocation: {ex.Message}");
+                return InternalServerError();
+            }
+        }
+
+        [HttpGet]
+        public IHttpActionResult OpenRedPacket(int userId, int packetId)
+        {
+            try
+            {
+                return Ok(_redPacketService.OpenRedPacket(userId, packetId));
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"RedPacketController::GetByLocation: {ex.Message}");
+                return InternalServerError();
+            }
+        }
+
+
         [HttpPost]
         public async Task<IHttpActionResult> Add()
         {
@@ -71,6 +100,7 @@ namespace SC.ImAndDataApi.Hoster.Controller
                     }
                     packet.ImageContent?.TrimEnd(',');
                     packet.RestNumber = packet.TotalNumber;
+                    packet.RestAmount = packet.Amount;
                     packet.CreateTime = DateTime.Now;
                     packet.MissNumber = 0;
 

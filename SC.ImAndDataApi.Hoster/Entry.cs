@@ -19,14 +19,34 @@ namespace SC.ImAndDataApi.Hoster
             _stopEvent = new ManualResetEventSlim(false);
         }
 
+        static void LogConfig()
+        {
+
+            var docs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var logFile = System.IO.Path.Combine(docs, "SharedContacts.log");
+
+            Trace.AutoFlush = true;
+#if DEBUG
+            //log console
+            Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
+#endif
+            Trace.Listeners.Add(new TextWriterTraceListener(logFile, "myListener"));
+            Trace.WriteLine("");
+            Trace.WriteLine("");
+            Trace.WriteLine("");
+            Trace.Indent();
+            Trace.WriteLine("********** Shared Contacts ************");
+        }
+
         public void ApiStart()
         {
+            LogConfig();
             if (SCEnvironment.Init())
             {
                 // AddLocalhostCertificateToTrustedRootIfNotAlreadyAdded();
-                using (WebApp.Start("http://192.168.0.110:8089"))
+                using (WebApp.Start("http://localhost:8081"))
                 {
-                    Console.WriteLine("web api has been hosted");
+                    Trace.TraceInformation("web api has been hosted");
                     //this must be blocked, else webapp will stop
                     while (!_stopEvent.Wait(TimeSpan.FromHours(1)))
                     {
@@ -43,7 +63,7 @@ namespace SC.ImAndDataApi.Hoster
 
         private static void AddLocalhostCertificateToTrustedRootIfNotAlreadyAdded()
         {
-            Console.WriteLine("Checking for localhost certificate...");
+            Trace.TraceInformation("Checking for localhost certificate...");
             var localhostCert = new X509Certificate2("localhost.pfx", "Six7ate9!", X509KeyStorageFlags.MachineKeySet);
             if (localhostCert != null)
             {
@@ -52,11 +72,11 @@ namespace SC.ImAndDataApi.Hoster
                 if (!store.Certificates.Contains(localhostCert))
                 {
                     store.Add(localhostCert);
-                    Console.WriteLine("Added localhost certificate to local machine/trusted root");
+                    Trace.TraceInformation("Added localhost certificate to local machine/trusted root");
                 }
                 else
                 {
-                    Console.WriteLine("Localhost certificate already added to local machine/trusted root");
+                    Trace.TraceInformation("Localhost certificate already added to local machine/trusted root");
                 }
                 store.Close();
             }
@@ -102,8 +122,8 @@ namespace SC.ImAndDataApi.Hoster
                 {
                     throw new Exception("Error issuing urlacl command.  Are you in Administrative mode??");
                 }
-                Console.WriteLine("Issued urlacl command.");
-                Console.WriteLine(p1.StandardOutput.ReadToEnd());
+                Trace.TraceInformation("Issued urlacl command.");
+                Trace.TraceInformation(p1.StandardOutput.ReadToEnd());
             }
 
 
@@ -139,8 +159,8 @@ namespace SC.ImAndDataApi.Hoster
                 {
                     throw new Exception("Error issuing add sslcert command.  Are you in Administrative mode??");
                 }
-                Console.WriteLine("Issued urlacl command.");
-                Console.WriteLine(p1.StandardOutput.ReadToEnd());
+                Trace.TraceInformation("Issued urlacl command.");
+                Trace.TraceInformation(p1.StandardOutput.ReadToEnd());
             }
 
         }
@@ -152,7 +172,7 @@ namespace SC.ImAndDataApi.Hoster
         {
             Entry api = new Entry();
             api.ApiStart();
-            Console.WriteLine("press any key to stop api...");
+            Trace.TraceInformation("press any key to stop api...");
             Console.ReadKey();
             api.ApiStop();
         }

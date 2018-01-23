@@ -8,15 +8,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SC.Model.Entity
 {
-    public class MessageRecord
+    public class UserContact
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MessageId { get; set; }
-        public string Content { get; set; }
-        public DateTime CreateTime { get; set; }
-        [ForeignKey("SCUser")]
+        public int ContactId { get; set; }
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public int FriendId { get; set; }
-        public virtual SCUser SCUser { get; set; }
+        public DateTime CreateTime { get; set; }
+
     }
 }

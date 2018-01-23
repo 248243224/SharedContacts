@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SC.IService
 {
-    public interface IAttachmentService
+    public interface IMessageRecordService
     {
-        FileStream Get(string url);
+        void AddAsync(int userId, int friendId, string content);
     }
 }

@@ -15,6 +15,8 @@ namespace SC.Model.Entity
         [Required]
         public double Amount { get; set; }
         [Required]
+        public double RestAmount { get; set; }
+        [Required]
         public double Lng { get; set; }
         [Required]
         public double Lat { get; set; }

@@ -4,7 +4,7 @@
 
     return {
 
-        MessageArrived: function (content) {
+        MessageArrived: function (from, content) {
             alert(content);
         },
 

@@ -13,7 +13,7 @@ namespace SC.Model.Entity
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CheckId { get; set; }
         public DateTime CheckTime { get; set; }
-        public float Amount { get; set; }
+        public double Amount { get; set; }
         [ForeignKey("RedPacket")]
         public int PacketId { get; set; }
 

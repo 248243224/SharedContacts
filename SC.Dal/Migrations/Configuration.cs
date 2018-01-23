@@ -1,5 +1,6 @@
 namespace SC.Dal.Migrations
 {
+    using SC.Model.Entity;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -16,8 +17,17 @@ namespace SC.Dal.Migrations
         protected override void Seed(SC.Dal.SCContext context)
         {
             //  This method will be called after migrating to the latest version.
-
-            //context.SCUsers.AddOrUpdate(b => b.UserId, new SCUser { UserId = xxxx });
+            //  init admin
+            context.SCUsers.AddOrUpdate(new SCUser
+            {
+                WechatId = "admin",
+                AliPay = "admin",
+                CreateTime = DateTime.Now,
+                Name = "admin",
+                Sex = Sex.Male,
+                AvatarUrl = ""
+            });
+            context.SaveChangesAsync();
         }
     }
 }

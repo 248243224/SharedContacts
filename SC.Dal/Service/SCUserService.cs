@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SC.IService;
 
-namespace SC.IService
+namespace SC.Dal.Service
 {
-    public interface IAttachmentService
+    public class SCUserService : ISCUserService
     {
-        FileStream Get(string url);
+
     }
 }
