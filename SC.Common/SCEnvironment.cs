@@ -14,6 +14,9 @@ namespace SC.Common
         public static string RedPacketImgFolder { get => Path.Combine(AttchmentRootFolder, @"RedPacketImg"); }
         public static string AvatarImgFolder { get => Path.Combine(AttchmentRootFolder, @"AvatarImg"); }
         public static string DateTimeFormat { get => "yyyy.MM.dd HH.mm"; }
+        public static double CityAgencyPrice { get => 300; }
+        public static double CountryAgencyPrice { get => 1000; }
+        public static double AgencyProfitPercent { get => 0.1; }
 
         public static bool Init()
         {
