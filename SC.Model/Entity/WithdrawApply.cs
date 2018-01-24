@@ -13,7 +13,7 @@ namespace SC.Model.Entity
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ApplyId { get; set; }
         [Required]
-        public float Amount { get; set; }
+        public double Amount { get; set; }
         public DateTime ApplyTime { get; set; }
         [ForeignKey("SCUser")]
         public int UserId { get; set; }

@@ -31,6 +31,8 @@ namespace SC.Model.Entity
 
         public DateTime? AgencyBeginTime { get; set; }
 
+        public AccountStatus? AccountStatus { get; set; }
+
         public virtual List<RedPacket> RedPackets { get; set; }
 
         public virtual List<WithdrawApply> WithdrawApplys { get; set; }
@@ -49,5 +51,11 @@ namespace SC.Model.Entity
     {
         Male,
         Female
+    }
+
+    public enum AccountStatus
+    {
+        Normal,
+        Disabled
     }
 }

@@ -37,6 +37,20 @@ namespace SC.ImAndDataApi.Hoster.Controller
             }
         }
         [HttpGet]
+        public IHttpActionResult Get(int packetId)
+        {
+            try
+            {
+                return Ok(_redPacketService.Get(packetId));
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"RedPacketController::Get: {ex.Message}");
+                return InternalServerError();
+            }
+        }
+
+        [HttpGet]
         public IHttpActionResult GetByLocation(int userId, double lon, double lat, int instance = 1000)
         {
             try
@@ -50,7 +64,7 @@ namespace SC.ImAndDataApi.Hoster.Controller
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public IHttpActionResult OpenRedPacket(int userId, int packetId)
         {
             try

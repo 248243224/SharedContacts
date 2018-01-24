@@ -14,6 +14,7 @@ namespace SC.Model.ViewModel
         public double Amount { get; set; }
         public int AffectNumber { get; set; }
         public string TextContent { get; set; }
+        public string Link { get; set; }
         /// <summary>
         /// split by “,”
         /// </summary>

@@ -29,6 +29,28 @@ namespace SC.Dal.Service
             }
         }
 
+        public RedPacketViewModel Get(int packetId)
+        {
+            RedPacketViewModel model = new RedPacketViewModel();
+
+            using (var context = SCContext.NewInstance)
+            {
+                var packet = context.RedPackets.Include("SCUser").Where(p => p.PacketId.Equals(packetId)).FirstOrDefault();
+                if (packet != null)
+                {
+                    model.UserId = packet.UserId;
+                    model.TextContent = packet.TextContent;
+                    model.ImageContent = packet.ImageContent;
+                    model.CreateTime = packet.CreateTime;
+                    model.Amount = packet.Amount;
+                    model.Link = packet.Link;
+                    model.AffectNumber = packet.TotalNumber - packet.RestNumber;
+                    model.Username = packet.SCUser.Name ?? "";
+                }
+            }
+            return model;
+        }
+
         public RedPacketViewModel OpenRedPacket(int userId, int packetId)
         {
             RedPacketViewModel model = new RedPacketViewModel();
@@ -46,6 +68,7 @@ namespace SC.Dal.Service
                     model.ImageContent = packet.ImageContent;
                     model.CreateTime = packet.CreateTime;
                     model.Amount = randomMoney;
+                    model.Link = packet.Link;
                     model.AffectNumber = packet.TotalNumber - packet.RestNumber;
                     model.Username = packet.SCUser.Name ?? "";
                 }
@@ -66,6 +89,7 @@ namespace SC.Dal.Service
                 profit.UserId = userId;
                 profit.CreateTime = checkTime;
                 profit.Amount = randomMoney;
+                profit.Status = ProfitStatus.NotWithdraw;
 
                 context.Profits.Add(profit);
 

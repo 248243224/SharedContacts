@@ -31,6 +31,8 @@ namespace SC.Model.Entity
         /// split by “,”
         /// </summary>
         public string ImageContent { get; set; }
+        [MaxLength(100, ErrorMessage = "外部链接长度不能超过100")]
+        public string Link { get; set; }
 
         public DateTime CreateTime { get; set; }
 

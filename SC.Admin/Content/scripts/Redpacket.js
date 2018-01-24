@@ -96,6 +96,7 @@
                         Lng: $("#Lng").val(),
                         Lat: $("#Lat").val(),
                         TextContent: $("#TextContent").val(),
+                        Link: $("#Link").val(),
                         UserId: 0
                     };
                     fd.append('packetinfo', JSON.stringify(packetInfo));

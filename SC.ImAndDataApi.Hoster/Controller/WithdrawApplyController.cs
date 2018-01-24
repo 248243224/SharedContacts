@@ -40,5 +40,33 @@ namespace SC.Admin.Controllers
                 return InternalServerError();
             }
         }
+        [HttpPost]
+        public IHttpActionResult AddApply(int userId)
+        {
+            try
+            {
+                _withdrawService.AddApply(userId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"WithdrawApplyController::AddApply: {ex.Message}");
+                return InternalServerError();
+            }
+        }
+        [HttpPost]
+        public IHttpActionResult UpdateApplyStatus(int applyId, WithdrawApplyStatu statu)
+        {
+            try
+            {
+                _withdrawService.ChangeWithdrawApplyStatus(applyId, statu);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"WithdrawApplyController::UpdateApplyStatus: {ex.Message}");
+                return InternalServerError();
+            }
+        }
     }
 }

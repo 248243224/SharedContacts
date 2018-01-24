@@ -11,6 +11,7 @@ namespace SC.IService
     public interface IRedPacketService
     {
         IEnumerable<RedPacket> GetAll();
+        RedPacketViewModel Get(int packetId);
         IEnumerable<RedPacket> GetByLocation(int userid, double lon, double lat, int instance);
         RedPacketViewModel OpenRedPacket(int userId, int packetId);
         void Add(RedPacket packet);

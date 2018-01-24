@@ -96,10 +96,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\AccountController.cs" />
     <Compile Include="Controller\AttachmentController.cs" />
     <Compile Include="Controller\MessageController.cs" />
     <Compile Include="Controller\RedPacketController.cs" />
     <Compile Include="Controller\UserContactsController.cs" />
+    <Compile Include="Controller\UserController.cs" />
     <Compile Include="Controller\WithdrawApplyController.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="Extenstions.cs" />

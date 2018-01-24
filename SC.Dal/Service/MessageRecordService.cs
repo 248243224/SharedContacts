@@ -15,7 +15,7 @@ namespace SC.Dal.Service
             using (var context = SCContext.NewInstance)
             {
                 var found = context.MessageRecords.Where(m => m.UserId.Equals(userId) && m.FriendId.Equals(friendId)).OrderByDescending(m => m.CreateTime).FirstOrDefault();
-                if (found != null && found.CreateTime.DayOfYear == DateTime.Now.DayOfYear) found.Content += $"<{userId}>{content}";
+                if (found != null && found.CreateTime.Date == DateTime.Today) found.Content += $"<{userId}>{content}";
                 else
                 {
                     var messageRecord = new MessageRecord()

@@ -19,6 +19,7 @@ namespace SC.Model.Entity
         public DateTime CreateTime { get; set; }
         [MaxLength(100, ErrorMessage = "收益备注内容长度不能超过100")]
         public string Remark { get; set; }
+        public ProfitStatus Status { get; set; }
 
         [ForeignKey("SCUser")]
         public int UserId { get; set; }
@@ -31,5 +32,11 @@ namespace SC.Model.Entity
         RedPacket,
         CityAgent,
         CountryAgent
+    }
+
+    public enum ProfitStatus
+    {
+        AlreadyWithdraw,
+        NotWithdraw
     }
 }

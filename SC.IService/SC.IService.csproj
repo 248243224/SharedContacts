@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAccountService.cs" />
     <Compile Include="IAttachmentService.cs" />
     <Compile Include="IMessageRecordService.cs" />
     <Compile Include="IRedPacketService.cs" />

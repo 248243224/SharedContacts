@@ -32,5 +32,38 @@ namespace SC.Dal.Service
                 return query.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
             }
         }
+
+        public void AddApply(int userId)
+        {
+            using (var context = SCContext.NewInstance)
+            {
+                var profitsQuery = context.Profits
+                          .Where(p => p.UserId.Equals(userId) && p.Status == ProfitStatus.NotWithdraw);
+                double amount = profitsQuery.Select(p => p.Amount).Sum();
+
+                //update profit status
+                foreach (var p in profitsQuery) p.Status = ProfitStatus.AlreadyWithdraw;
+
+                WithdrawApply model = new WithdrawApply()
+                {
+                    Amount = amount,
+                    ApplyTime = DateTime.Now,
+                    UserId = userId,
+                    Statu = WithdrawApplyStatu.NotCompleted
+                };
+                context.WithdrawApplys.Add(model);
+                context.SaveChangesAsync();
+            }
+        }
+
+        public void ChangeWithdrawApplyStatus(int applyId, WithdrawApplyStatu statu)
+        {
+            using (var context = SCContext.NewInstance)
+            {
+                var apply = context.WithdrawApplys.Where(w => w.ApplyId.Equals(applyId)).FirstOrDefault();
+                apply.Statu = statu;
+                context.SaveChangesAsync();
+            }
+        }
     }
 }

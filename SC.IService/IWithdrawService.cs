@@ -11,5 +11,8 @@ namespace SC.IService
     public interface IWithdrawService
     {
         List<WithdrawApply> GetPagedList(JqTableParams param);
+
+        void AddApply(int userId);
+        void ChangeWithdrawApplyStatus(int applyId, WithdrawApplyStatu statu);
     }
 }
