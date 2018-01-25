@@ -20,7 +20,6 @@ var app = {
     // Application Constructor
     initialize: function () {
         this.bindEvents();
-        ImClient.Init();
     },
     // Bind Event Listeners
     //
@@ -38,9 +37,26 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
-        if (id == "deviceready")
-        {
+        if (id == "deviceready") {
             console.log('Received Event: ' + id);
+
+            try {
+                var swiper = new Swiper('.swiper-container', {
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true,
+                    loop: false,
+                    onSlideChangeEnd: function (swiper) {
+                        if (3 == swiper.activeIndex) {
+                            $('.guide-box').hide();
+                            RedPackets.MapInit();
+                            ImClient.Init();
+                        }
+                    }
+                });
+            }
+            catch (e)
+            { console.log(e); }
+
         }
     }
 };

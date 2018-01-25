@@ -93,22 +93,7 @@
 
     <script type="text/javascript">
 
-      //  app.initialize();
-        try {
-            var swiper = new Swiper('.swiper-container', {
-                pagination: '.swiper-pagination',
-                paginationClickable: true,
-                loop: false,
-                onSlideChangeEnd: function (swiper) {
-                    if (3 == swiper.activeIndex) {
-                        $('.guide-box').hide();
-                        RedPackets.MapInit();
-                    }
-                }
-            });
-        }
-        catch (e)
-        { console.log(e); }
+        app.initialize();   
     </script>
 </body>
 </html>
