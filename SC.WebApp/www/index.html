@@ -63,6 +63,7 @@
             <div class="swiper-pagination"></div>
         </div>
     </div>
+
     <div id="redPackestMap"></div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
@@ -91,17 +92,22 @@
     <script type="text/javascript" src="js/uilib/swiper.js"></script>
 
     <script type="text/javascript">
+
         app.initialize();
-        var swiper = new Swiper('.swiper-container', {
-            pagination: '.swiper-pagination',
-            paginationClickable: true,
-            loop: false,
-            onSlideChangeEnd: function (swiper) {
-                if (3 == swiper.activeIndex) {
-                    $('.guide-box').hide();
+        try {
+            var swiper = new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                paginationClickable: true,
+                loop: false,
+                onSlideChangeEnd: function (swiper) {
+                    if (3 == swiper.activeIndex) {
+                        $('.guide-box').hide();
+                    }
                 }
-            }
-        });
+            });
+        }
+        catch (e)
+        { console.log(e); }
     </script>
 </body>
 </html>
