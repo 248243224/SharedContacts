@@ -42,9 +42,9 @@ namespace SC.ImAndDataApi.Hoster.Hubs
 
         private static object lockObject = new object();
         private static List<UserConnectionMapping> _connectionMapping = new List<UserConnectionMapping>();
-        private void AddOrUpdateConnection(int userId, string connectionId)
+        private void AddOrUpdateConnection(int? userId, string connectionId)
         {
-            if (userId != 0)
+            if (userId != null)
             {
                 lock (lockObject)
                 {
@@ -68,8 +68,8 @@ namespace SC.ImAndDataApi.Hoster.Hubs
 
         private void RemoveConnection(string connectionId)
         {
-            var userId = _connectionMapping.FirstOrDefault(u => u.SignalRConnectionId.Equals(connectionId)).UserId;
-            if (userId != 0)
+            int? userId = _connectionMapping.FirstOrDefault(u => u.SignalRConnectionId.Equals(connectionId)).UserId;
+            if (userId != null)
             {
                 lock (lockObject)
                 {
@@ -155,7 +155,7 @@ namespace SC.ImAndDataApi.Hoster.Hubs
                 if (Context.QueryString.Any(q => q.Key.Equals("UserId")))
                 {
                     var userId = Context.QueryString.FirstOrDefault(q => q.Key.Equals("UserId"));
-                    var userIdValue = Convert.ToInt32(userId.Value);
+                    int? userIdValue = Convert.ToInt32(userId.Value);
                     AddOrUpdateConnection(userIdValue, Context.ConnectionId);
                 }
             }
@@ -170,7 +170,7 @@ namespace SC.ImAndDataApi.Hoster.Hubs
 
     class UserConnectionMapping
     {
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public string SignalRConnectionId { get; set; }
         public DateTime LastConnected { get; set; }
     }
