@@ -6,13 +6,13 @@
     <feature name="Device">
         <param name="browser-package" value="Device" />
     </feature>
-    <name>SC.App</name>
+    <name>共享人脉</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
-    </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
-    </author>
+    现金红包随手领，畅享人脉资源。
+  </description>
+    <author email="248243224@qq.com" href="">
+    Jane Qin
+  </author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

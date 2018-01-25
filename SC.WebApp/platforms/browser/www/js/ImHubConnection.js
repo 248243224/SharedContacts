@@ -17,10 +17,10 @@
         var twc = this;
         twc.imHubProxy = twc.connection.createHubProxy('SCImHub');
 
-        twc.imHubProxy.on('messageArrived', function (content) {
+        twc.imHubProxy.on('messageArrived', function (from, content) {
 
             if (isFunction(twc.messageArrivedFunction))
-                twc.messageArrivedFunction(content);
+                twc.messageArrivedFunction(from, content);
         });
 
 
