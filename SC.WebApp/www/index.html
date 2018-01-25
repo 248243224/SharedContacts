@@ -88,12 +88,12 @@
     <script src="js/ImClient.js"></script>
 
     <!--ui lib-->
-    <script type="text/javascript" src="js/uilib/flexible.js"></script>
-    <script type="text/javascript" src="js/uilib/swiper.js"></script>
+    <script src="js/UiLib/flexible.js"></script>
+    <script src="js/UiLib/swiper.js"></script>
 
     <script type="text/javascript">
 
-        app.initialize();
+      //  app.initialize();
         try {
             var swiper = new Swiper('.swiper-container', {
                 pagination: '.swiper-pagination',
@@ -102,6 +102,7 @@
                 onSlideChangeEnd: function (swiper) {
                     if (3 == swiper.activeIndex) {
                         $('.guide-box').hide();
+                        RedPackets.MapInit();
                     }
                 }
             });

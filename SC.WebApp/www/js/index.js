@@ -41,7 +41,6 @@ var app = {
         if (id == "deviceready")
         {
             console.log('Received Event: ' + id);
-            RedPackets.MapInit();
         }
     }
 };
