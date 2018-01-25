@@ -1,0 +1,197 @@
+*,p,ol,ul,label{ margin:0; padding:0;}
+
+input[type="checkbox"], input[type="radio"] {
+    line-height: normal;
+    margin: 0px 0 0;
+}
+a{
+    text-decoration:none;
+}
+a:hover{
+    color: #ff80b6;
+    text-decoration:none;
+}
+input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea{
+    padding: 0;
+    margin: 0;
+}
+ul,li{
+    list-style: none;
+}
+i,em{
+    font-style: normal;
+}
+img{
+    vertical-align: middle;
+}
+.f_l{
+    float: left;
+}
+.f_r{
+    float: right;
+}
+.clearfix:after{
+    content:""; 
+    display:block; 
+    height:0; 
+    clear:both;
+    visibility:hidden;
+}
+body {
+    font-size: 14px;
+    font-family:"微软雅黑", "Hiragino Sans GB",tahoma,arial,"\5B8B\4F53" !important;
+    background: #fff;
+    line-height: 1.6;
+    color:#333;
+}
+.public-header{
+    height: 1.333333rem;
+    line-height: 1.333333rem;
+    width: 100%;
+    background: #ef5252;
+    overflow: hidden;
+    text-align: center;
+    padding-left: 0.466667rem;
+    padding-right: 0.466667rem;
+    box-sizing: border-box;
+    .black-btn{
+        float: left;
+        margin-top: 0.333333rem;
+        width: 0.666667rem;
+        height: 0.666667rem;
+        background: url(../images/arr_left.png) left center no-repeat;
+        background-size: 0.226667rem 0.36rem;
+    }
+    .title{
+        display: inline-block;
+        color: #fff;
+        font-size: 0.48rem;
+        font-weight: 400;
+    }
+}
+.guide-box{
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    text-align: center;
+    .swiper-pagination-bullets{
+        bottom: 0.666667rem;
+    }
+    .swiper-pagination-bullet{
+        width: 0.4rem;
+        height: 0.4rem;
+        background: #e8e8e8;
+        &:last-child{
+            display: none;
+        }
+    }
+    .swiper-pagination-bullet-active{
+        background:#c8cad6;
+    }
+    img{
+        height: 100vh;
+    }
+}
+.register-wrap{
+    text-align: center;
+    .img-box{
+        margin-top: 3.333333rem;
+        margin-bottom: 1.2rem;
+        img{
+            width: 4.72rem;
+        }
+    }
+    .info{
+        font-size: 0.346667rem;
+        color: #999999;
+        a{
+            color: #007aff;
+        }
+    }
+    .btn-box{
+        margin-top: 0.266667rem;
+        .btn{
+            display: inline-block;
+            width: 5.306667rem;
+            height: 1.146667rem;
+            line-height: 1.146667rem;
+            text-align: center;
+            background: url(../images/icon_3.png) center center no-repeat;
+            background-size: 100% 100%;
+            color: #fff;
+            font-size: 0.346667rem;
+            img{
+                width: 0.506667rem;
+                margin-right: 0.16rem;
+            }
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+    }
+}
+.details-wrap{
+    .public-header{
+        .attention{
+           float: right;
+           color: #fff;
+           height: 0.666667rem;
+        }
+    }
+    .user-box{
+        .user-top{
+            position: relative;
+            img{
+                width: 100%;
+            }
+        }
+        .user-info{
+            background: #f0eff6;
+            padding-bottom: 0.6rem;
+            .user-img{
+                position: relative;
+                margin-top: -1.146667rem;
+                text-align: center;
+                img{
+                    width: 1.813333rem;
+                    height: 1.813333rem;
+                }
+            }
+            .user-txt{
+                text-align: center;
+                margin-top: 0.266667rem;
+                .info{
+                    color: #2d2c32;
+                    font-size: 0.4rem;
+                    span{
+                        display: inline-block;
+                        width: 0.88rem;
+                        height: 0.426667rem;
+                        background: url(../images/icon_5.png) center center no-repeat;
+                        background-size: 100% 100%;
+                        font-size: 0.266667rem;
+                        color: #ef5252;
+                        line-height: 0.426667rem;
+                    }
+                }
+                h3{
+                    font-size: 1.2rem;
+                    color: #2d2c32;
+                    i{
+                        font-size: 0.4rem;
+                        color: #2d2c32;
+                    }
+                }
+                .hint{
+                    text-align: center;
+                    font-size: 0.4rem;
+                    color: #556fb2;
+                }
+            }
+        }
+            
+    }
+}

@@ -16,7 +16,7 @@
         },
         MarkCurrentLocation: function () {
             try {
-                var locationIcon = new BMap.Icon("img/location.png", new BMap.Size(100, 100));
+                var locationIcon = new BMap.Icon("images/location.png", new BMap.Size(100, 100));
                 var marker = new BMap.Marker(_currentLocationPoint, { icon: locationIcon });
                 _map.addOverlay(marker);
 
