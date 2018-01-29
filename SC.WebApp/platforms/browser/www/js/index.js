@@ -28,6 +28,8 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        // disable back button in andriod
+        document.addEventListener("backbutton", this.BackButtonCallback, false);
     },
     // deviceready Event Handler
     //
@@ -44,9 +46,10 @@ var app = {
             FastClick.attach(document.body);
         }
     },
+    BackButtonCallback: function () { },
     RouteInit: function () {
         try {
-            angular.module('ngRouteScApp', ['ui.router','ngAnimate'])
+            angular.module('ngRouteScApp', ['ui.router', 'ngAnimate'])
                 .config(function ($stateProvider, $urlRouterProvider) {
                     $stateProvider
                         .state('guide', {
