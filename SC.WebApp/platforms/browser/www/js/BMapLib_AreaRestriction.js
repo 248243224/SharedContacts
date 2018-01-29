@@ -40,7 +40,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
 
         setTimeout(function () {
             _map.panTo(RedPackets.GetCurrentCenter(), { noAnimation: "no" });
-            alert("只显示附近一公里");
+            DeviceEvent.Toast("只显示附近一公里");
         }, 1);
     };
 

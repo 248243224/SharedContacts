@@ -20,6 +20,7 @@ var app = {
     // Application Constructor
     initialize: function () {
         this.bindEvents();
+        this.RouteInit();
     },
     // Bind Event Listeners
     //
@@ -39,24 +40,75 @@ var app = {
     receivedEvent: function (id) {
         if (id == "deviceready") {
             console.log('Received Event: ' + id);
+            //init fast click
+            FastClick.attach(document.body);
+        }
+    },
+    RouteInit: function () {
+        try {
+            angular.module('ngRouteScApp', ['ui.router','ngAnimate'])
+                .config(function ($stateProvider, $urlRouterProvider) {
+                    $stateProvider
+                        .state('guide', {
+                            url: "/guide",
+                            templateUrl: 'views/guide.html',
+                            controller: 'GuideController'
+                        })
+                        .state('map', {
+                            url: "/map",
+                            templateUrl: 'views/map.html',
+                            controller: 'MapController'
+                        })
+                        .state('login', {
+                            url: "/login",
+                            templateUrl: 'views/login.html',
+                            controller: 'LoginController',
+                        })
 
-            try {
-                var swiper = new Swiper('.swiper-container', {
-                    pagination: '.swiper-pagination',
-                    paginationClickable: true,
-                    loop: false,
-                    onSlideChangeEnd: function (swiper) {
-                        if (3 == swiper.activeIndex) {
-                            $('.guide-box').hide();
-                            RedPackets.MapInit();
-                            ImClient.Init();
+                    $urlRouterProvider.otherwise('/guide');
+                })
+                .animation('.fade', function () {
+                    return {
+                        enter: function (element, done) {
+                            element.css({
+                                opacity: 0
+                            });
+                            element.animate({
+                                opacity: 1
+                            }, 1000, done);
+                        },
+                        leave: function (element, done) {
+                            element.css({
+                                opacity: 1
+                            });
+                            element.animate({
+                                opacity: 0
+                            }, 1000, done);
                         }
-                    }
-                });
-            }
-            catch (e)
-            { console.log(e); }
+                    };
+                })
+                .controller('GuideController', function ($scope, $state) {
+                    var swiper = new Swiper('.swiper-container', {
+                        pagination: '.swiper-pagination',
+                        paginationClickable: true,
+                        loop: false,
+                        onSlideChangeEnd: function (swiper) {
+                            if (3 == swiper.activeIndex) {
+                                $state.go('login');
+                            }
+                        }
+                    });
+                })
+                .controller('MapController', function ($scope) {
+                    RedPackets.MapInit();
+                    ImClient.Init();
+                })
+                .controller('LoginController', function ($scope) {
 
+                })
+        }
+        catch (e) {
+            console.log(e);
         }
     }
 };

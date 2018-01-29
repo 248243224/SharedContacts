@@ -36,36 +36,35 @@
     * Create your own at http://cspisawesome.com
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
-    <link href="css/index.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="css/swiper.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <title>Shared Contacts</title>
 </head>
-<body>
-    <div class="guide-box">
-        <!-- Swiper -->
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="images/banner_1.jpg">
-                </div>
-                <div class="swiper-slide">
-                    <img src="images/banner_2.jpg">
-                </div>
-                <div class="swiper-slide">
-                    <img src="images/banner_3.jpg">
-                </div>
-                <div class="swiper-slide">
-                </div>
-            </div>
-            <!-- Add Pagination -->
-            <div class="swiper-pagination"></div>
-        </div>
-    </div>
-
-    <div id="redPackestMap"></div>
+<body ng-app="ngRouteScApp">
+    <div class="fade" ui-view></div>
+  
     <script type="text/javascript" src="cordova.js"></script>
+    <!--map-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=iRgb4mnUr0w1bwoU4kTIWyzCKHYdpXEZ"></script>
+    <script src="js/BMapLib_AreaRestriction.js"></script>
+
+    <!--ui optimization-->
+    <script src="js/uioptimization/fastclick.js"></script>
+
+    <!--signalR lib-->
+    <script src="js/signalRLib/jquery-1.12.2.min.js"></script>
+    <script src="js/signalRLib/jquery.signalR-2.2.2.js"></script>
+
+    <!--ui lib-->
+    <script src="js/UiLib/flexible.js"></script>
+    <script src="js/UiLib/swiper.js"></script>
+
+    <!--angular js-->
+    <script src="js/angular/angular.js"></script>
+    <script src="js/angular-ui/angular-ui-router.js"></script>
+    <script src="js/angular/angular-animate.js"></script>
+
     <script type="text/javascript" src="js/index.js"></script>
     <script src="js/genericfunctions.js"></script>
     <!--config-->
@@ -73,26 +72,13 @@
     <!--device events-->
     <script src="js/DeviceEvent.js"></script>
 
-    <!--map-->
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=iRgb4mnUr0w1bwoU4kTIWyzCKHYdpXEZ"></script>
-    <script src="js/BMapLib_AreaRestriction.js"></script>
-
+    <script src="js/ImHubConnection.js"></script>
+    <script src="js/ImClient.js"></script>
     <!--red packets-->
     <script src="js/RedPackets.js"></script>
 
-    <!--signalR lib-->
-    <script src="js/signalRLib/jquery-1.12.2.min.js"></script>
-    <script src="js/signalRLib/jquery.signalR-2.2.2.js"></script>
-    <!--<script src="~/signalr/hubs"></script>-->
-    <script src="js/ImHubConnection.js"></script>
-    <script src="js/ImClient.js"></script>
-
-    <!--ui lib-->
-    <script src="js/UiLib/flexible.js"></script>
-    <script src="js/UiLib/swiper.js"></script>
-
     <script type="text/javascript">
-        app.initialize();   
+        app.initialize();
     </script>
 </body>
 </html>
