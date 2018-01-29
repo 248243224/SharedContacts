@@ -40,6 +40,8 @@ var app = {
     receivedEvent: function (id) {
         if (id == "deviceready") {
             console.log('Received Event: ' + id);
+            // disable back button in andriod
+            document.addEventListener("backbutton", null, false);
             //init fast click
             FastClick.attach(document.body);
         }
