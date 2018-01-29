@@ -32,7 +32,10 @@
 
                 //marker.setAnimation(BMAP_ANIMATION_DROP); //flash useless in mobile
             }
-            catch (e) { console.log(e); }
+            catch (e) {
+                console.log(e);
+                DeviceEvent.Toast("标记当前位置失败");
+            }
         },
         RefreshRedPackets: function () {
             try {
@@ -81,6 +84,8 @@
             _map.addOverlay(_visibleCircle);            //add circle
         },
         RefreshCurrentLocation: function () {
+
+            DeviceEvent.SpinnerShow();
             // onSuccess Callback
             // This method accepts a Position object, which contains the
             // current GPS coordinates
@@ -103,6 +108,7 @@
             function onError(error) {
                 console.log('get position failed' + 'code: ' + error.code + '\n' +
                     'message: ' + error.message + '\n');
+                DeviceEvent.Toast("获取当前位置失败");
             }
 
             DeviceEvent.GetCurrentPosition(onSuccess, onError);
@@ -125,6 +131,7 @@
                 RedPackets.ResetMapBounds();
 
                 _map.setCenter(data.points[0]);
+                DeviceEvent.SpinnerHide();
             }
         },
         LocationToBmapPoint: function (ggPoint) {

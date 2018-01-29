@@ -33,6 +33,12 @@
                 position: "bottom"
                 //addPixelsY: -40
             });
+        },
+        SpinnerShow: function () {
+            SpinnerPlugin.activityStart("Loading...", { dimBackground: true });
+        },
+        SpinnerHide: function () {
+            SpinnerPlugin.activityStop();
         }
     };
 
