@@ -13,6 +13,9 @@
 
   <preference name="SplashScreen" value="splash" />
   <preference name="SplashScreenDelay" value="3000" />
+  <preference name="show-splash-screen-spinner" value="false"/>
+  <preference name="target-device" value="handset" />
+  <preference name="FadeSplashScreenDuration" value="750"/>
   
   <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
   <plugin name="cordova-plugin-camera" source="npm" spec="~2.1.1" />
