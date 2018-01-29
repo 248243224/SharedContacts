@@ -42,7 +42,6 @@ var app = {
             console.log('Received Event: ' + id);
             //init fast click
             FastClick.attach(document.body);
-            navigator.splashscreen.show();
         }
     },
     RouteInit: function () {
