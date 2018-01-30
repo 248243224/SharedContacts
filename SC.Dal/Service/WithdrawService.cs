@@ -33,7 +33,7 @@ namespace SC.Dal.Service
             }
         }
 
-        public void AddApply(int userId)
+        public async void AddApplyAsync(int userId)
         {
             using (var context = SCContext.NewInstance)
             {
@@ -52,17 +52,17 @@ namespace SC.Dal.Service
                     Statu = WithdrawApplyStatu.NotCompleted
                 };
                 context.WithdrawApplys.Add(model);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void ChangeWithdrawApplyStatus(int applyId, WithdrawApplyStatu statu)
+        public async void ChangeWithdrawApplyStatusAsync(int applyId, WithdrawApplyStatu statu)
         {
             using (var context = SCContext.NewInstance)
             {
                 var apply = context.WithdrawApplys.Where(w => w.ApplyId.Equals(applyId)).FirstOrDefault();
                 apply.Statu = statu;
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
     }

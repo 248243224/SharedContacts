@@ -35,10 +35,10 @@
             });
         },
         SpinnerShow: function () {
-            SpinnerPlugin.activityStart("Loading...", { dimBackground: true });
+           // SpinnerPlugin.activityStart("Loading...", { dimBackground: true });
         },
         SpinnerHide: function () {
-            SpinnerPlugin.activityStop();
+          //  SpinnerPlugin.activityStop();
         }
     };
 

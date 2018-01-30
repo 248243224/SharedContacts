@@ -16,6 +16,7 @@ namespace SC.Dal.Migrations
 
         protected override void Seed(SC.Dal.SCContext context)
         {
+
             //  This method will be called after migrating to the latest version.
             //  init admin
             context.SCUsers.AddOrUpdate(new SCUser
@@ -27,7 +28,7 @@ namespace SC.Dal.Migrations
                 Sex = Sex.Male,
                 AvatarUrl = ""
             });
-            context.SaveChangesAsync();
+            context.SaveChanges();
         }
     }
 }

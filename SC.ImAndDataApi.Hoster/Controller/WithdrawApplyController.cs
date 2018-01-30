@@ -45,7 +45,7 @@ namespace SC.Admin.Controllers
         {
             try
             {
-                _withdrawService.AddApply(userId);
+                _withdrawService.AddApplyAsync(userId);
                 return Ok();
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace SC.Admin.Controllers
         {
             try
             {
-                _withdrawService.ChangeWithdrawApplyStatus(applyId, statu);
+                _withdrawService.ChangeWithdrawApplyStatusAsync(applyId, statu);
                 return Ok();
             }
             catch (Exception ex)

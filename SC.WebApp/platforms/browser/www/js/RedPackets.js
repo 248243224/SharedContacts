@@ -11,16 +11,16 @@
         MapInit: function () {
             //init location
             this.RefreshCurrentLocation();
-            _map = new BMap.Map("redPackestMap", { minZoom: 17, enableClicking: true });
+            _map = new BMap.Map("redPackestMap", { minZoom: 15, enableClicking: true });
             _map.enableScrollWheelZoom(true);
         },
         MarkCurrentLocation: function () {
             try {
-                var locationIcon = new BMap.Icon("images/location.png", new BMap.Size(100, 100));
+                var locationIcon = new BMap.Icon("images/location.png", new BMap.Size(30, 30));
                 var marker = new BMap.Marker(_currentLocationPoint, { icon: locationIcon });
                 _map.addOverlay(marker);
 
-                var label = new BMap.Label("我的位置(可见范围一公里)", { offset: new BMap.Size(20, -10) });
+                var label = new BMap.Label("我的位置", { offset: new BMap.Size(20, -10) });
                 marker.setLabel(label);
                 label.setStyle({
                     fontSize: "12px",
@@ -43,7 +43,7 @@
                     $.each(data, function () {
 
                         var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);
-                        RedPackets.AddMarker(point);
+                        RedPackets.AddPacketMarker(point);
                     })
                 });
             }
@@ -51,9 +51,13 @@
                 console.log(e);
             }
         },
-        AddMarker: function (point) {
-            var marker = new BMap.Marker(point);
+        AddPacketMarker: function (point) {
+            var packetIcon = new BMap.Icon("images/large_packet.png", new BMap.Size(35, 45), { offset: new BMap.Size(10, 25) });
+            var marker = new BMap.Marker(point, { icon: packetIcon });
             _map.addOverlay(marker);
+            marker.addEventListener("click", function () {
+                alert("您点击了标注");
+            });
         },
         GetCurrentCenter: function () { return _currentLocationPoint },
         ResetMapBounds: function () {
@@ -79,7 +83,7 @@
                 strokeWeight: 2,
                 strokeStyle: "dashed",//dashed or solid
                 fillColor: "#E2E8F1",
-                fillOpacity: 0.5
+                fillOpacity: 0.1
             });
             _map.addOverlay(_visibleCircle);            //add circle
         },

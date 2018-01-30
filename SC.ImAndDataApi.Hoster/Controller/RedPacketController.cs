@@ -69,7 +69,7 @@ namespace SC.ImAndDataApi.Hoster.Controller
         {
             try
             {
-                return Ok(_redPacketService.OpenRedPacket(userId, packetId));
+                return Ok(_redPacketService.OpenRedPacketAsync(userId, packetId));
             }
             catch (Exception ex)
             {

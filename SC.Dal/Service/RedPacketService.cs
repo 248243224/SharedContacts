@@ -51,7 +51,7 @@ namespace SC.Dal.Service
             return model;
         }
 
-        public RedPacketViewModel OpenRedPacket(int userId, int packetId)
+        public async Task<RedPacketViewModel> OpenRedPacketAsync(int userId, int packetId)
         {
             RedPacketViewModel model = new RedPacketViewModel();
             RedPacketCheckRecord checkRecord = new RedPacketCheckRecord();
@@ -93,7 +93,7 @@ namespace SC.Dal.Service
 
                 context.Profits.Add(profit);
 
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
                 return model;
             }
         }

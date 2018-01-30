@@ -18,12 +18,12 @@ namespace SC.Dal.Service
                 return user == null ? false : true;
             }
         }
-        public void Register(SCUser user)
+        public async void Register(SCUser user)
         {
             using (var context = SCContext.NewInstance)
             {
                 context.SCUsers.Add(user);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
         public void Login(int userId)

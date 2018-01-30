@@ -12,7 +12,7 @@ namespace SC.IService
     {
         List<WithdrawApply> GetPagedList(JqTableParams param);
 
-        void AddApply(int userId);
-        void ChangeWithdrawApplyStatus(int applyId, WithdrawApplyStatu statu);
+        void AddApplyAsync(int userId);
+        void ChangeWithdrawApplyStatusAsync(int applyId, WithdrawApplyStatu statu);
     }
 }

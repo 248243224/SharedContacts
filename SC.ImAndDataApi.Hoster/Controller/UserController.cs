@@ -40,7 +40,7 @@ namespace SC.ImAndDataApi.Hoster.Controller
         {
             try
             {
-                _scUserService.UpdateUserInfo(userInfo);
+                _scUserService.UpdateUserInfoAsync(userInfo);
                 return Ok();
             }
             catch (Exception ex)

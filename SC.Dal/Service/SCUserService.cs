@@ -51,7 +51,7 @@ namespace SC.Dal.Service
             }
         }
 
-        public void UpdateUserInfo(UserInfoViewModel userInfo)
+        public async void UpdateUserInfoAsync(UserInfoViewModel userInfo)
         {
             using (var context = SCContext.NewInstance)
             {
@@ -101,7 +101,7 @@ namespace SC.Dal.Service
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(userInfo.Name)) user.Name = userInfo.Name;
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
