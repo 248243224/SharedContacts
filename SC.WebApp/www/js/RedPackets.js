@@ -9,10 +9,12 @@
     return {
 
         MapInit: function () {
-            //init location
-            this.RefreshCurrentLocation();
+
             _map = new BMap.Map("redPackestMap", { minZoom: 15, enableClicking: true });
             _map.enableScrollWheelZoom(true);
+            RedPackets.RefreshCurrentLocation();
+            //refresh location every 30 seconds
+            setInterval(function () { RedPackets.RefreshCurrentLocation(); }, 3000 * 10);
         },
         MarkCurrentLocation: function () {
             try {
@@ -119,22 +121,31 @@
         },
         TranslateCallback: function (data) {
             if (data.status === 0) {
+                var distanceBetweenLast = 0;
+                var isInited = typeof _currentLocationPoint !== "undefined";
+                if (isInited) {
+                    distanceBetweenLast = _map.getDistance(_currentLocationPoint, data.points[0]).toFixed(0);//获取二点间距离保留到整数,单位米
+                    console.log("distance: " + distanceBetweenLast + " 米");
+                }
+                //大于50米才刷新
+                if (!isInited || distanceBetweenLast > 50) {
+                    _map.clearOverlays();
+                    //refresh location
+                    _currentLocationPoint = data.points[0];
+                    console.log("point converted: Longitude:" + _currentLocationPoint.lng + "\n Latitude:" + _currentLocationPoint.lat);
+                    //refresh center and zoom
+                    _map.centerAndZoom(_currentLocationPoint, 17);
+                    //rewrite visible circle
+                    RedPackets.RefreshVisibleCircle();
+                    //mark point
+                    RedPackets.MarkCurrentLocation();
+                    //mark red packets
+                    RedPackets.RefreshRedPackets();
+                    //reset visible map bounds
+                    RedPackets.ResetMapBounds();
 
-                //refresh location
-                _currentLocationPoint = data.points[0];
-                console.log("point converted: Longitude:" + _currentLocationPoint.lng + "\n Latitude:" + _currentLocationPoint.lat);
-                //refresh center and zoom
-                _map.centerAndZoom(_currentLocationPoint, 17);
-                //rewrite visible circle
-                RedPackets.RefreshVisibleCircle();
-                //mark point
-                RedPackets.MarkCurrentLocation();
-                //mark red packets
-                RedPackets.RefreshRedPackets();
-                //reset visible map bounds
-                RedPackets.ResetMapBounds();
-
-                _map.setCenter(data.points[0]);
+                    _map.setCenter(data.points[0]);
+                }
                 DeviceEvent.SpinnerHide();
             }
         },

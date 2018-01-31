@@ -78,7 +78,7 @@ var app = {
                             });
                             element.animate({
                                 opacity: 1
-                            }, 500, done);
+                            }, 200, done);
                         },
                         leave: function (element, done) {
                             element.css({
@@ -86,7 +86,7 @@ var app = {
                             });
                             element.animate({
                                 opacity: 0
-                            }, 500, done);
+                            }, 200, done);
                         }
                     };
                 })

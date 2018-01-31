@@ -27,12 +27,12 @@
             );
         },
         Toast: function (message) {
-            window.plugins.toast.showWithOptions({
-                message: message,
-                duration: "short", // 2000 ms 
-                position: "bottom"
-                //addPixelsY: -40
-            });
+            //window.plugins.toast.showWithOptions({
+            //    message: message,
+            //    duration: "short", // 2000 ms 
+            //    position: "bottom"
+            //    //addPixelsY: -40
+            //});
         },
         SpinnerShow: function () {
            // SpinnerPlugin.activityStart("Loading...", { dimBackground: true });
