@@ -19,7 +19,7 @@
 var curPage = "";
 var app = {
     // Application Constructor
-    initialize: function () {
+    initialize: function() {
         this.bindEvents();
         this.RouteInit();
     },
@@ -27,7 +27,7 @@ var app = {
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function () {
+    bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         // disable back button in andriod
         document.addEventListener("backbutton", this.BackButtonCallback, false);
@@ -36,11 +36,11 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function () {
+    onDeviceReady: function() {
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
-    receivedEvent: function (id) {
+    receivedEvent: function(id) {
         if (id == "deviceready") {
             console.log('Received Event: ' + id);
             //init status bar
@@ -55,11 +55,11 @@ var app = {
             FastClick.attach(document.body);
         }
     },
-    BackButtonCallback: function () { },
-    RouteInit: function () {
+    BackButtonCallback: function() { },
+    RouteInit: function() {
         try {
             angular.module('ngRouteScApp', ['ui.router', 'ngAnimate'])
-                .config(function ($stateProvider, $urlRouterProvider) {
+                .config(function($stateProvider, $urlRouterProvider) {
                     $stateProvider
                         .state('guide', {
                             url: "/guide",
@@ -139,9 +139,9 @@ var app = {
 
                     $urlRouterProvider.otherwise('/guide');
                 })
-                .animation('.fade', function () {
+                .animation('.fade', function() {
                     return {
-                        enter: function (element, done) {
+                        enter: function(element, done) {
                             element.css({
                                 opacity: 0
                             });
@@ -149,7 +149,7 @@ var app = {
                                 opacity: 1
                             }, 100, done);
                         },
-                        leave: function (element, done) {
+                        leave: function(element, done) {
                             element.css({
                                 opacity: 1
                             });
@@ -159,23 +159,60 @@ var app = {
                         }
                     };
                 })
-                .controller('GuideController', function ($scope, $state) {
+                .controller('GuideController', function($scope, $state) {
                     var swiper = new Swiper('.swiper-container', {
                         pagination: '.swiper-pagination',
                         paginationClickable: true,
                         loop: false,
-                        onSlideChangeEnd: function (swiper) {
+                        onSlideChangeEnd: function(swiper) {
                             if (3 == swiper.activeIndex) {
                                 $state.go('login');
                             }
                         }
                     });
                 })
-                .controller('MapController', function ($scope) {     
-                    curPage = "map";
-                    RedPackets.MapInit();
+                .controller('MapController', function($scope) {
+                    try {
+                        curPage = "map";
+                        var translateCallback = function(data) {
+                            if (data.status === 0) {
+                                var distanceBetweenLast = 0;
+                                var isInited = typeof rpMapApi._currentLocationPoint !== "undefined";
+                                if (isInited) {
+                                    distanceBetweenLast = rpMapApi._map.getDistance(rpMapApi._currentLocationPoint, data.points[0]).toFixed(0);//获取二点间距离保留到整数,单位米
+                                    console.log("distance: " + distanceBetweenLast + " 米");
+                                }
+                                //大于50米才刷新
+                                if (!isInited || distanceBetweenLast > 50) {
+                                    rpMapApi._map.clearOverlays();
+                                    //refresh location
+                                    rpMapApi._currentLocationPoint = data.points[0];
+                                    console.log("point converted: Longitude:" + rpMapApi._currentLocationPoint.lng + "\n Latitude:" + rpMapApi._currentLocationPoint.lat);
+                                    //refresh center and zoom
+                                    rpMapApi._map.centerAndZoom(rpMapApi._currentLocationPoint, 17);
+                                    //rewrite visible circle
+                                    rpMapApi.RefreshVisibleCircle();
+                                    //mark point
+                                    rpMapApi.MarkCurrentLocation();
+                                    //mark red packets
+                                    rpMapApi.RefreshRedPackets();
+                                    //reset visible map bounds
+                                    rpMapApi.ResetMapBounds();
+
+                                    rpMapApi._map.setCenter(data.points[0]);
+                                }
+                                DeviceEvent.SpinnerHide();
+                            }
+                        };
+                        var rpMapApi = new RedPackets(translateCallback);
+                        rpMapApi.MapInit();
+                    }
+                    catch (e) {
+                        console.log(e);
+                        DeviceEvent.Toast("网络异常");
+                    }
                 })
-                .controller('FooterController', function ($scope, $state) {
+                .controller('FooterController', function($scope, $state) {
                     switch (curPage) {
                         case "map":
                             $(".item-box.map").addClass("active");
@@ -191,16 +228,16 @@ var app = {
                             break;
                     }
                 })
-                .controller('LoginController', function ($scope, $state) {
+                .controller('LoginController', function($scope, $state) {
                     ImClient.Init();
                 })
-                .controller('ContactsController', function ($scope) {
+                .controller('ContactsController', function($scope) {
                     curPage = "contacts";
                 })
-                .controller('MessageController', function ($scope) {
+                .controller('MessageController', function($scope) {
                     curPage = "message";
                 })
-                .controller('MyController', function ($scope) {
+                .controller('MyController', function($scope) {
                     curPage = "my";
                 })
         }
