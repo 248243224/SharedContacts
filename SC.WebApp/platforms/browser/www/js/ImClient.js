@@ -22,4 +22,4 @@
     };
 
 })();
-var imConnection = new ImHubConnection(new AppConfig().iMServer, ImClient.MessageArrived, ImClient.ConnectionEstablishedFunction);
+var imConnection = new ImHubConnection(scConfig.iMServer, ImClient.MessageArrived, ImClient.ConnectionEstablishedFunction);

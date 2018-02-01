@@ -1,20 +1,24 @@
-﻿var RedPackets = (function () {
-
+﻿
+var RedPackets = (function () {
     var _currentLocationPoint;
     var _map;
     var _visibleBounds = 1000;// km
     var _config = new AppConfig();
     var _visibleCircle;
-
     return {
 
         MapInit: function () {
 
-            _map = new BMap.Map("redPackestMap", { minZoom: 15, enableClicking: true });
-            _map.enableScrollWheelZoom(true);
-            RedPackets.RefreshCurrentLocation();
-            //refresh location every 30 seconds
-            setInterval(function () { RedPackets.RefreshCurrentLocation(); }, 3000 * 10);
+            if (typeof _map === "undefined") {
+                _map = new BMap.Map("redPackestMap", { minZoom: 15, enableClicking: true });
+                _map.enableScrollWheelZoom(true);
+                RedPackets.RefreshCurrentLocation();
+                //refresh location every 30 seconds
+                setInterval(function () { RedPackets.RefreshCurrentLocation(); }, 3000 * 10);
+            }
+            else {
+                _map.setCenter(_currentLocationPoint);
+            }
         },
         MarkCurrentLocation: function () {
             try {

@@ -42,11 +42,13 @@
     <title>Shared Contacts</title>
 </head>
 <body ng-app="ngRouteScApp">
-    <div class="fade" ui-view></div>
-  
+    <div class="fade" ui-view="other"></div>
+    <div ui-view="content"></div>
+    <div class="fade" ui-view="footer"></div>
+
     <script type="text/javascript" src="cordova.js"></script>
     <!--map-->
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=iRgb4mnUr0w1bwoU4kTIWyzCKHYdpXEZ"></script>
+    <script src="http://api.map.baidu.com/api?v=3.0&ak=iRgb4mnUr0w1bwoU4kTIWyzCKHYdpXEZ"></script>
     <script src="js/BMapLib_AreaRestriction.js"></script>
 
     <!--ui optimization-->
@@ -75,7 +77,7 @@
     <script src="js/ImHubConnection.js"></script>
     <script src="js/ImClient.js"></script>
     <!--red packets-->
-    <script src="js/RedPackets.js"></script>
+    <!--<script src="js/RedPackets.js"></script>-->
 
     <script type="text/javascript">
         app.initialize();

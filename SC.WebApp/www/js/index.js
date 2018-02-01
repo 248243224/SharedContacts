@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var curPage = "";
 var app = {
     // Application Constructor
     initialize: function () {
@@ -42,6 +43,14 @@ var app = {
     receivedEvent: function (id) {
         if (id == "deviceready") {
             console.log('Received Event: ' + id);
+            //init status bar
+            if (cordova.platformId != 'android') {
+                StatusBar.styleDefault();
+                StatusBar.overlaysWebView(true);
+            }
+            else {
+                StatusBar.overlaysWebView(false);
+            }
             //init fast click
             FastClick.attach(document.body);
         }
@@ -54,18 +63,78 @@ var app = {
                     $stateProvider
                         .state('guide', {
                             url: "/guide",
-                            templateUrl: 'views/guide.html',
-                            controller: 'GuideController'
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/guide.html',
+                                    controller: 'GuideController'
+                                }
+                            }
                         })
                         .state('map', {
                             url: "/map",
-                            templateUrl: 'views/map.html',
-                            controller: 'MapController'
+                            cache: true,
+                            views: {
+                                'content': {
+                                    templateUrl: 'views/map.html',
+                                    controller: 'MapController'
+                                },
+                                'footer': {
+                                    templateUrl: 'views/footer.html',
+                                    controller: 'FooterController'
+                                }
+                            }
+
                         })
                         .state('login', {
                             url: "/login",
-                            templateUrl: 'views/login.html',
-                            controller: 'LoginController',
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/login.html',
+                                    controller: 'LoginController'
+                                }
+                            }
+                        })
+                        .state('contacts', {
+                            url: "/contacts",
+                            cache: true,
+                            views: {
+                                'content': {
+                                    templateUrl: 'views/contacts.html',
+                                    controller: 'ContactsController'
+                                },
+                                'footer': {
+                                    templateUrl: 'views/footer.html',
+                                    controller: 'FooterController'
+                                }
+                            }
+                        })
+                        .state('message', {
+                            url: "/message",
+                            cache: true,
+                            views: {
+                                'content': {
+                                    templateUrl: 'views/message.html',
+                                    controller: 'MessageController',
+                                },
+                                'footer': {
+                                    templateUrl: 'views/footer.html',
+                                    controller: 'FooterController'
+                                }
+                            }
+                        })
+                        .state('my', {
+                            url: "/my",
+                            cache: true,
+                            views: {
+                                'content': {
+                                    templateUrl: 'views/my.html',
+                                    controller: 'MyController',
+                                },
+                                'footer': {
+                                    templateUrl: 'views/footer.html',
+                                    controller: 'FooterController'
+                                }
+                            }
                         })
 
                     $urlRouterProvider.otherwise('/guide');
@@ -78,7 +147,7 @@ var app = {
                             });
                             element.animate({
                                 opacity: 1
-                            }, 200, done);
+                            }, 100, done);
                         },
                         leave: function (element, done) {
                             element.css({
@@ -86,7 +155,7 @@ var app = {
                             });
                             element.animate({
                                 opacity: 0
-                            }, 200, done);
+                            }, 100, done);
                         }
                     };
                 })
@@ -102,12 +171,37 @@ var app = {
                         }
                     });
                 })
-                .controller('MapController', function ($scope) {
+                .controller('MapController', function ($scope) {     
+                    curPage = "map";
                     RedPackets.MapInit();
+                })
+                .controller('FooterController', function ($scope, $state) {
+                    switch (curPage) {
+                        case "map":
+                            $(".item-box.map").addClass("active");
+                            break;
+                        case "message":
+                            $(".item-box.message").addClass("active");
+                            break;
+                        case "my":
+                            $(".item-box.my").addClass("active");
+                            break;
+                        case "contacts":
+                            $(".item-box.contacts").addClass("active");
+                            break;
+                    }
+                })
+                .controller('LoginController', function ($scope, $state) {
                     ImClient.Init();
                 })
-                .controller('LoginController', function ($scope) {
-
+                .controller('ContactsController', function ($scope) {
+                    curPage = "contacts";
+                })
+                .controller('MessageController', function ($scope) {
+                    curPage = "message";
+                })
+                .controller('MyController', function ($scope) {
+                    curPage = "my";
                 })
         }
         catch (e) {
@@ -115,3 +209,4 @@ var app = {
         }
     }
 };
+
