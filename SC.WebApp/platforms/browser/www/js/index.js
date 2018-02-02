@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var curPage = "";
+
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         this.bindEvents();
         this.RouteInit();
     },
@@ -27,7 +27,7 @@ var app = {
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
+    bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         // disable back button in andriod
         document.addEventListener("backbutton", this.BackButtonCallback, false);
@@ -36,11 +36,11 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
+    receivedEvent: function (id) {
         if (id == "deviceready") {
             console.log('Received Event: ' + id);
             //init status bar
@@ -55,11 +55,11 @@ var app = {
             FastClick.attach(document.body);
         }
     },
-    BackButtonCallback: function() { },
-    RouteInit: function() {
+    BackButtonCallback: function () { },
+    RouteInit: function () {
         try {
             angular.module('ngRouteScApp', ['ui.router', 'ngAnimate'])
-                .config(function($stateProvider, $urlRouterProvider) {
+                .config(function ($stateProvider, $urlRouterProvider) {
                     $stateProvider
                         .state('guide', {
                             url: "/guide",
@@ -91,6 +91,105 @@ var app = {
                                 'other': {
                                     templateUrl: 'views/login.html',
                                     controller: 'LoginController'
+                                }
+                            }
+                        })
+                        .state('packetInfo', {
+                            url: "/packetInfo",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/packetInfo.html',
+                                    controller: 'PacketInfoController'
+                                }
+                            }
+                        })
+                        .state('filtration', {
+                            url: "/filtration",
+                            views: {
+                                'content': {
+                                    templateUrl: 'views/filtration.html',
+                                    controller: 'FiltrationController'
+                                }
+                            }
+                        })
+                        .state('create', {
+                            url: "/create",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/create.html',
+                                    controller: 'CreateController'
+                                }
+                            }
+                        })
+                        .state('chat', {
+                            url: "/chat",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/chat.html',
+                                    controller: 'ChatController'
+                                }
+                            }
+                        })
+                        .state('userpage', {
+                            url: "/userpage",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/userpage.html',
+                                    controller: 'UserpageController'
+                                }
+                            }
+                        })
+                        .state('userinfo', {
+                            url: "/userinfo",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/userinfo.html',
+                                    controller: 'UserinfoController'
+                                }
+                            }
+                        })
+                        .state('team', {
+                            url: "/team",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/team.html',
+                                    controller: 'TeamController'
+                                }
+                            }
+                        })
+                        .state('withdraw', {
+                            url: "/withdraw",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/withdraw.html',
+                                    controller: 'WithdrawController'
+                                }
+                            }
+                        })
+                        .state('agency', {
+                            url: "/agency",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/agency.html',
+                                    controller: 'AgencyController'
+                                }
+                            }
+                        })
+                        .state('qrcode', {
+                            url: "/qrcode",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/qrcode.html',
+                                    controller: 'QrcodeController'
+                                }
+                            }
+                        })
+                        .state('profits', {
+                            url: "/agency",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/profits.html',
+                                    controller: 'ProfitsController'
                                 }
                             }
                         })
@@ -137,11 +236,11 @@ var app = {
                             }
                         })
 
-                    $urlRouterProvider.otherwise('/guide');
+                    $urlRouterProvider.otherwise('/login');
                 })
-                .animation('.fade', function() {
+                .animation('.fade', function () {
                     return {
-                        enter: function(element, done) {
+                        enter: function (element, done) {
                             element.css({
                                 opacity: 0
                             });
@@ -149,7 +248,7 @@ var app = {
                                 opacity: 1
                             }, 100, done);
                         },
-                        leave: function(element, done) {
+                        leave: function (element, done) {
                             element.css({
                                 opacity: 1
                             });
@@ -159,22 +258,144 @@ var app = {
                         }
                     };
                 })
-                .controller('GuideController', function($scope, $state) {
+                .factory('ls', ['$window', function ($window) {
+                    return {
+                        set: function (key, value) {
+                            $window.localStorage[key] = value;
+                        },
+                        get: function (key, defaultValue) {
+                            return $window.localStorage[key] || defaultValue;
+                        },
+                        setObject: function (key, value) {
+                            $window.localStorage[key] = JSON.stringify(value);
+                        },
+                        getObject: function (key) {
+                            return JSON.parse($window.localStorage[key] || '{}');
+                        },
+                        clear: function () {
+                            $window.localStorage.clear();
+                        }
+                    }
+                }])
+                .service('sc', function ($state, ls, $http, $rootScope, $window) {
+                    this.checkTicketStillActive = function () {
+                        var loginTime = ls.get('loginTime');
+                        if (loginTime) {
+                            var curTime = new Date();
+                            var diff = curTime.getTime() - new Date(loginTime).getTime();
+                            var diffDays = diff / (24 * 3600 * 1000);//相差天数
+                            //判断凭证是否过期
+                            if (diffDays < scConfig.tokenExpireTime) {
+                                $rootScope.UserInfo = ls.getObject('userInfo');
+                                $state.go('map');
+                            }
+                            else {
+                                ls.clear();
+                                $rootScope.UserInfo = {};
+                            }
+                        }
+                    };
+                    this.ValidateLogin = function () {
+                        var userId = ls.getObject('userInfo').userId;
+                        if (typeof (userId) == "undefined")
+                            $state.go('map');
+                    };
+                    this.Login = function (userInfo) {
+                        ls.setObject('userInfo', userInfo);
+                        ls.set('loginTime', new Date());
+                        $rootScope.UserInfo = userInfo;
+                        $state.go('map');
+                    };
+                })
+                .controller('GuideController', function ($scope, ls, $state) {
                     var swiper = new Swiper('.swiper-container', {
                         pagination: '.swiper-pagination',
                         paginationClickable: true,
                         loop: false,
-                        onSlideChangeEnd: function(swiper) {
+                        onSlideChangeEnd: function (swiper) {
                             if (3 == swiper.activeIndex) {
+                                ls.set('guidIsChecked', true);
                                 $state.go('login');
                             }
                         }
                     });
                 })
-                .controller('MapController', function($scope) {
+                .controller('PacketInfoController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('map');
+                    };
+                })
+                .controller('FiltrationController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.close = function () {
+                        $state.go(curPage);
+                    };
+                })
+                .controller('CreateController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go(curPage);
+                    };
+                })
+                .controller('ChatController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go(curPage);
+                    };
+                })
+                .controller('UserpageController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('my');
+                    };
+                })
+                .controller('UserinfoController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('my');
+                    };
+                })
+                .controller('TeamController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('my');
+                    };
+                })
+                .controller('WithdrawController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('my');
+                    };
+                })
+                .controller('AgencyController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('my');
+                    };
+                })
+                .controller('ProfitsController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('my');
+                    };
+                })
+                .controller('QrcodeController', function ($scope, $state, ls) {
+                    ls.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('my');
+                    };
+                })
+                .controller('MapController', function ($scope, $state,ls) {
+                    curPage = "map";
+                    ls.ValidateLogin();
+                    $scope.openRedPacket = function ($event) {
+                        $event.stopPropagation();
+                        $state.go('packetInfo');
+                    };
+
                     try {
-                        curPage = "map";
-                        var translateCallback = function(data) {
+                        var translateCallback = function (data) {
                             if (data.status === 0) {
                                 var distanceBetweenLast = 0;
                                 var isInited = typeof rpMapApi._currentLocationPoint !== "undefined";
@@ -187,6 +408,7 @@ var app = {
                                     rpMapApi._map.clearOverlays();
                                     //refresh location
                                     rpMapApi._currentLocationPoint = data.points[0];
+                                    curLocation = data.points[0];
                                     console.log("point converted: Longitude:" + rpMapApi._currentLocationPoint.lng + "\n Latitude:" + rpMapApi._currentLocationPoint.lat);
                                     //refresh center and zoom
                                     rpMapApi._map.centerAndZoom(rpMapApi._currentLocationPoint, 17);
@@ -212,7 +434,7 @@ var app = {
                         DeviceEvent.Toast("网络异常");
                     }
                 })
-                .controller('FooterController', function($scope, $state) {
+                .controller('FooterController', function ($scope, $state) {
                     switch (curPage) {
                         case "map":
                             $(".item-box.map").addClass("active");
@@ -228,17 +450,23 @@ var app = {
                             break;
                     }
                 })
-                .controller('LoginController', function($scope, $state) {
-                    ImClient.Init();
+                .controller('LoginController', function ($scope, ls, $state) {
+                    if (!ls.get('guidIsChecked')) $state.go('guide');
+                    var userInfo = { id: 1, name: "Jane", avatar: "" };
+                    ls.Login(userInfo);
+                    ImClient.Init(userInfo.id);
                 })
-                .controller('ContactsController', function($scope) {
+                .controller('ContactsController', function ($scope, ls) {
                     curPage = "contacts";
+                    ls.ValidateLogin();
                 })
-                .controller('MessageController', function($scope) {
+                .controller('MessageController', function ($scope, ls) {
                     curPage = "message";
+                    ls.ValidateLogin();
                 })
-                .controller('MyController', function($scope) {
+                .controller('MyController', function ($scope, ls) {
                     curPage = "my";
+                    ls.ValidateLogin();
                 })
         }
         catch (e) {

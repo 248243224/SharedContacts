@@ -1,7 +1,5 @@
 ﻿var ImClient = (function () {
 
-    var userId = "jane";
-
     return {
 
         MessageArrived: function (from, content) {
@@ -12,7 +10,7 @@
             console.log(connectionId + ", connect established");
         },
 
-        Init: function () {
+        Init: function (userId) {
             //connect server
             if (!imConnection.isConnected) {
                 imConnection.connect(userId);

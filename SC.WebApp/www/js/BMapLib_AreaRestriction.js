@@ -39,7 +39,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
         }
 
         setTimeout(function () {
-            _map.panTo(RedPackets.GetCurrentCenter(), { noAnimation: "no" });
+            _map.panTo(curLocation, { noAnimation: "no" });
             DeviceEvent.Toast("只显示附近一公里");
         }, 1);
     };

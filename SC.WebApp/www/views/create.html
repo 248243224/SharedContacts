@@ -1,0 +1,98 @@
+﻿<div class="bgfdf5f4">
+    <div class="release-wrap">
+        <div class="public-header">
+            <h3 class="title">
+                红包信息
+            </h3>
+            <div class="black-btn" ng-click="back()"></div>
+        </div>
+        <div class="content-box">
+            <textarea placeholder="想要对大家说..."></textarea>
+            <div class="imgs-box clearfix">
+                <div class="btn-box item-box">
+                    <img src="images/icon_32.png">
+                    <p>至少发一张图片</p>
+                    <input class="camera-box" type="file" id="file" accept="image/*" multiple />
+                </div>
+            </div>
+        </div>
+        <div class="all-input">
+            <div class="input-box">
+                <span class="title">红包个数</span>
+                <div class="other-box">
+                    <input type="tel" name="" placeholder="填写个数">
+                    个
+                </div>
+            </div>
+            <div class="input-box">
+                <span class="title">总金额</span>
+                <div class="other-box">
+                    <input type="number" name="" placeholder="输入金额">
+                    元
+                </div>
+            </div>
+            <div class="input-box">
+                <span class="title">位置范围</span>
+                <div class="other-box">
+                    <!-- <input type="text" name="" placeholder="填写个数"> -->
+                    全市
+                </div>
+            </div>
+            <p class="select">
+                <span>精准筛选<i><img src="images/icon_33.png"><img src="images/icon_34.png" class="active"></i></span>
+            </p>
+            <div class="sift-box">
+                <div class="input-box">
+                    <span class="title">发布对象</span>
+                    <div class="other-box">
+                        <input type="number" name="" placeholder="请选择">
+                    </div>
+                </div>
+                <div class="input-box">
+                    <span class="title">外部链接</span>
+                    <div class="other-box">
+                        <input type="number" name="" placeholder="请粘贴">
+                    </div>
+                </div>
+            </div>
+            <p class="money">
+                0.00 <em>元</em>
+            </p>
+            <div class="btn">
+                塞钱进红包
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $('.select span').click(function(){
+        if ($(this).hasClass('active')) {
+            $('.sift-box').hide();
+            $(this).removeClass('active');
+        }else{
+            $('.sift-box').show();
+            $(this).addClass('active');
+        }
+    })
+    $('#file').on('change',function(){
+        if($('.item-box').length<2){
+            $('.btn-box').css('padding-top','0.6rem');
+            $('.btn-box p').hide();
+        }else{
+             $('.btn-box p').show();
+             $('.btn-box').css('padding-top','0.4rem');
+        }
+        var fileObj=document.getElementById("file");
+        var src = window.URL.createObjectURL(fileObj.files[0]);
+        var html = '<div class="item-box">'+
+                       '<img src="'+src+'">'+
+                        '<div class="iconfont-close"></div>'+
+                    '</div>';
+        $('.imgs-box').prepend(html);
+
+    });
+    $('.imgs-box').on('click','.iconfont-close',function(){
+        $(this).parent('.item-box').remove();
+
+    });
+    </script>
+</div>
