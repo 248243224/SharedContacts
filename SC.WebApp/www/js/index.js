@@ -296,15 +296,20 @@ var app = {
                         }
                     };
                     this.ValidateLogin = function () {
-                        var userId = ls.getObject('userInfo').userId;
+                        var userId = ls.getObject('userInfo').id;
                         if (typeof (userId) == "undefined")
-                            $state.go('map');
+                            $state.go('login');
                     };
                     this.Login = function (userInfo) {
                         ls.setObject('userInfo', userInfo);
                         ls.set('loginTime', new Date());
                         $rootScope.UserInfo = userInfo;
                         $state.go('map');
+                    };
+                    this.logOut = function () {
+                        ls.clear();
+                        $rootScope.UserInfo = {};
+                        $state.go('login');
                     };
                 })
                 .controller('GuideController', function ($scope, ls, $state) {
@@ -314,81 +319,81 @@ var app = {
                         loop: false,
                         onSlideChangeEnd: function (swiper) {
                             if (3 == swiper.activeIndex) {
-                                ls.set('guidIsChecked', true);
+                                ls.set('guideIsChecked', true);
                                 $state.go('login');
                             }
                         }
                     });
                 })
-                .controller('PacketInfoController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('PacketInfoController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go('map');
                     };
                 })
-                .controller('FiltrationController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('FiltrationController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.close = function () {
                         $state.go(curPage);
                     };
                 })
-                .controller('CreateController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('CreateController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go(curPage);
                     };
                 })
-                .controller('ChatController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('ChatController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go(curPage);
                     };
                 })
-                .controller('UserpageController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('UserpageController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go('my');
                     };
                 })
-                .controller('UserinfoController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('UserinfoController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go('my');
                     };
                 })
-                .controller('TeamController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('TeamController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go('my');
                     };
                 })
-                .controller('WithdrawController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('WithdrawController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go('my');
                     };
                 })
-                .controller('AgencyController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('AgencyController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go('my');
                     };
                 })
-                .controller('ProfitsController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('ProfitsController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go('my');
                     };
                 })
-                .controller('QrcodeController', function ($scope, $state, ls) {
-                    ls.ValidateLogin();
+                .controller('QrcodeController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
                     $scope.back = function () {
                         $state.go('my');
                     };
                 })
-                .controller('MapController', function ($scope, $state,ls) {
+                .controller('MapController', function ($scope, $state, sc) {
                     curPage = "map";
-                    ls.ValidateLogin();
+                    sc.ValidateLogin();
                     $scope.openRedPacket = function ($event) {
                         $event.stopPropagation();
                         $state.go('packetInfo');
@@ -450,23 +455,29 @@ var app = {
                             break;
                     }
                 })
-                .controller('LoginController', function ($scope, ls, $state) {
-                    if (!ls.get('guidIsChecked')) $state.go('guide');
-                    var userInfo = { id: 1, name: "Jane", avatar: "" };
-                    ls.Login(userInfo);
-                    ImClient.Init(userInfo.id);
+                .controller('LoginController', function ($scope, ls, sc, $state) {
+                    if (!ls.get('guideIsChecked')) $state.go('guide');
+                    sc.checkTicketStillActive();
+                    $scope.login = function () {
+                        var userInfo = { id: 1, name: "Jane", avatar: "" };
+                        sc.Login(userInfo);
+                        ImClient.Init(userInfo.id);
+                    };
                 })
-                .controller('ContactsController', function ($scope, ls) {
+                .controller('ContactsController', function ($scope, sc) {
                     curPage = "contacts";
-                    ls.ValidateLogin();
+                    sc.ValidateLogin();
                 })
-                .controller('MessageController', function ($scope, ls) {
+                .controller('MessageController', function ($scope, sc) {
                     curPage = "message";
-                    ls.ValidateLogin();
+                    sc.ValidateLogin();
                 })
-                .controller('MyController', function ($scope, ls) {
+                .controller('MyController', function ($scope, sc) {
                     curPage = "my";
-                    ls.ValidateLogin();
+                    sc.ValidateLogin();
+                    $scope.logOut = function () {
+                        sc.logOut();
+                    };
                 })
         }
         catch (e) {
