@@ -11,7 +11,7 @@
 
                     thumbnailHeight: 120,
                     thumbnailWidth: 120,
-                    maxFilesize: 0.5,
+                    maxFilesize: 0.2,//200k
                     acceptedFiles: "image/*",
                     uploadMultiple: true,
                     addRemoveLinks: true,
@@ -87,24 +87,37 @@
                 $("#btnPublish").on("click", function () {
 
                     WaitDialog.show();
-
-                    var fd = new FormData();
-
-                    var packetInfo = {
-                        TotalNumber: $("#TotalNumber").val(),
-                        Amount: $("#Amount").val(),
-                        Lng: $("#Lng").val(),
-                        Lat: $("#Lat").val(),
-                        TextContent: $("#TextContent").val(),
-                        Link: $("#Link").val(),
-                        UserId: 0
-                    };
-                    fd.append('packetinfo', JSON.stringify(packetInfo));
-                    $.each(myDropzone.files, function (i, file) {
-                        fd.append('files', file);
+                    var apiUrl = "http://api.map.baidu.com/geocoder/v2/?output=json&ak=iRgb4mnUr0w1bwoU4kTIWyzCKHYdpXEZ&location=" + $("#Lat").val() + "," + $("#Lng").val();
+                    $.ajax({
+                        url: apiUrl,
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        success: function (data) {
+                            console.log(data.result.addressComponent.city);
+                            var fd = new FormData();
+                            var packetInfo = {
+                                TotalNumber: $("#TotalNumber").val(),
+                                Amount: $("#Amount").val(),
+                                Lng: $("#Lng").val(),
+                                Lat: $("#Lat").val(),
+                                TextContent: $("#TextContent").val(),
+                                Link: $("#Link").val(),
+                                City: data.result.addressComponent.city,
+                                UserId: 1
+                            };
+                            fd.append('packetinfo', JSON.stringify(packetInfo));
+                            $.each(myDropzone.files, function (i, file) {
+                                fd.append('files', file);
+                            });
+                            RedpacketScript.AddPacket(fd)
+                                .done(function () {
+                                    WaitDialog.hide();
+                                    alert("发布成功");
+                                });
+                        },
+                        error: function (xhr) {
+                        }
                     });
-                    RedpacketScript.AddPacket(fd)
-                        .done(WaitDialog.hide);
                 });
 
                 //remove dropzone instance when leaving this page in ajax mode
