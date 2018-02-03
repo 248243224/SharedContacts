@@ -43,8 +43,9 @@ namespace SC.Model.Entity
 
     public enum AgencyType
     {
-        Country,
-        City
+        NotAgency,
+        City,
+        Country
     }
 
     public enum Sex

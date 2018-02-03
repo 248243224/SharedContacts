@@ -21,6 +21,9 @@ namespace SC.Model.Entity
         [Required]
         public double Lat { get; set; }
         [Required]
+        [MaxLength(50, ErrorMessage = "城市名长度不能超过50")]
+        public string City { get; set; }
+        [Required]
         public int TotalNumber { get; set; }
         public int RestNumber { get; set; }
         [NotMapped]
