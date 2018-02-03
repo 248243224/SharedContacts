@@ -19,16 +19,17 @@ namespace SC.Dal.Migrations
 
             //  This method will be called after migrating to the latest version.
             //  init admin
-            context.SCUsers.AddOrUpdate(new SCUser
-            {
-                WechatId = "admin",
-                AliPay = "admin",
-                CreateTime = DateTime.Now,
-                Name = "admin",
-                Sex = Sex.Male,
-                AvatarUrl = ""
-            });
-            context.SaveChanges();
+            //context.SCUsers.AddOrUpdate(new SCUser
+            //{
+            //    UserId = 0,
+            //    WechatId = "admin",
+            //    AliPay = "admin",
+            //    CreateTime = DateTime.Now,
+            //    Name = "admin",
+            //    Sex = Sex.Male,
+            //    AvatarUrl = ""
+            //});
+            //context.SaveChanges();
         }
     }
 }

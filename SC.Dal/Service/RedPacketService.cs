@@ -20,13 +20,24 @@ namespace SC.Dal.Service
                 return context.RedPackets.ToList();
             }
         }
-        public IEnumerable<RedPacket> GetByLocation(int userId, double lon, double lat, int instance)
+        public IEnumerable<RedPacket> GetByLocation(double lon, double lat, string city, int agencyType, int instance)
         {
+            var retList = new List<RedPacket>();
+            var cityList = new List<RedPacket>();
             using (var context = SCContext.NewInstance)
             {
-                var query = context.RedPackets.Where(p => p.UserId.Equals(userId) && BaiduMap.GetLongDistance(lon, lat, p.Lng, p.Lat) <= instance && p.RestNumber > 0);
-                return query.ToList();
+                cityList = agencyType == (int)AgencyType.Country ? context.RedPackets.Where(p => p.RestNumber > 0).ToList()
+                    : context.RedPackets.Where(p => p.City.Equals(city) && p.RestNumber > 0).ToList();
             }
+            if (agencyType != (int)AgencyType.NotAgency) retList.AddRange(cityList);
+            else
+            {
+                cityList.ForEach(p =>
+                {
+                    if (BaiduMap.GetLongDistance(lon, lat, p.Lng, p.Lat) <= instance) retList.Add(p);
+                });
+            }
+            return retList;
         }
 
         public RedPacketViewModel Get(int packetId)
