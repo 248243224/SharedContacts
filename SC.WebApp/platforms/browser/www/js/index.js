@@ -193,6 +193,15 @@ var app = {
                                 }
                             }
                         })
+                        .state('records', {
+                            url: "/records",
+                            views: {
+                                'other': {
+                                    templateUrl: 'views/records.html',
+                                    controller: 'RecordsController'
+                                }
+                            }
+                        })
                         .state('contacts', {
                             url: "/contacts",
                             cache: true,
@@ -286,12 +295,10 @@ var app = {
                             var diffDays = diff / (24 * 3600 * 1000);//相差天数
                             //判断凭证是否过期
                             if (diffDays < scConfig.tokenExpireTime) {
-                                $rootScope.UserInfo = ls.getObject('userInfo');
                                 $state.go('map');
                             }
                             else {
                                 ls.clear();
-                                $rootScope.UserInfo = {};
                             }
                         }
                     };
@@ -303,12 +310,10 @@ var app = {
                     this.Login = function (userInfo) {
                         ls.setObject('userInfo', userInfo);
                         ls.set('loginTime', new Date());
-                        $rootScope.UserInfo = userInfo;
                         $state.go('map');
                     };
                     this.logOut = function () {
                         ls.clear();
-                        $rootScope.UserInfo = {};
                         $state.go('login');
                     };
                 })
@@ -391,7 +396,13 @@ var app = {
                         $state.go('my');
                     };
                 })
-                .controller('MapController', function ($scope, $state, sc) {
+                .controller('RecordsController', function ($scope, $state, sc) {
+                    sc.ValidateLogin();
+                    $scope.back = function () {
+                        $state.go('map');
+                    };
+                })
+                .controller('MapController', function ($scope, $state, sc, $rootScope,ls) {
                     curPage = "map";
                     sc.ValidateLogin();
                     $scope.openRedPacket = function ($event) {
@@ -417,14 +428,16 @@ var app = {
                                     console.log("point converted: Longitude:" + rpMapApi._currentLocationPoint.lng + "\n Latitude:" + rpMapApi._currentLocationPoint.lat);
                                     //refresh center and zoom
                                     rpMapApi._map.centerAndZoom(rpMapApi._currentLocationPoint, 17);
-                                    //rewrite visible circle
-                                    rpMapApi.RefreshVisibleCircle();
+                                    if (ls.getObject("userInfo").agencyType == agencyType.NotAgency) {
+                                        //rewrite visible circle
+                                        rpMapApi.RefreshVisibleCircle();
+                                        //reset visible map bounds
+                                        rpMapApi.ResetMapBounds();
+                                    }
                                     //mark point
                                     rpMapApi.MarkCurrentLocation();
                                     //mark red packets
-                                    rpMapApi.RefreshRedPackets();
-                                    //reset visible map bounds
-                                    rpMapApi.ResetMapBounds();
+                                    rpMapApi.RefreshRedPackets(ls.getObject("userInfo").agencyType);
 
                                     rpMapApi._map.setCenter(data.points[0]);
                                 }
@@ -459,7 +472,7 @@ var app = {
                     if (!ls.get('guideIsChecked')) $state.go('guide');
                     sc.checkTicketStillActive();
                     $scope.login = function () {
-                        var userInfo = { id: 1, name: "Jane", avatar: "" };
+                        var userInfo = { id: 1, name: "Jane", avatar: "", agencyType: agencyType.NotAgency };
                         sc.Login(userInfo);
                         ImClient.Init(userInfo.id);
                     };

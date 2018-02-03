@@ -1,0 +1,125 @@
+﻿<div class="bgefeff4">
+    <div class="record-wrap">
+        <div class="public-header">
+            <h3 class="title">
+                <div class="other-tab">
+                    <span class="active">抢到的红包</span>
+                    <span>我发的红包</span>
+                </div>
+            </h3>
+            <div class="black-btn" ng-click="back()"></div>
+        </div>
+        <div class="record-box">
+            <div class="record-item active">
+                <div class="tab-box clearfix">
+                    <div class="item">
+                        <p class="nub">1.43</p>
+                        <p>收到总金额</p>
+                    </div>
+                    <div class="item active">
+                        <p class="nub">1.43</p>
+                        <p>最佳手气</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <div class="all-box active">
+                        <div class="item-box clearfix">
+                            <div class="img-box">
+                                <img src="upload/user.jpg">
+                            </div>
+                            <div class="othter-box">
+                                <p class="title">吉祥渔乐推广客服红包</p>
+                                <div class="info-box">
+                                    <div class="i-box">
+                                        <img src="upload/img_1.jpg">
+                                    </div>
+                                    <div class="txt-box">
+                                        <p>镇江有玩手机捕鱼游戏的扫图加客服 说共享人脉即可领取1客服:yidongd...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all-box">
+                        <div class="item-box clearfix">
+                            <div class="img-box">
+                                <img src="upload/user_2.jpg">
+                            </div>
+                            <div class="othter-box">
+                                <p class="title">吉祥渔乐推广客服红包</p>
+                                <div class="info-box">
+                                    <div class="i-box">
+                                        <img src="upload/img_1.jpg">
+                                    </div>
+                                    <div class="txt-box">
+                                        <p>镇江有玩手机捕鱼游戏的扫图加客服 说共享人脉即可领取1客服:yidongd...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="record-item">
+                <div class="tab-box clearfix">
+                    <div class="item">
+                        <p class="nub">1.00</p>
+                        <p>收到总金额</p>
+                    </div>
+                    <div class="item active">
+                        <p class="nub">1.23</p>
+                        <p>最佳手气</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <div class="all-box active">
+                        <div class="item-box clearfix">
+                            <div class="img-box">
+                                <img src="upload/user.jpg">
+                            </div>
+                            <div class="othter-box">
+                                <p class="title">吉祥渔乐推广客</p>
+                                <div class="info-box">
+                                    <div class="i-box">
+                                        <img src="upload/img_1.jpg">
+                                    </div>
+                                    <div class="txt-box">
+                                        <p>镇江有玩手机捕鱼游戏的扫图加客服 说共享人脉即可领取1客服:yidongd...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all-box">
+                        <div class="item-box clearfix">
+                            <div class="img-box">
+                                <img src="upload/user_2.jpg">
+                            </div>
+                            <div class="othter-box">
+                                <p class="title">吉祥渔乐推广客服红包</p>
+                                <div class="info-box">
+                                    <div class="i-box">
+                                        <img src="upload/img_1.jpg">
+                                    </div>
+                                    <div class="txt-box">
+                                        <p>镇江有玩手机捕鱼游戏的扫图加客服 说共享人脉即可领取1客服:yidongd...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('.tab-box .item').click(function () {
+            $(this).addClass('active').siblings('').removeClass('active');
+            $(this).parents('.record-item').find('.content-box .all-box').eq($(this).index()).addClass('active').siblings().removeClass('active');
+        })
+        $('.other-tab span').click(function () {
+            $(this).addClass('active').siblings('').removeClass('active');
+            $('.record-box .record-item').eq($(this).index()).addClass('active').siblings().removeClass('active');
+        })
+    </script>
+</div>

@@ -10,6 +10,11 @@ var scConfig = {
     mapRefreshInterval: 6000 * 10 * 2, //2 min
     tokenExpireTime: 7,//days
 }
+var agencyType = {
+    NotAgency: 0,
+    City: 1,
+    Country: 2,
+}
 
 
 

@@ -8,7 +8,7 @@
     };
     RedPackets.prototype.MapInit = function () {
         var rp = this;
-        rp._map = new BMap.Map("redPackestMap", { minZoom: 15, enableClicking: true });
+        rp._map = new BMap.Map("redPackestMap", { minZoom: 8, enableClicking: true });
         rp._map.enableScrollWheelZoom(true);
         this.RefreshCurrentLocation();
         //refresh location every 2 minutes
@@ -31,28 +31,39 @@
         });
         marker.setAnimation(BMAP_ANIMATION_DROP); //flash useless in mobile
     };
-    RedPackets.prototype.RefreshRedPackets = function () {
+    RedPackets.prototype.RefreshRedPackets = function (agencyType) {
         var rp = this;
-        $.get(scConfig.redPacketsUrl, function (data) {
-            $.each(data, function () {
+        var positionDetailsCB = function (details) {
+            details = JSON.parse(details);
+            $.get(scConfig.redPacketsUrl, { lon: rp._currentLocationPoint.lng, lat: rp._currentLocationPoint.lat, city: details.result.addressComponent.city, agencyType: agencyType }, function (data) {
+                $.each(data, function () {
+                    var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);
+                    rp.AddPacketMarker(point);
+                })
+            });
+        }
+        rp.GetPositionDetails(rp._currentLocationPoint, positionDetailsCB);
+    };
 
-                var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);
-                rp.AddPacketMarker(point);
-            })
+    RedPackets.prototype.GetPositionDetails = function (point, callback) {
+        var apiUrl = "http://api.map.baidu.com/geocoder/v2/?output=json&ak=iRgb4mnUr0w1bwoU4kTIWyzCKHYdpXEZ&location=" + point.lat + "," + point.lng;
+        $.get(apiUrl, function (data) {
+            callback(data);
         });
     };
+
     RedPackets.prototype.AddPacketMarker = function (point) {
         var rp = this;
         var packetIcon = new BMap.Icon("images/large_packet.png", new BMap.Size(35, 45), { offset: new BMap.Size(10, 25) });
         var marker = new BMap.Marker(point, { icon: packetIcon });
         rp._map.addOverlay(marker);
         marker.addEventListener("click", function () {
-            alert("您点击了标注");
+            $('.pop-box').show();
         });
     };
     RedPackets.prototype.GetCurrentCenter = function () {
         var rp = this;
-        return rp._currentLocationPoint
+        return rp._currentLocationPoint;
     };
     RedPackets.prototype.ResetMapBounds = function () {
         var rp = this;
