@@ -59,7 +59,7 @@ var app = {
     RouteInit: function () {
         try {
             angular.module('ngRouteScApp', ['ui.router', 'ngAnimate'])
-                .config(function ($stateProvider, $urlRouterProvider) {
+                .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                     $stateProvider
                         .state('guide', {
                             url: "/guide",
@@ -289,6 +289,7 @@ var app = {
                 .service('sc', function ($state, ls, $http, $rootScope, $window) {
                     this.checkTicketStillActive = function () {
                         var loginTime = ls.get('loginTime');
+
                         if (loginTime) {
                             var curTime = new Date();
                             var diff = curTime.getTime() - new Date(loginTime).getTime();
@@ -303,14 +304,30 @@ var app = {
                         }
                     };
                     this.ValidateLogin = function () {
-                        var userId = ls.getObject('userInfo').id;
-                        if (typeof (userId) == "undefined")
-                            $state.go('login');
+                        var userId = ls.getObject('userInfo').UserId;
+                        if (typeof (userId) == "undefined") $state.go('login');
                     };
-                    this.Login = function (userInfo) {
-                        ls.setObject('userInfo', userInfo);
-                        ls.set('loginTime', new Date());
-                        $state.go('map');
+                    this.Login = function () {
+                        //get from tencent
+                        var userInfo = { wechatId: "17623852229", avatarUrl: "", nickName: "", sex: 0 };
+
+                        $http({
+                            method: "post",
+                            url: scConfig.accountUrl,
+                            data: { wechatId: userInfo.wechatId, avatarUrl: userInfo.avatarUrl, nickName: userInfo.nickName, sex: userInfo.sex },
+                            timeout: 60000,
+                        }).success(function (d, textStatu, xhr) {
+                            ls.setObject('userInfo', d);
+                            ls.set('loginTime', new Date());
+                            //connect chat server
+                            ImClient.Init(d.UserId);
+
+                            DeviceEvent.SpinnerHide();
+                            $state.go('map');
+                        }).error(function (error, textStatu, xhr) {
+                            DeviceEvent.SpinnerHide();
+                            DeviceEvent.Toast("网络异常");
+                        });
                     };
                     this.logOut = function () {
                         ls.clear();
@@ -402,7 +419,7 @@ var app = {
                         $state.go('map');
                     };
                 })
-                .controller('MapController', function ($scope, $state, sc, $rootScope,ls) {
+                .controller('MapController', function ($scope, $state, sc, $rootScope, ls) {
                     curPage = "map";
                     sc.ValidateLogin();
                     $scope.openRedPacket = function ($event) {
@@ -428,7 +445,7 @@ var app = {
                                     console.log("point converted: Longitude:" + rpMapApi._currentLocationPoint.lng + "\n Latitude:" + rpMapApi._currentLocationPoint.lat);
                                     //refresh center and zoom
                                     rpMapApi._map.centerAndZoom(rpMapApi._currentLocationPoint, 17);
-                                    if (ls.getObject("userInfo").agencyType == agencyType.NotAgency) {
+                                    if (ls.getObject("userInfo").AgencyType == agencyType.NotAgency) {
                                         //rewrite visible circle
                                         rpMapApi.RefreshVisibleCircle();
                                         //reset visible map bounds
@@ -437,7 +454,7 @@ var app = {
                                     //mark point
                                     rpMapApi.MarkCurrentLocation();
                                     //mark red packets
-                                    rpMapApi.RefreshRedPackets(ls.getObject("userInfo").agencyType);
+                                    rpMapApi.RefreshRedPackets(ls.getObject("userInfo").AgencyType);
 
                                     rpMapApi._map.setCenter(data.points[0]);
                                 }
@@ -472,9 +489,8 @@ var app = {
                     if (!ls.get('guideIsChecked')) $state.go('guide');
                     sc.checkTicketStillActive();
                     $scope.login = function () {
-                        var userInfo = { id: 1, name: "Jane", avatar: "", agencyType: agencyType.NotAgency };
-                        sc.Login(userInfo);
-                        ImClient.Init(userInfo.id);
+                        DeviceEvent.SpinnerShow();
+                        sc.Login();
                     };
                 })
                 .controller('ContactsController', function ($scope, sc) {
@@ -485,9 +501,10 @@ var app = {
                     curPage = "message";
                     sc.ValidateLogin();
                 })
-                .controller('MyController', function ($scope, sc) {
+                .controller('MyController', function ($scope, sc, ls) {
                     curPage = "my";
                     sc.ValidateLogin();
+                    $scope.userInfo = ls.getObject("userInfo");
                     $scope.logOut = function () {
                         sc.logOut();
                     };

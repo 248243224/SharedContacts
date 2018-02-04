@@ -127,6 +127,16 @@ body {
   width: 1.386667rem;
   height: auto;
 }
+.footer-box .item-box:nth-child(4).remind:before {
+  position: absolute;
+  content: "";
+  width: 0.2rem;
+  height: 0.2rem;
+  border-radius: 100%;
+  background: #fd8679;
+  top: -0.106667rem;
+  right: 23%;
+}
 .footer-box .item-box.active img {
   display: none;
 }
@@ -905,11 +915,48 @@ body {
   background: url(../images/bg_2.jpg) center center no-repeat;
   background-size: 100% auto;
 }
+.msg-wrap .search-box {
+  padding: 0.266667rem;
+  box-sizing: border-box;
+}
+.msg-wrap .search-box .input-box {
+  position: relative;
+  width: 100%;
+  height: 0.866667rem;
+  background: #fff;
+  border: 1px solid #dcdbdf;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+.msg-wrap .search-box .input-box input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 6px;
+  padding-left: 0.2rem;
+  padding-right: 1.066667rem;
+  box-sizing: border-box;
+  outline: none;
+}
+.msg-wrap .search-box .input-box i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding-left: 0.266667rem;
+  padding-right: 0.266667rem;
+  line-height: 0.84rem;
+}
+.msg-wrap .search-box .input-box i img {
+  width: 0.533333rem;
+  vertical-align: middle;
+}
 .msg-wrap .all-item .item-box {
   padding-left: 0.333333rem;
   padding-right: 0.333333rem;
   padding-top: 0.4rem;
   padding-bottom: 0.4rem;
+  background: #fff;
   border-bottom: 1px solid #e5e5e5;
 }
 .msg-wrap .all-item .item-box .img-box {
@@ -1106,6 +1153,90 @@ body {
 .deposit-wrap .other-box p {
   font-size: 0.346667rem;
   color: #949494;
+}
+.alter-wrap {
+  padding-top: 1.333333rem;
+}
+.alter-wrap .public-header {
+  background: url(../images/bg_2.jpg) center center no-repeat;
+  background-size: 100% auto;
+}
+.alter-wrap .yes-btn {
+  position: absolute;
+  top: 0px;
+  right: 0.4rem;
+  height: 100%;
+  line-height: 1.333333rem;
+  color: #fff;
+  font-size: 0.426667rem;
+  opacity: 0.8;
+}
+.alter-wrap .input-box {
+  position: relative;
+  margin-top: 0.4rem;
+  line-height: 0.866667rem;
+  background: #fff;
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+}
+.alter-wrap .input-box input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  padding-left: 0.2rem;
+  padding-right: 0.666667rem;
+  box-sizing: border-box;
+  height: 0.866667rem;
+}
+.alter-wrap .input-box i {
+  display: none;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  padding-left: 0.266667rem;
+  padding-right: 0.266667rem;
+  right: 0;
+  vertical-align: middle;
+}
+.alter-wrap .input-box i img {
+  width: 0.533333rem;
+}
+.pulic-search-box {
+  padding: 0.266667rem;
+  box-sizing: border-box;
+}
+.pulic-search-box .input-box {
+  position: relative;
+  width: 100%;
+  height: 0.866667rem;
+  background: #fff;
+  border: 1px solid #dcdbdf;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+.pulic-search-box .input-box input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 6px;
+  padding-left: 0.2rem;
+  padding-right: 1.066667rem;
+  box-sizing: border-box;
+  outline: none;
+}
+.pulic-search-box .input-box i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding-left: 0.266667rem;
+  padding-right: 0.266667rem;
+  line-height: 0.84rem;
+}
+.pulic-search-box .input-box i img {
+  width: 0.533333rem;
+  vertical-align: middle;
 }
 .team-wrap {
   padding-top: 1.333333rem;
@@ -1601,9 +1732,6 @@ body {
 .my-wrap .user-box .erwei img {
   width: 100%;
   height: 100%;
-}
-.my-wrap .user-box.mt30 {
-  margin-top: 0.4rem;
 }
 .my-wrap .input-box {
   position: relative;
