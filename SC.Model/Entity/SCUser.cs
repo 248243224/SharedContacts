@@ -14,7 +14,7 @@ namespace SC.Model.Entity
         public int UserId { get; set; }
         public string WechatId { get; set; }
         [Required]
-        [MaxLength(5, ErrorMessage = "姓名长度不能超过5")]
+        [MaxLength(50, ErrorMessage = "姓名长度不能超过50")]
         public string Name { get; set; }
         [MaxLength(50, ErrorMessage = "支付宝账号长度不能超过50")]
         public string AliPay { get; set; }
