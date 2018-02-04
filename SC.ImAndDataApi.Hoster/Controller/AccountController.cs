@@ -20,16 +20,21 @@ namespace SC.ImAndDataApi.Hoster.Controller
             _accountService = a;
         }
 
-        [HttpGet]
-        public IHttpActionResult LoginCallback(string wechatId)
+        [HttpPost]
+        public IHttpActionResult LoginOrRegister([FromBody]SCUser user)
         {
             try
             {
-                var user = new SCUser();
-                if (!_accountService.CheckUserExsit(wechatId))
+                if (!_accountService.CheckUserExsit(user.WechatId))
+                {
+
+                    user.AccountStatus = 0;
+                    user.AgencyType = AgencyType.NotAgency;
+                    user.CreateTime = DateTime.Now;
                     _accountService.Register(user);
-                _accountService.Login(user.UserId);
-                return Ok();
+                }
+                var userInfo = _accountService.GetUserInfoByWechatId(user.WechatId);
+                return Ok(userInfo);
             }
             catch (Exception ex)
             {
