@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SC.Model.Entity;
 
 namespace SC.IService
 {
@@ -11,6 +12,6 @@ namespace SC.IService
     {
         bool CheckUserExsit(string wechatId);
         void Register(SCUser user);
-        void Login(int userId);
+        SCUser GetUserInfoByWechatId(string wechatId);
     }
 }
