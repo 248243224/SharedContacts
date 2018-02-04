@@ -26,9 +26,12 @@ namespace SC.Dal.Service
                 await context.SaveChangesAsync();
             }
         }
-        public void Login(int userId)
+        public SCUser GetUserInfoByWechatId(string wechatId)
         {
-
+            using (var context = SCContext.NewInstance)
+            {
+                return context.SCUsers.FirstOrDefault(u => u.WechatId.Equals(wechatId));
+            }
         }
     }
 }

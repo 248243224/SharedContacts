@@ -57,6 +57,7 @@ namespace SC.Dal.Service
             {
                 var user = context.SCUsers.FirstOrDefault(u => u.UserId.Equals(userInfo.UserId));
                 if (userInfo.Sex != null) user.Sex = userInfo.Sex;
+                if (userInfo.PId != null) user.PId = userInfo.PId;
                 if (userInfo.AccountStatus != null) user.AccountStatus = userInfo.AccountStatus;
                 if (!string.IsNullOrWhiteSpace(userInfo.AliPay)) user.AliPay = userInfo.AliPay;
                 if (userInfo.AgencyType != null)
