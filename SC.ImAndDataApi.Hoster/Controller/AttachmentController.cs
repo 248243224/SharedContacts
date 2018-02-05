@@ -23,21 +23,35 @@ namespace SC.ImAndDataApi.Hoster.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage Get(string url)
+        public HttpResponseMessage GetFileStream(string url)
         {
             try
             {
                 HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-                result.Content = new StreamContent(_attachmentService.Get(url));
-                result.Content.Headers.ContentType =
-                    new MediaTypeHeaderValue("application/octet-stream");
+                result.Content = new StreamContent(_attachmentService.GetFileStream(url));
+                //if you want to get files instead of stream, just uncomment below codes
+                //result.Content.Headers.ContentType =
+                //    new MediaTypeHeaderValue("application/octet-stream");
                 return result;
 
             }
             catch (Exception ex)
             {
-                Trace.TraceError($"AttachmentController::Get: {ex.Message}");
+                Trace.TraceError($"AttachmentController::GetFileStream: {ex.Message}");
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
+        }
+        [HttpPut]
+        public IHttpActionResult GetFileContent(string url)
+        {
+            try
+            {
+                return Ok(_attachmentService.GetFileString(url));
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"AttachmentController::GetFileContent: {ex.Message}");
+                return InternalServerError();
             }
         }
     }

@@ -13,11 +13,18 @@ namespace SC.Dal.Service
 {
     public class AttachmentService : IAttachmentService
     {
-        public FileStream Get(string url)
+        public FileStream GetFileStream(string url)
         {
             string fileLocation = Path.Combine(SCEnvironment.AttchmentRootFolder, url);
             var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read);
             return stream;
+        }
+
+        public string GetFileString(string url)
+        {
+            string fileLocation = Path.Combine(SCEnvironment.AttchmentRootFolder, url);
+            var fileStr = File.ReadAllText(fileLocation);
+            return fileStr;
         }
     }
 }

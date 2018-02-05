@@ -9,6 +9,7 @@ namespace SC.IService
 {
     public interface IAttachmentService
     {
-        FileStream Get(string url);
+        FileStream GetFileStream(string url);
+        string GetFileString(string url);
     }
 }
