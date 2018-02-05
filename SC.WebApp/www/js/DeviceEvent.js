@@ -35,11 +35,70 @@
             //});
         },
         SpinnerShow: function () {
-           // SpinnerPlugin.activityStart("Loading...", { dimBackground: true });
+            // SpinnerPlugin.activityStart("Loading...", { dimBackground: true });
         },
         SpinnerHide: function () {
-           // SpinnerPlugin.activityStop();
-        }
+            // SpinnerPlugin.activityStop();
+        },
+        TakePhotos: function () {
+            navigator.camera.getPicture(onSuccess, onFail, {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 500,
+                targetHeight: 730,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            });
+            function onSuccess(imageData) {
+                if ($('.item-box').length < 2) {
+                    $('.btn-box').css('padding-top', '0.6rem');
+                    $('.btn-box p').hide();
+                } else {
+                    $('.btn-box p').show();
+                    $('.btn-box').css('padding-top', '0.4rem');
+                }
+                var src = 'data:image/jpeg;base64,' + imageData;
+                var html = '<div class="item-box">' +
+                    '<img src="' + src + '">' +
+                    '<div class="iconfont-close"></div>' +
+                    '</div>';
+                $('.imgs-box').prepend(html);
+            }
+            function onFail(message) {
+                alert(message);
+            }
+        },
+        Album: function () {
+            navigator.camera.getPicture(onSuccess, onFail, {
+                quality: 50,
+                destinationType: Camera.DestinationType.FILE_URI,
+                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                allowEdit: true,
+                popoverOptions: CameraPopoverOptions,
+                mediaType: Camera.MediaType.PICTURE
+            });
+            function onSuccess(imageURI) {
+                if ($('.item-box').length < 2) {
+                    $('.btn-box').css('padding-top', '0.6rem');
+                    $('.btn-box p').hide();
+                } else {
+                    $('.btn-box p').show();
+                    $('.btn-box').css('padding-top', '0.4rem');
+                }
+                var src = 'data:image/jpeg;base64,' + imageData;
+                var html = '<div class="item-box">' +
+                    '<img src="' + imageURI + '">' +
+                    '<div class="iconfont-close"></div>' +
+                    '</div>';
+                $('.imgs-box').prepend(html);
+            }
+            function onFail(message) {
+                alert(message);
+            }
+        },
     };
 
 })();

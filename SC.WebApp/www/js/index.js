@@ -365,21 +365,24 @@ var app = {
 
                 var callback = function (buttonIndex) {
                     setTimeout(function () {
-                        // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1)
-                        alert('button index clicked: ' + buttonIndex);
+                        if (buttonIndex == 1) {
+                            DeviceEvent.Album();
+                        }
+                        else if (buttonIndex == 2)
+                        {
+                            DeviceEvent.TakePhotos();
+                        }
                     });
                 };
                 $scope.showActionSheet = function () {
                     try {
                         var options = {
                             androidTheme: window.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT, // default is THEME_TRADITIONAL
-                            title: 'What do you want with this image?',
-                            subtitle: 'Choose wisely, my friend', // supported on iOS only
-                            buttonLabels: ['Share via Facebook', 'Share via Twitter'],
+                            title: '图片来源',
+                            buttonLabels: ['从相册中选择', '拍照'],
                             androidEnableCancelButton: true, // default false
                             winphoneEnableCancelButton: true, // default false
-                            addCancelButtonWithLabel: 'Cancel',
-                            addDestructiveButtonWithLabel: 'Delete it',
+                            addCancelButtonWithLabel: '取消',
                             position: [20, 40], // for iPad pass in the [x, y] position of the popover
                             destructiveButtonLast: true // you can choose where the destructive button is shown
                         };

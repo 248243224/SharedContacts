@@ -12,7 +12,7 @@
                 <div class="btn-box item-box">
                     <img src="images/icon_32.png">
                     <p>至少发一张图片</p>
-                    <span class="camera-box" ng-click="showActionSheet()"/>
+                    <span class="camera-box" id="file" ng-click="showActionSheet()" />
                 </div>
             </div>
         </div>
@@ -64,35 +64,18 @@
         </div>
     </div>
     <script type="text/javascript">
-    $('.select span').click(function(){
-        if ($(this).hasClass('active')) {
-            $('.sift-box').hide();
-            $(this).removeClass('active');
-        }else{
-            $('.sift-box').show();
-            $(this).addClass('active');
-        }
-    })
-    $('#file').on('change',function(){
-        if($('.item-box').length<2){
-            $('.btn-box').css('padding-top','0.6rem');
-            $('.btn-box p').hide();
-        }else{
-             $('.btn-box p').show();
-             $('.btn-box').css('padding-top','0.4rem');
-        }
-        var fileObj=document.getElementById("file");
-        var src = window.URL.createObjectURL(fileObj.files[0]);
-        var html = '<div class="item-box">'+
-                       '<img src="'+src+'">'+
-                        '<div class="iconfont-close"></div>'+
-                    '</div>';
-        $('.imgs-box').prepend(html);
+        $('.select span').click(function () {
+            if ($(this).hasClass('active')) {
+                $('.sift-box').hide();
+                $(this).removeClass('active');
+            } else {
+                $('.sift-box').show();
+                $(this).addClass('active');
+            }
+        })
+        $('.imgs-box').on('click', '.iconfont-close', function () {
+            $(this).parent('.item-box').remove();
 
-    });
-    $('.imgs-box').on('click','.iconfont-close',function(){
-        $(this).parent('.item-box').remove();
-
-    });
+        });
     </script>
 </div>
