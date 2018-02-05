@@ -51,11 +51,11 @@ namespace SC.ImAndDataApi.Hoster.Controller
         }
 
         [HttpGet]
-        public IHttpActionResult GetByLocation(double lon, double lat, string city, int agencyType, int instance = 1000)
+        public IHttpActionResult GetByLocation(int userId, double lon, double lat, string city, int agencyType, int instance = 1000)
         {
             try
             {
-                return Ok(_redPacketService.GetByLocation(lon, lat, city, agencyType, instance));
+                return Ok(_redPacketService.GetByLocation(userId, lon, lat, city, agencyType, instance));
             }
             catch (Exception ex)
             {
