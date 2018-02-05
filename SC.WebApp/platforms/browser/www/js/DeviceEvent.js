@@ -38,7 +38,7 @@
            // SpinnerPlugin.activityStart("Loading...", { dimBackground: true });
         },
         SpinnerHide: function () {
-          //  SpinnerPlugin.activityStop();
+           // SpinnerPlugin.activityStop();
         }
     };
 

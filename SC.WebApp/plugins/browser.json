@@ -69,6 +69,9 @@
         },
         "cordova-plugin-x-toast": {
             "PACKAGE_NAME": "com.sc.app"
+        },
+        "cordova-plugin-actionsheet": {
+            "PACKAGE_NAME": "com.sc.app"
         }
     },
     "dependent_plugins": {

@@ -182,5 +182,13 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-actionsheet": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-actionsheet@~2.3.3"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

@@ -623,6 +623,22 @@ module.exports = [
         "file": "plugins/cordova-plugin-x-toast/test/tests.js",
         "id": "cordova-plugin-x-toast.tests",
         "pluginId": "cordova-plugin-x-toast"
+    },
+    {
+        "file": "plugins/cordova-plugin-actionsheet/www/ActionSheet.js",
+        "id": "cordova-plugin-actionsheet.ActionSheet",
+        "pluginId": "cordova-plugin-actionsheet",
+        "clobbers": [
+            "window.plugins.actionsheet"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-actionsheet/src/browser/ActionSheetProxy.js",
+        "id": "cordova-plugin-actionsheet.ActionSheetProxy",
+        "pluginId": "cordova-plugin-actionsheet",
+        "merges": [
+            ""
+        ]
     }
 ];
 module.exports.metadata = 
@@ -649,7 +665,8 @@ module.exports.metadata =
     "cordova-plugin-vibration": "2.1.6",
     "cordova-plugin-whitelist": "1.2.2",
     "cordova-plugin-spinner": "1.1.0",
-    "cordova-plugin-x-toast": "2.6.0"
+    "cordova-plugin-x-toast": "2.6.0",
+    "cordova-plugin-actionsheet": "2.3.3"
 }
 // BOTTOM OF METADATA
 });

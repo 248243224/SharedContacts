@@ -39,6 +39,7 @@
   <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
   <plugin name="cordova-plugin-spinner" source="npm" spec="~1.1.0" />
   <plugin name="cordova-plugin-x-toast" spec="~2.6.0" />
+  <plugin name="cordova-plugin-actionsheet" spec="~2.3.3" />
   <!--<plugin name="cordova-plugin-wechat" source="npm" spec="~2.1.0" />-->
   
   <platform name="android">

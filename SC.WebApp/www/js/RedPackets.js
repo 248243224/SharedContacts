@@ -94,7 +94,6 @@
     };
     RedPackets.prototype.RefreshCurrentLocation = function () {
         var rp = this;
-        DeviceEvent.SpinnerShow();
         // onSuccess Callback
         // This method accepts a Position object, which contains the
         // current GPS coordinates
