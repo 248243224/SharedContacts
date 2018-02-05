@@ -366,7 +366,7 @@ var app = {
                     $state.go(curPage);
                 };
             })
-            .controller('CreateController', function ($scope, $state, sc, ls) {
+            .controller('CreateController', function ($scope, $state, $http, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go(curPage);
@@ -388,7 +388,7 @@ var app = {
                         var resizedImage = ResizeImage(file);
                         fd.append('files', resizedImage);
                     });
-                    $.ajax({
+                    $http({
                         url: scConfig.redPacketsUrl,
                         type: 'POST',
                         contentType: false,
@@ -499,12 +499,15 @@ var app = {
                     $state.go(curPage);
                 };
             })
-            .controller('MapController', function ($scope, $state, sc, $rootScope, ls) {
+            .controller('MapController', function ($scope, $state, $http, sc, $rootScope, ls) {
                 curPage = "map";
                 sc.ValidateLogin();
                 $scope.openRedPacket = function ($event) {
                     $event.stopPropagation();
-                    $state.go('packetInfo');
+                    $.post(scConfig.redPacketsUrl.concat("?userId=" + ls.getObject("userInfo").UserId + "&packetId=" + $(".hot-box").data("packetid")), function (packetInfo) {
+                        console.log(packetInfo);
+                        $state.go('packetInfo');
+                    });
                 };
 
                 try {
@@ -534,7 +537,7 @@ var app = {
                                 //mark point
                                 rpMapApi.MarkCurrentLocation();
                                 //mark red packets
-                                rpMapApi.RefreshRedPackets(ls.getObject("userInfo").AgencyType);
+                                rpMapApi.RefreshRedPackets(ls.getObject("userInfo").UserId, ls.getObject("userInfo").AgencyType);
 
                                 rpMapApi._map.setCenter(data.points[0]);
                             }

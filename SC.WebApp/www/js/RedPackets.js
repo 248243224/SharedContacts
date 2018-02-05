@@ -31,15 +31,15 @@
         });
         marker.setAnimation(BMAP_ANIMATION_DROP); //flash useless in mobile
     };
-    RedPackets.prototype.RefreshRedPackets = function (agencyType) {
+    RedPackets.prototype.RefreshRedPackets = function (userId,agencyType) {
         var rp = this;
         var positionDetailsCB = function (details) {
             details = JSON.parse(details);
             curCity = details.result.addressComponent.city;
-            $.get(scConfig.redPacketsUrl, { lon: rp._currentLocationPoint.lng, lat: rp._currentLocationPoint.lat, city: details.result.addressComponent.city, agencyType: agencyType }, function (data) {
+            $.get(scConfig.redPacketsUrl, { userId: userId, lon: rp._currentLocationPoint.lng, lat: rp._currentLocationPoint.lat, city: details.result.addressComponent.city, agencyType: agencyType }, function (data) {
                 $.each(data, function () {
                     var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);
-                    rp.AddPacketMarker(point);
+                    rp.AddPacketMarker(point, $(this)[0].PacketId);
                 })
             });
         }
@@ -53,12 +53,16 @@
         });
     };
 
-    RedPackets.prototype.AddPacketMarker = function (point) {
+    RedPackets.prototype.AddPacketMarker = function (point,packetId) {
         var rp = this;
         var packetIcon = new BMap.Icon("images/large_packet.png", new BMap.Size(35, 45), { offset: new BMap.Size(10, 25) });
         var marker = new BMap.Marker(point, { icon: packetIcon });
+        var label = new BMap.Label(packetId, { offset: new BMap.Size(20, -10) });
+        label.setStyle({ display: "none" });
+        marker.setLabel(label);
         rp._map.addOverlay(marker);
-        marker.addEventListener("click", function () {
+        marker.addEventListener("click", function (e) {
+            $(".hot-box").data("packetid", e.target.getLabel().content);
             $('.pop-box').show();
         });
     };
