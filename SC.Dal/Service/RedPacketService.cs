@@ -20,14 +20,15 @@ namespace SC.Dal.Service
                 return context.RedPackets.ToList();
             }
         }
-        public IEnumerable<RedPacket> GetByLocation(double lon, double lat, string city, int agencyType, int instance)
+        public IEnumerable<RedPacket> GetByLocation(int userId, double lon, double lat, string city, int agencyType, int instance)
         {
             var retList = new List<RedPacket>();
             var cityList = new List<RedPacket>();
             using (var context = SCContext.NewInstance)
             {
-                cityList = agencyType == (int)AgencyType.Country ? context.RedPackets.Where(p => p.RestNumber > 0).ToList()
-                    : context.RedPackets.Where(p => p.City.Equals(city) && p.RestNumber > 0).ToList();
+                cityList = agencyType == (int)AgencyType.Country ? context.RedPackets.Include("CheckRecords").Where(p => p.RestNumber > 0
+                && !p.CheckRecords.Any(r => r.UserId == userId)).ToList()
+                    : context.RedPackets.Where(p => p.City.Equals(city) && p.RestNumber > 0 && !p.CheckRecords.Any(r => r.UserId == userId)).ToList();
             }
             if (agencyType != (int)AgencyType.NotAgency) retList.AddRange(cityList);
             else
@@ -61,7 +62,6 @@ namespace SC.Dal.Service
             }
             return model;
         }
-
         public async Task<RedPacketViewModel> OpenRedPacketAsync(int userId, int packetId)
         {
             RedPacketViewModel model = new RedPacketViewModel();
@@ -71,7 +71,7 @@ namespace SC.Dal.Service
             using (var context = SCContext.NewInstance)
             {
                 var packet = context.RedPackets.Include("SCUser").Where(p => p.PacketId.Equals(packetId)).FirstOrDefault();
-                var randomMoney = new Random().NextDouble(0.1, packet.RestAmount);
+                var randomMoney = Math.Round(new Random().NextDouble(0.1, packet.RestAmount), 2);
                 if (packet != null)
                 {
                     model.UserId = packet.UserId;
@@ -95,7 +95,7 @@ namespace SC.Dal.Service
                 context.RedPacketCheckRecords.Add(checkRecord);
 
                 //add profit
-                profit.Remark = $"来源于{model.Username}的红包";
+                profit.Remark = $"来至{model.Username}";
                 profit.Type = ProfitType.RedPacket;
                 profit.UserId = userId;
                 profit.CreateTime = checkTime;
