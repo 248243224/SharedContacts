@@ -7,12 +7,12 @@
             <div class="black-btn" ng-click="back()"></div>
         </div>
         <div class="content-box">
-            <textarea placeholder="想要对大家说..."></textarea>
+            <textarea placeholder="想要对大家说..." ng-model="packetInfo.TextContent"></textarea>
             <div class="imgs-box clearfix">
                 <div class="btn-box item-box">
                     <img src="images/icon_32.png">
                     <p>至少发一张图片</p>
-                    <span class="camera-box" id="file" ng-click="showActionSheet()" />
+                    <input class="camera-box" type="file" id="file" accept="image/*" multiple />
                 </div>
             </div>
         </div>
@@ -20,14 +20,14 @@
             <div class="input-box">
                 <span class="title">红包个数</span>
                 <div class="other-box">
-                    <input type="tel" name="" placeholder="填写个数">
+                    <input type="tel" name="" ng-model="packetInfo.TotalNumber" placeholder="填写个数">
                     个
                 </div>
             </div>
             <div class="input-box">
                 <span class="title">总金额</span>
                 <div class="other-box">
-                    <input type="number" name="" placeholder="输入金额">
+                    <input type="tel" name="" ng-model="packetInfo.Amount" placeholder="输入金额">
                     元
                 </div>
             </div>
@@ -51,31 +51,20 @@
                 <div class="input-box">
                     <span class="title">外部链接</span>
                     <div class="other-box">
-                        <input type="number" name="" placeholder="请粘贴">
+                        <input type="text" name="" placeholder="请粘贴" value="{{packetInfo.Link}}"/>
                     </div>
                 </div>
             </div>
             <p class="money">
-                0.00 <em>元</em>
+                {{packetInfo.Amount}} <em>元</em>
             </p>
-            <div class="btn">
+            <div class="btn" id="btnPublish" ng-click="publish()">
                 塞钱进红包
             </div>
+            <img src="" id="output">
         </div>
     </div>
     <script type="text/javascript">
-        $('.select span').click(function () {
-            if ($(this).hasClass('active')) {
-                $('.sift-box').hide();
-                $(this).removeClass('active');
-            } else {
-                $('.sift-box').show();
-                $(this).addClass('active');
-            }
-        })
-        $('.imgs-box').on('click', '.iconfont-close', function () {
-            $(this).parent('.item-box').remove();
 
-        });
     </script>
 </div>

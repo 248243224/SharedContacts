@@ -1,6 +1,7 @@
 ﻿
 var curPage = "";
 var curLocation = null;
+var curCity = "";
 
 var scConfig = {
     dataApiServer: "http://10.229.18.134:8084/api",

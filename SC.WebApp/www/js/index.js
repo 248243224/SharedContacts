@@ -201,6 +201,15 @@ var app = {
                             }
                         }
                     })
+                    .state('success', {
+                        url: "/success",
+                        views: {
+                            'other': {
+                                templateUrl: 'views/success.html',
+                                controller: 'SuccessController'
+                            }
+                        }
+                    })
                     .state('contacts', {
                         url: "/contacts",
                         cache: true,
@@ -357,39 +366,79 @@ var app = {
                     $state.go(curPage);
                 };
             })
-            .controller('CreateController', function ($scope, $state, sc) {
+            .controller('CreateController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go(curPage);
                 };
-
-                var callback = function (buttonIndex) {
-                    setTimeout(function () {
-                        if (buttonIndex == 1) {
-                            DeviceEvent.Album();
-                        }
-                        else if (buttonIndex == 2)
-                        {
-                            DeviceEvent.TakePhotos();
-                        }
+                $scope.packetInfo = {
+                    TotalNumber: null,
+                    Amount: 0,
+                    Lng: curLocation.lng,
+                    Lat: curLocation.lat,
+                    TextContent: null,
+                    Link: null,
+                    City: curCity,
+                    UserId: ls.getObject("userInfo").UserId
+                };
+                $scope.publish = function () {
+                    var fd = new FormData();
+                    fd.append('packetinfo', JSON.stringify($scope.packetInfo));
+                    $.each(fileContents._vals, function (i, file) {
+                        var resizedImage = ResizeImage(file);
+                        fd.append('files', resizedImage);
                     });
-                };
-                $scope.showActionSheet = function () {
-                    try {
-                        var options = {
-                            androidTheme: window.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT, // default is THEME_TRADITIONAL
-                            title: '图片来源',
-                            buttonLabels: ['从相册中选择', '拍照'],
-                            androidEnableCancelButton: true, // default false
-                            winphoneEnableCancelButton: true, // default false
-                            addCancelButtonWithLabel: '取消',
-                            position: [20, 40], // for iPad pass in the [x, y] position of the popover
-                            destructiveButtonLast: true // you can choose where the destructive button is shown
-                        };
-                        window.plugins.actionsheet.show(options, callback);
+                    $.ajax({
+                        url: scConfig.redPacketsUrl,
+                        type: 'POST',
+                        contentType: false,
+                        data: fd,
+                        cache: false,
+                        processData: false
+                    }).success(function () { $state.go('success'); })
+                        .error(function () { alert("发布失败"); });
+                }
+                var fileContents = new _pair_array_t();
+
+                $('.select span').click(function () {
+                    if ($(this).hasClass('active')) {
+                        $('.sift-box').hide();
+                        $(this).removeClass('active');
+                    } else {
+                        $('.sift-box').show();
+                        $(this).addClass('active');
                     }
-                    catch (e) { console.log(e); }
-                };
+                })
+                $('#file').on('change', function () {
+                    if ($('.item-box').length < 2) {
+                        $('.btn-box').css('padding-top', '0.6rem');
+                        $('.btn-box p').hide();
+                    } else {
+                        $('.btn-box p').show();
+                        $('.btn-box').css('padding-top', '0.4rem');
+                    }
+
+                    var fileObj = document.getElementById("file");
+                    $.each(fileObj.files, function (index, element) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var fileName = guid();
+                            fileContents.insert(fileName, e.target.result);
+                            var src = e.target.result;
+                            var html = '<div class="item-box">' +
+                                '<img src="' + src + '">' +
+                                '<div class="iconfont-close" data-filename="' + fileName + '"></div>' +
+                                '</div>';
+                            $('.imgs-box').prepend(html);
+                        };
+                        reader.readAsDataURL(element);
+                    });
+                });
+                $('.imgs-box').on('click', '.iconfont-close', function () {
+                    $(this).parent('.item-box').remove();
+                    fileContents.erase($(this).data("filename"));
+                });
+
             })
             .controller('ChatController', function ($scope, $state, sc) {
                 sc.ValidateLogin();
@@ -445,6 +494,11 @@ var app = {
                     $state.go('map');
                 };
             })
+            .controller('SuccessController', function ($scope, $state, sc) {
+                $scope.back = function () {
+                    $state.go(curPage);
+                };
+            })
             .controller('MapController', function ($scope, $state, sc, $rootScope, ls) {
                 curPage = "map";
                 sc.ValidateLogin();
@@ -484,6 +538,7 @@ var app = {
 
                                 rpMapApi._map.setCenter(data.points[0]);
                             }
+                            DeviceEvent.SpinnerHide();
                         }
                     };
                     var rpMapApi = new RedPackets(translateCallback);

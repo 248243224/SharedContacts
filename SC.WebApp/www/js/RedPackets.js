@@ -35,6 +35,7 @@
         var rp = this;
         var positionDetailsCB = function (details) {
             details = JSON.parse(details);
+            curCity = details.result.addressComponent.city;
             $.get(scConfig.redPacketsUrl, { lon: rp._currentLocationPoint.lng, lat: rp._currentLocationPoint.lat, city: details.result.addressComponent.city, agencyType: agencyType }, function (data) {
                 $.each(data, function () {
                     var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);
