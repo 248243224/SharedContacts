@@ -324,24 +324,29 @@ var app = {
                 };
                 this.Login = function () {
                     //get from tencent
-                    var userInfo = { wechatId: "admin", avatarUrl: "", nickName: "", sex: 0 };
-
-                    $http({
-                        method: "post",
-                        url: scConfig.accountUrl,
-                        data: { wechatId: userInfo.wechatId, avatarUrl: userInfo.avatarUrl, nickName: userInfo.nickName, sex: userInfo.sex },
-                        timeout: 30000,
-                    }).success(function (d, textStatu, xhr) {
-                        ls.setObject('userInfo', d);
-                        ls.set('loginTime', new Date());
-                        //connect chat server
-                        ImClient.Init(d.UserId);
-                        DeviceEvent.SpinnerHide();
-                        $state.go('map');
-                    }).error(function (error, textStatu, xhr) {
-                        DeviceEvent.SpinnerHide();
-                        DeviceEvent.Toast("网络异常");
-                    });
+                    var userInfo = { wechatId: "17623852229", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", name: "蜡笔小新", sex: 0 };
+                    try {
+                        $http({
+                            method: "post",
+                            url: scConfig.accountUrl,
+                            data: { wechatId: userInfo.wechatId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
+                            timeout: 30000,
+                        }).success(function (d, textStatu, xhr) {
+                            ls.setObject('userInfo', d);
+                            ls.set('loginTime', new Date());
+                            //connect chat server
+                            ImClient.Init(d.UserId);
+                            DeviceEvent.SpinnerHide();
+                            $state.go('map');
+                        }).error(function (error, textStatu, xhr) {
+                            DeviceEvent.SpinnerHide();
+                            DeviceEvent.Toast("网络异常");
+                        });
+                    }
+                    catch (e) {
+                        console.log(e);
+                        DeviceEvent.Toast("网络错误");
+                    }
                 };
                 this.logOut = function () {
                     ls.clear();
