@@ -20,6 +20,59 @@ namespace SC.Dal.Service
                 return context.RedPackets.ToList();
             }
         }
+
+        public PacketRecordsViewModel GetRecords(int userId)
+        {
+            PacketRecordsViewModel model = new PacketRecordsViewModel();
+            model.Recieved = new Recieved();
+            model.Send = new Send();
+            using (var context = SCContext.NewInstance)
+            {
+                var checkRecords = context.RedPacketCheckRecords.Include("RedPacket.SCUser").Where(p => p.UserId == userId);
+                var checkRecordsAmouts = checkRecords.Select(p => p.Amount);
+                var sendRecords = context.RedPackets.Include("SCUser").Where(p => p.UserId == userId).Select(packet => new RedPacketViewModel
+                {
+                    UserId = packet.UserId,
+                    Username = packet.SCUser.Name,
+                    UserAvatar = packet.SCUser.AvatarUrl,
+                    CreateTime = packet.CreateTime,
+                    AffectNumber = packet.TotalNumber - packet.RestNumber,
+                    Amount = packet.Amount,
+                    ImageContentString = packet.ImageContent,
+                    Link = packet.Link,
+                    TextContent = packet.TextContent
+                });
+                var sendRecordAmounts = sendRecords.Select(r => r.Amount);
+                model.Send.Amount = Math.Round(sendRecordAmounts.Sum(), 2);
+                model.Send.Largest = Math.Round(sendRecordAmounts.Max(), 2);
+                model.Send.PacketList = sendRecords.OrderByDescending(r => r.CreateTime).ToList();
+                model.Send.PacketList.ForEach(p =>
+                {
+                    p.ImageContent = p.ImageContentString.TrimEnd(',').Split(',').ToList();
+                });
+
+                model.Recieved.Amount = Math.Round(checkRecordsAmouts.Sum(), 2);
+                model.Recieved.Largest = Math.Round(checkRecordsAmouts.Max(), 2);
+                model.Recieved.PacketList = checkRecords.Select(r => new RedPacketViewModel
+                {
+                    UserId = r.RedPacket.UserId,
+                    Username = r.RedPacket.SCUser.Name,
+                    UserAvatar = r.RedPacket.SCUser.AvatarUrl,
+                    CreateTime = r.RedPacket.CreateTime,
+                    AffectNumber = r.RedPacket.TotalNumber - r.RedPacket.RestNumber,
+                    Amount = r.RedPacket.Amount,
+                    ImageContentString = r.RedPacket.ImageContent,
+                    Link = r.RedPacket.Link,
+                    TextContent = r.RedPacket.TextContent
+                }).OrderByDescending(r => r.CreateTime).ToList();
+                model.Recieved.PacketList.ForEach(p =>
+                {
+                    p.ImageContent = p.ImageContentString.TrimEnd(',').Split(',').ToList();
+                });
+            }
+            return model;
+        }
+
         public IEnumerable<RedPacket> GetByLocation(int userId, double lon, double lat, string city, int agencyType, int instance)
         {
             var retList = new List<RedPacket>();
@@ -52,12 +105,13 @@ namespace SC.Dal.Service
                 {
                     model.UserId = packet.UserId;
                     model.TextContent = packet.TextContent;
-                    model.ImageContent = packet.ImageContent;
+                    model.ImageContent = packet.ImageContent.TrimEnd(',').Split(',').ToList();
                     model.CreateTime = packet.CreateTime;
                     model.Amount = packet.Amount;
                     model.Link = packet.Link;
                     model.AffectNumber = packet.TotalNumber - packet.RestNumber;
                     model.Username = packet.SCUser.Name ?? "";
+                    model.UserAvatar = packet.SCUser.AvatarUrl ?? "";
                 }
             }
             return model;
@@ -71,17 +125,18 @@ namespace SC.Dal.Service
             using (var context = SCContext.NewInstance)
             {
                 var packet = context.RedPackets.Include("SCUser").Where(p => p.PacketId.Equals(packetId)).FirstOrDefault();
-                var randomMoney = Math.Round(new Random().NextDouble(0.1, packet.RestAmount), 2);
+                var randomMoney = Math.Round(new Random().NextDouble(0.1, packet.RestAmount / 4), 2);
                 if (packet != null)
                 {
                     model.UserId = packet.UserId;
                     model.TextContent = packet.TextContent;
-                    model.ImageContent = packet.ImageContent;
+                    model.ImageContent = packet.ImageContent.TrimEnd(',').Split(',').ToList();
                     model.CreateTime = packet.CreateTime;
                     model.Amount = randomMoney;
                     model.Link = packet.Link;
                     model.AffectNumber = packet.TotalNumber - packet.RestNumber;
                     model.Username = packet.SCUser.Name ?? "";
+                    model.UserAvatar = packet.SCUser.AvatarUrl ?? "";
                 }
                 //update packet info
                 packet.RestAmount -= randomMoney;
