@@ -12,7 +12,8 @@ namespace SC.IService
     {
         IEnumerable<RedPacket> GetAll();
         RedPacketViewModel Get(int packetId);
-        IEnumerable<RedPacket> GetByLocation(int userId, double lon, double lat,string city, int agencyType, int instance);
+        PacketRecordsViewModel GetRecords(int userId);
+        IEnumerable<RedPacket> GetByLocation(int userId, double lon, double lat, string city, int agencyType, int instance);
         Task<RedPacketViewModel> OpenRedPacketAsync(int userId, int packetId);
         void Add(RedPacket packet);
     }
