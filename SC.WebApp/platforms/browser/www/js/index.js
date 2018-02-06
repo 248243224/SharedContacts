@@ -22,6 +22,8 @@ var app = {
     initialize: function () {
         this.bindEvents();
         this.RouteInit();
+        //set cache
+        $.ajaxSetup({ cache: true });
     },
     // Bind Event Listeners
     //
@@ -100,6 +102,10 @@ var app = {
                                 templateUrl: 'views/packetInfo.html',
                                 controller: 'PacketInfoController'
                             }
+                        },
+                        params: {
+                            obj: null,
+                            returnUrl: "map"
                         }
                     })
                     .state('filtration', {
@@ -193,6 +199,7 @@ var app = {
                         }
                     })
                     .state('records', {
+                        cache: true,
                         url: "/records",
                         views: {
                             'other': {
@@ -263,7 +270,7 @@ var app = {
                         });
                         element.animate({
                             opacity: 1
-                        }, 100, done);
+                        }, 300, done);
                     },
                     leave: function (element, done) {
                         element.css({
@@ -271,7 +278,7 @@ var app = {
                         });
                         element.animate({
                             opacity: 0
-                        }, 100, done);
+                        }, 300, done);
                     }
                 };
             })
@@ -317,7 +324,7 @@ var app = {
                 };
                 this.Login = function () {
                     //get from tencent
-                    var userInfo = { wechatId: "17623852229", avatarUrl: "", nickName: "", sex: 0 };
+                    var userInfo = { wechatId: "admin", avatarUrl: "", nickName: "", sex: 0 };
 
                     $http({
                         method: "post",
@@ -338,6 +345,7 @@ var app = {
                 };
                 this.logOut = function () {
                     ls.clear();
+                    ls.set('guideIsChecked', true);
                     $state.go('login');
                 };
             })
@@ -354,13 +362,18 @@ var app = {
                     }
                 });
             })
-            .controller('PacketInfoController', function ($scope, $state, sc) {
+            .controller('PacketInfoController', function ($scope, $state, sc, $stateParams) {
                 sc.ValidateLogin();
                 $scope.back = function () {
-                    $state.go('map');
+                    $state.go($stateParams.returnUrl);
                 };
+                $scope.attchmentRootUrl = scConfig.attachmentUrl;
+                if ($stateParams.returnUrl == "map")
+                    $scope.packetInfo = $stateParams.obj.Result;
+                else
+                    $scope.packetInfo = JSON.parse($stateParams.obj);
             })
-            .controller('FiltrationController', function ($scope, $state, sc) {
+            .controller('FiltrationController', function ($scope, $state, sc, $stateParams) {
                 sc.ValidateLogin();
                 $scope.close = function () {
                     $state.go(curPage);
@@ -382,21 +395,30 @@ var app = {
                     UserId: ls.getObject("userInfo").UserId
                 };
                 $scope.publish = function () {
-                    var fd = new FormData();
-                    fd.append('packetinfo', JSON.stringify($scope.packetInfo));
-                    $.each(fileContents._vals, function (i, file) {
-                        var resizedImage = ResizeImage(file);
-                        fd.append('files', resizedImage);
-                    });
-                    $http({
-                        url: scConfig.redPacketsUrl,
-                        type: 'POST',
-                        contentType: false,
-                        data: fd,
-                        cache: false,
-                        processData: false
-                    }).success(function () { $state.go('success'); })
-                        .error(function () { alert("发布失败"); });
+                    try {
+                        DeviceEvent.SpinnerShow();
+                        var fd = new FormData();
+                        fd.append('packetinfo', JSON.stringify($scope.packetInfo));
+                        $.each(fileContents._vals, function (i, file) {
+                            var resizedImage = ResizeImage(file);
+                            fd.append('files', resizedImage);
+                        });
+                        $.ajax({
+                            url: scConfig.redPacketsUrl,
+                            type: 'POST',
+                            contentType: false,
+                            data: fd,
+                            cache: false,
+                            processData: false
+                        }).success(function () {
+                            DeviceEvent.SpinnerHide();
+                            $state.go('success');
+                        }).error(function () { alert("发布失败"); });
+                    }
+                    catch (e) {
+                        console.log(e);
+                        DeviceEvent.Toast("网络错误");
+                    }
                 }
                 var fileContents = new _pair_array_t();
 
@@ -488,11 +510,32 @@ var app = {
                     $state.go('my');
                 };
             })
-            .controller('RecordsController', function ($scope, $state, sc) {
+            .controller('RecordsController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('map');
                 };
+                $scope.showDetails = function (type, index) {
+                    var packetInfo = null;
+                    if (type === "recieve") packetInfo = JSON.stringify($scope.Records.Recieved.PacketList[index]);
+                    else packetInfo = JSON.stringify($scope.Records.Send.PacketList[index]);
+                    $state.go('packetInfo', { obj: packetInfo, returnUrl: "records" });
+                }
+                $scope.attchmentRootUrl = scConfig.attachmentUrl;
+                $scope.Records = {};
+                DeviceEvent.SpinnerShow();
+                try {
+                    $.get(scConfig.packetRecordsUrl + "?userId=" + ls.getObject("userInfo").UserId, function (records) {
+                        $scope.$apply(function () {
+                            $scope.Records = records;
+                        });
+                        DeviceEvent.SpinnerHide();
+                    });
+                }
+                catch (e) {
+                    console.log(e)
+                    DeviceEvent.Toast("网络错误");
+                }
             })
             .controller('SuccessController', function ($scope, $state, sc) {
                 $scope.back = function () {
@@ -504,9 +547,10 @@ var app = {
                 sc.ValidateLogin();
                 $scope.openRedPacket = function ($event) {
                     $event.stopPropagation();
+                    DeviceEvent.SpinnerShow();
                     $.post(scConfig.redPacketsUrl.concat("?userId=" + ls.getObject("userInfo").UserId + "&packetId=" + $(".hot-box").data("packetid")), function (packetInfo) {
-                        console.log(packetInfo);
-                        $state.go('packetInfo');
+                        DeviceEvent.SpinnerHide();
+                        $state.go('packetInfo', { obj: packetInfo, returnUrl: "map" });
                     });
                 };
 

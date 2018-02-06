@@ -35,7 +35,7 @@
             //});
         },
         SpinnerShow: function () {
-            // SpinnerPlugin.activityStart("Loading...", { dimBackground: true });
+            // SpinnerPlugin.activityStart("请稍后...", { dimBackground: true });
         },
         SpinnerHide: function () {
             // SpinnerPlugin.activityStop();

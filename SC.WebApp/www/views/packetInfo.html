@@ -8,22 +8,21 @@
     <div class="user-box">
         <div class="user-top">
             <img src="images/icon_4.png">
-
         </div>
         <div class="user-info">
             <div class="user-img">
-                <img src="images/user.png">
+                <img src="{{packetInfo.UserAvatar}}">
             </div>
             <div class="user-txt">
-                <p class="info">吉祥渔乐推广客服红包 <span>全市</span></p>
-                <h3>0.03<i>元</i></h3>
+                <p class="info">{{packetInfo.Username}}的红包 <span>全市</span></p>
+                <h3>{{packetInfo.Amount}}<i>元</i></h3>
                 <p class="hint">已存入零钱</p>
             </div>
         </div>
     </div>
     <div class="friends-box">
         <div class="info">
-            <p>已领取，添加该好友之后，可再领取<span>0.03</span>元红包。 <span class="icon_txt"><img src="images/icon_6.png"></span></p>
+            <p>已领取，添加该好友之后，可再领取<span>{{packetInfo.Amount}}</span>元红包。 <span class="icon_txt"><img src="images/icon_6.png"></span></p>
         </div>
         <div class="all-friends clearfix">
             <div class="item-box">
@@ -55,43 +54,17 @@
     <div class="msg-box">
         <div class="txt-box">
             <p>
-                镇江有玩手机捕鱼游戏的扫图加客服 说共享人脉
-                领取100元金币，客服:yidongdianwan99999 游
-                戏厅不必去 在家都可以嗨翻天。
+                {{packetInfo.TextContent}}
             </p>
-            <p><a href="#">打开外部链接</a></p>
+            <p><a href="{{packetInfo.Link}}">打开外部链接</a></p>
         </div>
         <div class="img-box">
-            <div class="col-md-3">
-                <a class="example-image-link" href="upload/img_1.jpg" data-lightbox="example-1">
-                    <img class="example-image" src="upload/img_1.jpg" alt="image-1" />
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a class="example-image-link" href="upload/img_2.jpg" data-lightbox="example-1">
-                    <img class="example-image" src="upload/img_2.jpg" alt="image-1" />
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a class="example-image-link" href="upload/img_3.jpg" data-lightbox="example-1">
-                    <img class="example-image" src="upload/img_3.jpg" alt="image-1" />
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a class="example-image-link" href="upload/img_1.jpg" data-lightbox="example-1">
-                    <img class="example-image" src="upload/img_1.jpg" alt="image-1" />
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a class="example-image-link" href="upload/img_2.jpg" data-lightbox="example-1">
-                    <img class="example-image" src="upload/img_2.jpg" alt="image-1" />
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a class="example-image-link" href="upload/img_3.jpg" data-lightbox="example-1">
-                    <img class="example-image" src="upload/img_3.jpg" alt="image-1" />
+            <div class="col-md-3" ng-repeat="img in packetInfo.ImageContent">
+                <a class="example-image-link" href="{{attchmentRootUrl}}{{img}}" data-lightbox="example-1">
+                    <img class="example-image" src="{{attchmentRootUrl}}{{img}}" alt="image-1" />
                 </a>
             </div>
         </div>
+
     </div>
 </div>
