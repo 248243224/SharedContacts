@@ -99,6 +99,7 @@
     <Compile Include="Controller\AccountController.cs" />
     <Compile Include="Controller\AttachmentController.cs" />
     <Compile Include="Controller\MessageController.cs" />
+    <Compile Include="Controller\PacketRecordController.cs" />
     <Compile Include="Controller\RedPacketController.cs" />
     <Compile Include="Controller\UserContactsController.cs" />
     <Compile Include="Controller\UserController.cs" />
