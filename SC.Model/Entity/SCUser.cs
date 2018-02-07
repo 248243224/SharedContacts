@@ -12,7 +12,8 @@ namespace SC.Model.Entity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
-        public string WechatId { get; set; }
+        public string OpenId { get; set; }
+        public string UnionId { get; set; }
         [Required]
         [MaxLength(50, ErrorMessage = "姓名长度不能超过50")]
         public string Name { get; set; }

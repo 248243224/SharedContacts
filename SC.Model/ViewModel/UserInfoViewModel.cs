@@ -10,7 +10,8 @@ namespace SC.Model.ViewModel
     public class UserInfoViewModel
     {
         public int UserId { get; set; }
-        public string WechatId { get; set; }
+        public string OpenId { get; set; }
+        public string UnionId { get; set; }
         public string Name { get; set; }
         public string AliPay { get; set; }
 
@@ -26,6 +27,9 @@ namespace SC.Model.ViewModel
         public DateTime? AgencyBeginTime { get; set; }
 
         public AccountStatus? AccountStatus { get; set; }
+
+        public double RecieveAmount { get; set; }
+        public double SendAmount { get; set; }
 
         public double TodayProfit { get; set; }
         public double MonthProfit { get; set; }
