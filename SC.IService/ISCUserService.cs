@@ -11,6 +11,6 @@ namespace SC.IService
     public interface ISCUserService
     {
         UserInfoViewModel GetUserInfo(int userId);
-        void UpdateUserInfoAsync(UserInfoViewModel userInfo);
+        Task<SCUser> UpdateUserInfoAsync(UserInfoViewModel userInfo);
     }
 }

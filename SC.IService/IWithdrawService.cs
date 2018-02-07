@@ -14,5 +14,6 @@ namespace SC.IService
 
         void AddApplyAsync(int userId);
         void ChangeWithdrawApplyStatusAsync(int applyId, WithdrawApplyStatu statu);
+        double GetNotWithdrawAmount(int userId);
     }
 }

@@ -10,8 +10,8 @@ namespace SC.IService
 {
     public interface IAccountService
     {
-        bool CheckUserExsit(string wechatId);
+        bool CheckUserExsit(string openId);
         void Register(SCUser user);
-        SCUser GetUserInfoByWechatId(string wechatId);
+        SCUser GetUserInfoByOpenId(string openId);
     }
 }
