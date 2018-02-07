@@ -8,6 +8,7 @@ using System.Web.Http;
 using SC.Model;
 using System.Diagnostics;
 using SC.Model.ViewModel;
+using System.Threading.Tasks;
 
 namespace SC.ImAndDataApi.Hoster.Controller
 {
@@ -30,22 +31,22 @@ namespace SC.ImAndDataApi.Hoster.Controller
             }
             catch (Exception ex)
             {
-                Trace.TraceError($"UserContactsController::GetUserInfo: {ex.Message}");
+                Trace.TraceError($"UserController::GetUserInfo: {ex.Message}");
                 return InternalServerError();
             }
         }
 
         [HttpPost]
-        public IHttpActionResult UpdateUserInfo([FromBody]UserInfoViewModel userInfo)
+        public async Task<IHttpActionResult> UpdateUserInfo([FromBody]UserInfoViewModel userInfo)
         {
             try
             {
-                _scUserService.UpdateUserInfoAsync(userInfo);
-                return Ok();
+                var updatedUser = await _scUserService.UpdateUserInfoAsync(userInfo);
+                return Ok(updatedUser);
             }
             catch (Exception ex)
             {
-                Trace.TraceError($"UserContactsController::UpdateUserInfo: {ex.Message}");
+                Trace.TraceError($"UserController::UpdateUserInfo: {ex.Message}");
                 return InternalServerError();
             }
         }

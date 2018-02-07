@@ -40,6 +40,21 @@ namespace SC.Admin.Controllers
                 return InternalServerError();
             }
         }
+
+        [HttpGet]
+        public IHttpActionResult GetNotWithdrawAmount(int userId)
+        {
+            try
+            {
+                return Ok(_withdrawService.GetNotWithdrawAmount(userId));
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"WithdrawApplyController::GetNotWithdrawAmount: {ex.Message}");
+                return InternalServerError();
+            }
+        }
+
         [HttpPost]
         public IHttpActionResult AddApply(int userId)
         {

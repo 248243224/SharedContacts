@@ -25,14 +25,14 @@ namespace SC.ImAndDataApi.Hoster.Controller
         {
             try
             {
-                if (!_accountService.CheckUserExsit(user.WechatId))
+                if (!_accountService.CheckUserExsit(user.OpenId))
                 {
                     user.AccountStatus = 0;
                     user.AgencyType = AgencyType.NotAgency;
                     user.CreateTime = DateTime.Now;
                     _accountService.Register(user);
                 }
-                var userInfo = _accountService.GetUserInfoByWechatId(user.WechatId);
+                var userInfo = _accountService.GetUserInfoByOpenId(user.OpenId);
                 return Ok(userInfo);
             }
             catch (Exception ex)
