@@ -18,20 +18,20 @@
                 <img src="{{userInfo.AvatarUrl}}">
             </div>
             <div class="txt-box">
-                <p class="name">吉祥渔乐推广客服</p>
-                <p class="code">微信号：{{userInfo.WechatId}}</p>
+                <p class="name">{{userInfo.Name}}</p>
+                <p class="code">微信开放ID：{{userInfo.OpenId}}</p>
             </div>
             <div class="erwei">
                 <img src="images/eriwei.png">
             </div>
         </div>
-        <div class="input-box" ui-sref="userpage">
+        <div class="input-box" ng-click="goUserpage()">
             <span class="title"><img src="images/icon_20.png">个人中心</span>
         </div>
         <div class="input-box mt30" ui-sref="team">
             <span class="title"><img src="images/icon_21.png">团队列表</span>
         </div>
-        <div class="input-box" ui-sref="withdraw">
+        <div class="input-box" ng-click="goWithdraw()">
             <span class="title"><img src="images/icon_22.png">提现</span>
         </div>
         <div class="input-box" ui-sref="profits">

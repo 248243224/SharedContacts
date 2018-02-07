@@ -13,34 +13,36 @@
         </div>
         <div class="user-box">
             <div class="img-box">
-                <img src="upload/user_2.jpg">
+                <img src="{{userInfo.AvatarUrl}}">
             </div>
-            <p class="name">吉祥渔乐推广客服</p>
-            <span class="type">市区代理</span>
+            <p class="name">{{userInfo.Name}}</p>
+            <span class="type" ng-show="userInfo.AgencyType == 1" ng-hide="userInfo.AgencyType != 1">市区代理</span>
+            <span class="type" ng-show="userInfo.AgencyType == 2" ng-hide="userInfo.AgencyType != 2">全国代理</span>
+            <span class="type" ng-show="userInfo.AgencyType == 0" ng-hide="userInfo.AgencyType != 0">非代理用户</span>
         </div>
         <div class="info-box clearfix">
             <div class="item-box">
-                <p class="nub">0.00</p>
+                <p class="nub">{{userInfo.SendAmount}}</p>
                 <p class="describe">发布总金额</p>
             </div>
             <div class="item-box">
-                <p class="nub">0.00</p>
-                <p class="describe">发布总金额</p>
+                <p class="nub">{{userInfo.RecieveAmount}}</p>
+                <p class="describe">抢到总金额</p>
             </div>
         </div>
         <div class="income-box">
             <p class="title"><span>收入概况</span></p>
             <div class="all-item clearfix">
                 <div class="item-box">
-                    <p>123.62</p>
+                    <p>{{userInfo.TodayProfit}}</p>
                     <span>今日</span>
                 </div>
                 <div class="item-box">
-                    <p>123.62</p>
+                    <p>{{userInfo.MonthProfit}}</p>
                     <span class="bgf5b63d">本月</span>
                 </div>
                 <div class="item-box">
-                    <p>123.62</p>
+                    <p>{{userInfo.TotalProfit}}</p>
                     <span class="bga8d08e">累计</span>
                 </div>
             </div>

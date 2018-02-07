@@ -17,19 +17,19 @@
             </div>
             <div class="txt-box">
                 <p class="title">支付宝</p>
-                <p class="code">19984561@163.com</p>
+                <p class="code">{{userInfo.AliPay}}</p>
             </div>
         </div>
         <div class="pay-box clearfix">
             <p class="title">提现金额</p>
-            <input type="number" name="" placeholder="¥1.00">
+            <input type="number" name="" readonly ng-model="withdrawInfo.withdrawAmount" placeholder="¥0.00">
             <div class="info-box">
-                <span class="balance">可用余额 1.04元</span>
-                <span class="all">全部提现</span>
+                <span class="balance">可提现金额 {{withdrawInfo.totalAmount}}元</span>
+                <span class="all" ng-click="withdrawAll()">全部提现</span>
             </div>
         </div>
         <div class="btn-box">
-            <span class="btn">两小时内到帐，确认提现</span>
+            <span class="btn" ng-click="submit()">两天内到帐，确认提现</span>
         </div>
         <div class="other-box">
             <p>提现说明</p>

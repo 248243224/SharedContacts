@@ -7,11 +7,11 @@
             <div class="black-btn" ng-click="back()"></div>
         </div>
         <div class="content-box">
-            <textarea placeholder="想要对大家说..." ng-model="packetInfo.TextContent"></textarea>
+            <textarea id="textContent" placeholder="输入想要对大家说的话，不超过200字..." ng-model="packetInfo.TextContent"></textarea>
             <div class="imgs-box clearfix">
                 <div class="btn-box item-box">
                     <img src="images/icon_32.png">
-                    <p>至少发一张图片</p>
+                    <p>最大图片数8张</p>
                     <input class="camera-box" type="file" id="file" accept="image/*" multiple />
                 </div>
             </div>
@@ -20,14 +20,14 @@
             <div class="input-box">
                 <span class="title">红包个数</span>
                 <div class="other-box">
-                    <input type="tel" name="" ng-model="packetInfo.TotalNumber" placeholder="填写个数">
+                    <input type="tel" id="pakectNumber" name="" ng-model="packetInfo.TotalNumber" placeholder="填写个数">
                     个
                 </div>
             </div>
             <div class="input-box">
                 <span class="title">总金额</span>
                 <div class="other-box">
-                    <input type="tel" name="" ng-model="packetInfo.Amount" placeholder="输入金额">
+                    <input type="number" id="pakectAmount" name="" ng-model="packetInfo.Amount" placeholder="输入金额">
                     元
                 </div>
             </div>
@@ -51,12 +51,15 @@
                 <div class="input-box">
                     <span class="title">外部链接</span>
                     <div class="other-box">
-                        <input type="text" name="" placeholder="请粘贴" value="{{packetInfo.Link}}"/>
+                        <input type="text" name="" placeholder="请粘贴" value="{{packetInfo.Link}}" />
                     </div>
                 </div>
             </div>
-            <p class="money">
+            <p class="money" ng-show="packetInfo.Amount!=null" ng-hide="packetInfo.Amount==null">
                 {{packetInfo.Amount}} <em>元</em>
+            </p>
+            <p class="money" ng-show="packetInfo.Amount==null" ng-hide="packetInfo.Amount!=null">
+                0.00 <em>元</em>
             </p>
             <div class="btn" id="btnPublish" ng-click="publish()">
                 塞钱进红包

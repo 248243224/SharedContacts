@@ -142,6 +142,9 @@ var app = {
                                 templateUrl: 'views/userpage.html',
                                 controller: 'UserpageController'
                             }
+                        },
+                        params: {
+                            userId: null
                         }
                     })
                     .state('userinfo', {
@@ -180,6 +183,18 @@ var app = {
                             }
                         }
                     })
+                    .state('update', {
+                        url: "/update",
+                        views: {
+                            'other': {
+                                templateUrl: 'views/update.html',
+                                controller: 'UpdateController'
+                            }
+                        },
+                        params: {
+                            obj: { title: null, type: null, value: null }
+                        }
+                    })
                     .state('qrcode', {
                         url: "/qrcode",
                         views: {
@@ -215,6 +230,9 @@ var app = {
                                 templateUrl: 'views/success.html',
                                 controller: 'SuccessController'
                             }
+                        },
+                        params: {
+                            obj: { header: null, title: null, details: null, amount: null }
                         }
                     })
                     .state('contacts', {
@@ -270,7 +288,7 @@ var app = {
                         });
                         element.animate({
                             opacity: 1
-                        }, 300, done);
+                        }, 150, done);
                     },
                     leave: function (element, done) {
                         element.css({
@@ -278,7 +296,7 @@ var app = {
                         });
                         element.animate({
                             opacity: 0
-                        }, 300, done);
+                        }, 150, done);
                     }
                 };
             })
@@ -324,12 +342,12 @@ var app = {
                 };
                 this.Login = function () {
                     //get from tencent
-                    var userInfo = { wechatId: "17623852229", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", name: "蜡笔小新", sex: 0 };
+                    var userInfo = { openId: "17623852229", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
                     try {
                         $http({
                             method: "post",
                             url: scConfig.accountUrl,
-                            data: { wechatId: userInfo.wechatId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
+                            data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
                             timeout: 30000,
                         }).success(function (d, textStatu, xhr) {
                             ls.setObject('userInfo', d);
@@ -349,9 +367,14 @@ var app = {
                     }
                 };
                 this.logOut = function () {
-                    ls.clear();
-                    ls.set('guideIsChecked', true);
-                    $state.go('login');
+                    DeviceEvent.Confirm("退出之后需要重新登陆",
+                        function (buttonIndex) {
+                            if (buttonIndex == 1) {
+                                ls.clear();
+                                ls.set('guideIsChecked', true);
+                                $state.go('login');
+                            }
+                        }, "请确认退出", ['确认', '取消']);
                 };
             })
             .controller('GuideController', function ($scope, ls, $state) {
@@ -384,14 +407,15 @@ var app = {
                     $state.go(curPage);
                 };
             })
-            .controller('CreateController', function ($scope, $state, $http, sc, ls) {
+            .controller('CreateController', function ($scope, $state, $http, $stateParams, sc, ls) {
                 sc.ValidateLogin();
+                var enableSubmit = false;
                 $scope.back = function () {
                     $state.go(curPage);
                 };
                 $scope.packetInfo = {
                     TotalNumber: null,
-                    Amount: 0,
+                    Amount: null,
                     Lng: curLocation.lng,
                     Lat: curLocation.lat,
                     TextContent: null,
@@ -400,31 +424,90 @@ var app = {
                     UserId: ls.getObject("userInfo").UserId
                 };
                 $scope.publish = function () {
-                    try {
-                        DeviceEvent.SpinnerShow();
-                        var fd = new FormData();
-                        fd.append('packetinfo', JSON.stringify($scope.packetInfo));
-                        $.each(fileContents._vals, function (i, file) {
-                            var resizedImage = ResizeImage(file);
-                            fd.append('files', resizedImage);
-                        });
-                        $.ajax({
-                            url: scConfig.redPacketsUrl,
-                            type: 'POST',
-                            contentType: false,
-                            data: fd,
-                            cache: false,
-                            processData: false
-                        }).success(function () {
-                            DeviceEvent.SpinnerHide();
-                            $state.go('success');
-                        }).error(function () { alert("发布失败"); });
-                    }
-                    catch (e) {
-                        console.log(e);
-                        DeviceEvent.Toast("网络错误");
+                    if (enableSubmit) {
+                        try {
+                            DeviceEvent.SpinnerShow();
+                            var fd = new FormData();
+                            $scope.packetInfo.Amount = parseInt($scope.packetInfo.Amount);
+                            fd.append('packetinfo', JSON.stringify($scope.packetInfo));
+                            $.each(fileContents._vals, function (i, file) {
+                                var resizedImage = ResizeImage(file);
+                                fd.append('files', resizedImage);
+                            });
+                            $.ajax({
+                                url: scConfig.redPacketsUrl,
+                                type: 'POST',
+                                contentType: false,
+                                data: fd,
+                                cache: false,
+                                processData: false
+                            }).success(function () {
+                                DeviceEvent.SpinnerHide();
+                                $state.go('success', { obj: { header: "发布成功", title: "红包已发布", details: "非常感谢您的支持", amount: $scope.packetInfo.Amount } });
+                            }).error(function () { alert("发布失败"); });
+                        }
+                        catch (e) {
+                            console.log(e);
+                            DeviceEvent.Toast("网络错误");
+                        }
                     }
                 }
+
+                //validate
+                validateAmount($('#pakectAmount'));
+
+                $('#pakectAmount').bind('keyup paste', function () {
+
+                    var packetNumber = parseInt($("#pakectNumber").val());
+                    var packetAmount = parseInt($("#pakectAmount").val());
+                    var textContentLength = $.trim($("#textContent").val()).length;
+
+                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100) {
+                        enableSubmit = true;
+                        $(".btn").css("background", "#fe625c");
+                    }
+                    else {
+                        enableSubmit = false;
+                        $(".btn").css("background", "#b3b3b3");
+                    }
+                });
+
+                $('#textContent').bind('keyup paste', function () {
+                    var packetNumber = parseInt($("#pakectNumber").val());
+                    var packetAmount = parseInt($("#pakectAmount").val());
+                    var textContentLength = $.trim($("#textContent").val()).length;
+
+                    console.log(packetNumber);
+                    console.log(packetAmount);
+                    console.log(textContentLength);
+
+                    if (textContentLength > 200) DeviceEvent.Toast("文字内容不能超过200个字");
+                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100) {
+                        enableSubmit = true;
+                        $(".btn").css("background", "#fe625c");
+                    }
+                    else {
+                        enableSubmit = false;
+                        $(".btn").css("background", "#b3b3b3");
+                    }
+                });
+
+                $('#pakectNumber').bind('keyup paste', function () {
+                    var packetNumber = parseInt($("#pakectNumber").val());
+                    var packetAmount = parseInt($("#pakectAmount").val());
+                    var textContentLength = $.trim($("#textContent").val()).length;
+
+                    if (packetNumber == 0 || packetNumber > 100) { $("#pakectNumber").val(""); DeviceEvent.Toast("红包个数不能超过100") }//红包个数最小1个最大100个
+                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100) {
+                        enableSubmit = true;
+                        $(".btn").css("background", "#fe625c");
+                    }
+                    else {
+                        enableSubmit = false;
+                        $(".btn").css("background", "#b3b3b3");
+                    }
+                });
+
                 var fileContents = new _pair_array_t();
 
                 $('.select span').click(function () {
@@ -447,8 +530,10 @@ var app = {
 
                     var fileObj = document.getElementById("file");
                     $.each(fileObj.files, function (index, element) {
+
                         var reader = new FileReader();
                         reader.onload = function (e) {
+                            if (fileContents.size() >= 8) return;
                             var fileName = guid();
                             fileContents.insert(fileName, e.target.result);
                             var src = e.target.result;
@@ -473,17 +558,75 @@ var app = {
                     $state.go(curPage);
                 };
             })
-            .controller('UserpageController', function ($scope, $state, sc) {
+            .controller('UserpageController', function ($scope, $state, sc, $stateParams) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+                $.get(scConfig.userInfoUrl + "?userId=" + $stateParams.userId, function (userInfo) {
+                    $scope.$apply(function () {
+                        $scope.userInfo = userInfo;
+                    });
+                });
             })
-            .controller('UserinfoController', function ($scope, $state, sc) {
+            .controller('UpdateController', function ($scope, $state, sc, ls, $stateParams) {
+                sc.ValidateLogin();
+                $scope.back = function () {
+                    $state.go('userinfo');
+                };
+                var enableSubmit = false;
+                $scope.updateInfo = $stateParams.obj;
+                $scope.save = function () {
+                    if (enableSubmit) {
+                        DeviceEvent.SpinnerShow();
+                        var userInfo = {};
+                        switch ($scope.updateInfo.type) {
+                            case "name":
+                                userInfo = { UserId: ls.getObject("userInfo").UserId, Name: $scope.updateInfo.value };
+                                break;
+                            case "alipay":
+                                userInfo = { UserId: ls.getObject("userInfo").UserId, AliPay: $scope.updateInfo.value };
+                                break;
+                        }
+                        $.post(scConfig.userInfoUrl, userInfo, function (user) {
+                            //update userInfo
+                            ls.setObject("userInfo", user);
+                            DeviceEvent.SpinnerHide();
+                            $state.go('userinfo');
+                        });
+                    }
+                };
+
+                $('.input-box input').bind('input propertychange', function () {
+                    if ($(this).val().length > 0 && $.trim($('.input-box input').val()) != "") {
+                        $('.input-box i').show();
+                        $('.yes-btn').css('opacity', '1');
+                        enableSubmit = true;
+                    } else {
+                        $('.input-box i').hide();
+                        $('.yes-btn').css('opacity', '0.8');
+                        enableSubmit = false;
+                    }
+                });
+                $('.input-box i').click(function () {
+                    $('.input-box input').val('');
+                    $('.input-box i').hide();
+                    $('.yes-btn').css('opacity', '0.8');
+                    enableSubmit = false;
+                })
+            })
+            .controller('UserinfoController', function ($scope, $state, ls, sc) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+                $scope.userInfo = ls.getObject("userInfo");
+                $scope.updateName = function () {
+                    $state.go('update', { obj: { title: "设置你的昵称", type: "name", value: $scope.userInfo.Name } });
+                }
+                $scope.updateAlipay = function () {
+                    $state.go('update', { obj: { title: "设置支付宝账号", type: "alipay", value: $scope.userInfo.Alipay } });
+                }
             })
             .controller('TeamController', function ($scope, $state, sc) {
                 sc.ValidateLogin();
@@ -491,11 +634,56 @@ var app = {
                     $state.go('my');
                 };
             })
-            .controller('WithdrawController', function ($scope, $state, sc) {
+            .controller('WithdrawController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
+                var enableSubmit = false;
+                $scope.userInfo = ls.getObject("userInfo");
                 $scope.back = function () {
                     $state.go('my');
                 };
+                DeviceEvent.SpinnerShow();
+                $scope.withdrawInfo = { totalAmount: null, withdrawAmount: null };
+                $.get(scConfig.withdrawUrl.concat("?userId=" + $scope.userInfo.UserId), function (totalAmount) {
+                    $scope.$apply(function () {
+                        $scope.withdrawInfo = { totalAmount: totalAmount, withdrawAmount: totalAmount };
+                    });
+                    if (totalAmount > 0) {
+                        enableSubmit = true;
+                        $(".btn").css("background", "#ff8569");
+                    }
+                    DeviceEvent.SpinnerHide();
+                });
+
+                $scope.submit = function () {
+                    if (enableSubmit) {
+                        DeviceEvent.SpinnerShow();
+                        $.post(scConfig.withdrawUrl.concat("?userId=" + $scope.userInfo.UserId), function () {
+                            DeviceEvent.SpinnerHide();
+                            $state.go('success', { obj: { header: "提现成功", title: "提现申请已提交", details: "二个工作日内到账", amount: $scope.withdrawInfo.withdrawAmount } });
+                        });
+                    }
+                };
+                $scope.withdrawAll = function () {
+                    $scope.withdrawInfo.withdrawAmount = $scope.withdrawInfo.totalAmount;
+                    if ($scope.withdrawInfo.withdrawAmount != null && $scope.withdrawInfo.withdrawAmount > 0) {
+                        enableSubmit = true;
+                        $(".btn").css("background", "#ff8569");
+                    }
+                };
+
+                validateAmount($('.pay-box input'));
+
+                $('.pay-box input').bind('keyup', function () {
+                    if ($(this).val() <= $scope.withdrawInfo.totalAmount && $(this).val() > 0) {
+                        enableSubmit = true;
+                        $(".btn").css("background", "#ff8569");
+                    }
+                    else {
+                        $(this).val("");
+                        enableSubmit = false;
+                        $(".btn").css("background", "#b3b3b3");
+                    }
+                });              
             })
             .controller('AgencyController', function ($scope, $state, sc) {
                 sc.ValidateLogin();
@@ -542,10 +730,20 @@ var app = {
                     DeviceEvent.Toast("网络错误");
                 }
             })
-            .controller('SuccessController', function ($scope, $state, sc) {
+            .controller('SuccessController', function ($scope, $state, sc, $stateParams) {
                 $scope.back = function () {
                     $state.go(curPage);
                 };
+                $scope.successInfo = $stateParams.obj;
+                var _interval = setInterval(function () {
+                    if (parseInt($("#time").text()) > 0) {
+                        $("#time").text(parseInt($("#time").text()) - 1);
+                    }
+                    else {
+                        clearInterval(_interval);
+                        $state.go(curPage);
+                    }
+                }, 1000);
             })
             .controller('MapController', function ($scope, $state, $http, sc, $rootScope, ls) {
                 curPage = "map";
@@ -633,10 +831,26 @@ var app = {
                 curPage = "message";
                 sc.ValidateLogin();
             })
-            .controller('MyController', function ($scope, sc, ls) {
+            .controller('MyController', function ($scope, $state, sc, ls) {
                 curPage = "my";
                 sc.ValidateLogin();
                 $scope.userInfo = ls.getObject("userInfo");
+                $scope.goUserpage = function () {
+                    $state.go('userpage', { userId: $scope.userInfo.UserId })
+                }
+                $scope.goWithdraw = function () {
+                    if ($scope.userInfo.AliPay == null) {
+                        DeviceEvent.Confirm("您还未填写支付宝账号",
+                            function (buttonIndex) {
+                                if (buttonIndex == 1) {
+                                    $state.go('userinfo');
+                                }
+                            }, "请完善个人资料", ['去填写', '取消']);
+                    }
+                    else {
+                        $state.go('withdraw');
+                    }
+                }
                 $scope.logOut = function () {
                     sc.logOut();
                 };

@@ -13,6 +13,8 @@ var scConfig = {
     tokenExpireTime: 7,//days
     attachmentUrl: SCServer.concat("api/attachment?url="),
     packetRecordsUrl: SCServer.concat("api/packetrecord/"),
+    userInfoUrl: SCServer.concat("api/user/"),
+    withdrawUrl: SCServer.concat("api/withdrawapply/"),
 }
 var agencyType = {
     NotAgency: 0,
