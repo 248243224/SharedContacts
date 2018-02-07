@@ -24,34 +24,28 @@ namespace SC.Dal.Service
                 model.PId = user.PId;
                 model.Name = user.Name;
                 model.Sex = user.Sex;
-                model.WechatId = user.WechatId;
+                model.OpenId = user.OpenId;
                 model.AliPay = user.AliPay;
                 model.AgencyType = user.AgencyType;
                 model.AvatarUrl = user.AvatarUrl;
                 model.AgencyBeginTime = user.AgencyBeginTime;
                 model.CreateTime = user.CreateTime;
 
-                model.TodayProfit = context.Profits
-                                 .Where(p => p.UserId.Equals(userId) && p.CreateTime.Date == DateTime.Today)
-                                 .Select(p => p.Amount).Sum();
+                model.RecieveAmount = Math.Round(context.RedPacketCheckRecords.Where(p => p.UserId == userId).Select(p => p.Amount).Sum(), 2);
+                model.SendAmount = Math.Round(context.RedPackets.Where(p => p.UserId == userId).Select(p => p.Amount).Sum(), 2);
 
-                model.MonthProfit = context.Profits
-                                 .Where(p => p.UserId.Equals(userId) && p.CreateTime.Year == DateTime.Now.Year && p.CreateTime.Month == DateTime.Now.Month)
-                                 .Select(p => p.Amount).Sum();
+                var profitList = context.Profits.Where(p => p.UserId.Equals(userId)).ToList();
 
-                model.TodayProfit = context.Profits
-                          .Where(p => p.UserId.Equals(userId))
-                          .Select(p => p.Amount).Sum();
-
-                model.NotWithdrawProfit = context.Profits
-                          .Where(p => p.UserId.Equals(userId) && p.Status == ProfitStatus.NotWithdraw)
-                          .Select(p => p.Amount).Sum();
+                model.TodayProfit = profitList.Where(p => p.CreateTime.Date == DateTime.Today).Select(p => p.Amount).Sum();
+                model.MonthProfit = profitList.Where(p => p.CreateTime.Year == DateTime.Now.Year && p.CreateTime.Month == DateTime.Now.Month).Select(p => p.Amount).Sum();
+                model.TotalProfit = profitList.Select(p => p.Amount).Sum();
+                model.NotWithdrawProfit = profitList.Where(p => p.Status == ProfitStatus.NotWithdraw).Select(p => p.Amount).Sum();
 
                 return model;
             }
         }
 
-        public async void UpdateUserInfoAsync(UserInfoViewModel userInfo)
+        public async Task<SCUser> UpdateUserInfoAsync(UserInfoViewModel userInfo)
         {
             using (var context = SCContext.NewInstance)
             {
@@ -103,6 +97,7 @@ namespace SC.Dal.Service
                 }
                 if (!string.IsNullOrWhiteSpace(userInfo.Name)) user.Name = userInfo.Name;
                 await context.SaveChangesAsync();
+                return user;
             }
         }
 

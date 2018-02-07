@@ -22,7 +22,7 @@ namespace SC.Dal.Migrations
             //context.SCUsers.AddOrUpdate(new SCUser
             //{
             //    UserId = 0,
-            //    WechatId = "admin",
+            //    OpenId = "admin",
             //    AliPay = "admin",
             //    CreateTime = DateTime.Now,
             //    Name = "admin",

@@ -10,11 +10,11 @@ namespace SC.Dal.Service
 {
     public class AccountService : IAccountService
     {
-        public bool CheckUserExsit(string wechatId)
+        public bool CheckUserExsit(string openId)
         {
             using (var context = SCContext.NewInstance)
             {
-                var user = context.SCUsers.FirstOrDefault(u => u.WechatId == wechatId);
+                var user = context.SCUsers.FirstOrDefault(u => u.OpenId == openId);
                 return user == null ? false : true;
             }
         }
@@ -26,11 +26,11 @@ namespace SC.Dal.Service
                 await context.SaveChangesAsync();
             }
         }
-        public SCUser GetUserInfoByWechatId(string wechatId)
+        public SCUser GetUserInfoByOpenId(string openId)
         {
             using (var context = SCContext.NewInstance)
             {
-                return context.SCUsers.FirstOrDefault(u => u.WechatId.Equals(wechatId));
+                return context.SCUsers.FirstOrDefault(u => u.OpenId.Equals(openId));
             }
         }
     }

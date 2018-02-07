@@ -27,7 +27,7 @@ namespace SC.Dal.Service
             using (var context = SCContext.NewInstance)
             {
                 var orderQuery = context.WithdrawApplys.Include("SCUser").OrderByDescending(w => w.ApplyTime);
-                var query = orderQuery.Where(w => (w.SCUser.Name.Contains(searchValue) || w.SCUser.WechatId.Contains(searchValue)) && (w.ApplyTime >= startTime
+                var query = orderQuery.Where(w => (w.SCUser.Name.Contains(searchValue) || w.SCUser.OpenId.Contains(searchValue)) && (w.ApplyTime >= startTime
                        && w.ApplyTime <= endTime));//根据微信号或姓名查询
                 return query.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
             }
@@ -38,7 +38,7 @@ namespace SC.Dal.Service
             using (var context = SCContext.NewInstance)
             {
                 var profitsQuery = context.Profits
-                          .Where(p => p.UserId.Equals(userId) && p.Status == ProfitStatus.NotWithdraw);
+                          .Where(p => p.UserId.Equals(userId) && p.Status == ProfitStatus.NotWithdraw).ToList();
                 double amount = profitsQuery.Select(p => p.Amount).Sum();
 
                 //update profit status
@@ -53,6 +53,16 @@ namespace SC.Dal.Service
                 };
                 context.WithdrawApplys.Add(model);
                 await context.SaveChangesAsync();
+            }
+        }
+
+        public double GetNotWithdrawAmount(int userId)
+        {
+            using (var context = SCContext.NewInstance)
+            {
+                var profitsQuery = context.Profits
+                          .Where(p => p.UserId.Equals(userId) && p.Status == ProfitStatus.NotWithdraw).ToList();
+                return profitsQuery.Select(p => p.Amount).Sum();
             }
         }
 
