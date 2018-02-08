@@ -859,7 +859,6 @@ var app = {
             })
             .controller('LoginController', function ($scope, ls, sc, $state) {
                 if (!ls.get('guideIsChecked')) $state.go('guide');
-                alert(ls.get("code"));
                 sc.checkTicketStillActive();
                 $scope.login = function () {
                     DeviceEvent.SpinnerShow();
