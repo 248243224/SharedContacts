@@ -1,4 +1,4 @@
-package __PACKAGE_NAME__;
+package com.sc.app;
 
 public class WXEntryActivity extends EntryActivity {
 }
