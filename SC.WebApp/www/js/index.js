@@ -43,7 +43,6 @@ var app = {
     receivedEvent: function (id) {
         alert('hi');
         StatusBar.overlaysWebView(true);
-        StatusBar.backgroundColorByHexString("#1d617f");
         //init fast click
         FastClick.attach(document.body);
     },
@@ -341,6 +340,7 @@ var app = {
                                 //get access_token
                                 alert("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code");
                                 $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
+                                    alert(JSON.stringify(data));
                                     //get userinfo
                                     alert("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid);
                                     $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid, function (userInfo) {
