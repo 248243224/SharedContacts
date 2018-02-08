@@ -15,6 +15,8 @@ var scConfig = {
     packetRecordsUrl: SCServer.concat("api/packetrecord/"),
     userInfoUrl: SCServer.concat("api/user/"),
     withdrawUrl: SCServer.concat("api/withdrawapply/"),
+    appId: "wx4722ea6aded42ab7",
+    appSecret:"8a575ff0f4cbc92047ed126d060abf5a",
 }
 var agencyType = {
     NotAgency: 0,

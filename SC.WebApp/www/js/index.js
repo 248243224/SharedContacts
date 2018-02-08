@@ -342,29 +342,45 @@ var app = {
                 };
                 this.Login = function () {
                     //get from tencent
-                    var userInfo = { openId: "17623852229", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
                     try {
-                        $http({
-                            method: "post",
-                            url: scConfig.accountUrl,
-                            data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
-                            timeout: 30000,
-                        }).success(function (d, textStatu, xhr) {
-                            ls.setObject('userInfo', d);
-                            ls.set('loginTime', new Date());
-                            //connect chat server
-                            ImClient.Init(d.UserId);
-                            DeviceEvent.SpinnerHide();
-                            $state.go('map');
-                        }).error(function (error, textStatu, xhr) {
-                            DeviceEvent.SpinnerHide();
-                            DeviceEvent.Toast("网络异常");
-                        });
+                        Wechat.isInstalled(function (installed) {
+                            var scope = "snsapi_userinfo",
+                                state = "_" + (+new Date());
+                            Wechat.auth(scope, state, function (response) {
+                                // you may use response.code to get the access token.
+                                alert(JSON.stringify(response));
+                            }, function (reason) {
+                                alert("Failed: " + reason);
+                            });
+                        }, function (reason) {
+                            alert("Failed: " + reason);
+                        });                       
                     }
-                    catch (e) {
-                        console.log(e);
-                        DeviceEvent.Toast("网络错误");
-                    }
+                    catch (e) { console.log(e); }
+
+                    //var userInfo = { openId: "17623852229", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
+                    //try {
+                    //    $http({
+                    //        method: "post",
+                    //        url: scConfig.accountUrl,
+                    //        data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
+                    //        timeout: 30000,
+                    //    }).success(function (d, textStatu, xhr) {
+                    //        ls.setObject('userInfo', d);
+                    //        ls.set('loginTime', new Date());
+                    //        //connect chat server
+                    //        ImClient.Init(d.UserId);
+                    //        DeviceEvent.SpinnerHide();
+                    //        $state.go('map');
+                    //    }).error(function (error, textStatu, xhr) {
+                    //        DeviceEvent.SpinnerHide();
+                    //        DeviceEvent.Toast("网络异常");
+                    //    });
+                    //}
+                    //catch (e) {
+                    //    console.log(e);
+                    //    DeviceEvent.Toast("网络错误");
+                    //}
                 };
                 this.logOut = function () {
                     DeviceEvent.Confirm("退出之后需要重新登陆",
