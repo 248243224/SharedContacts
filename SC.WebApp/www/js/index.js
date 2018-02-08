@@ -41,6 +41,8 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
+        StatusBar.styleDefault();
+        StatusBar.overlaysWebView(true);
         //init fast click
         FastClick.attach(document.body);
     },
@@ -336,14 +338,12 @@ var app = {
                             Wechat.auth(scope, state, function (response) {
                                 // you may use response.code to get the access token.
                                 //get access_token
-                                alert("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code");
                                 $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
                                     var rerturnData = JSON.parse(data);
                                     //get userinfo
-                                    alert("https://api.weixin.qq.com/sns/userinfo?access_token=" + rerturnData.access_token + "&openid=" + rerturnData.openid);
                                     $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + rerturnData.access_token + "&openid=" + rerturnData.openid, function (userInfo) {
-                                        alert(JSON.stringify(userInfo));
-                                        var user = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
+                                        var user_info = JSON.parse(userInfo);
+                                        var user = { openId: user_info.openid, avatarUrl: user_info.headimgurl, unionId: user_info.unionid, name: user_info.nickname, sex: user_info.sex };
                                         //check user 
                                         $http({
                                             method: "post",
