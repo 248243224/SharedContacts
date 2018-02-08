@@ -343,7 +343,7 @@ var app = {
                                     //get userinfo
                                     $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + rerturnData.access_token + "&openid=" + rerturnData.openid, function (userInfo) {
                                         var user_info = JSON.parse(userInfo);
-                                        var user = { openId: user_info.openid, avatarUrl: user_info.headimgurl, unionId: user_info.unionid, name: user_info.nickname, sex: user_info.sex };
+                                        var user = { openId: user_info.openid, avatarUrl: user_info.headimgurl, unionId: rerturnData.unionid, name: user_info.nickname, sex: user_info.sex };
                                         //check user 
                                         $http({
                                             method: "post",
