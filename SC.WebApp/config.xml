@@ -16,6 +16,14 @@
   <preference name="target-device" value="handset" />
   <preference name="FadeSplashScreenDuration" value="750"/>
 
+  <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+  <feature name="CDVWKWebViewEngine">
+    <param name="ios-package" value="CDVWKWebViewEngine" />
+  </feature>
+  <feature name="StatusBar">
+    <param name="ios-package" onload="true" value="CDVStatusBar" />
+  </feature>
+
   <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
   <plugin name="cordova-plugin-camera" source="npm" spec="~4.0.2" />
   <plugin name="cordova-plugin-media-capture" source="npm" spec="~1.2.0" />
@@ -38,7 +46,6 @@
   <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
   <plugin name="cordova-plugin-spinner" source="npm" spec="~1.1.0" />
   <plugin name="cordova-plugin-x-toast" spec="~2.6.0" />
-  <plugin name="cordova-plugin-wkwebview-engine" />
   <plugin name="cordova-plugin-disable-ios11-statusbar" />
   <plugin name="cordova-plugin-wechat" source="npm" spec="~1.2.0">
     <param name="WECHATAPPID" value="wx4722ea6aded42ab7" />
