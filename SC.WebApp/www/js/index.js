@@ -45,7 +45,7 @@ var app = {
     receivedEvent: function (id) {
         if (id == "deviceready") {
             console.log('Received Event: ' + id);
-            StatusBar.styleDefault();
+            StatusBar.styleBlackTranslucent();
             StatusBar.overlaysWebView(true);
             //init fast click
             FastClick.attach(document.body);
