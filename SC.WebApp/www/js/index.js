@@ -41,8 +41,9 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
-        StatusBar.styleDefault();
-        StatusBar.overlaysWebView(true);
+        alert('hi');
+        StatusBar.overlaysWebView(false);
+        StatusBar.backgroundColorByHexString("#1d617f");
         //init fast click
         FastClick.attach(document.body);
     },
