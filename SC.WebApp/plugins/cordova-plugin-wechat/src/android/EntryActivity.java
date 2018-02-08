@@ -1,4 +1,4 @@
-package __PACKAGE_NAME__;
+package com.sc.app;
 
 import android.app.Activity;
 import android.content.Intent;
