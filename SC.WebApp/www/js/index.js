@@ -347,6 +347,9 @@ var app = {
                             var scope = "snsapi_userinfo",
                                 state = "_" + (+new Date());
                             Wechat.auth(scope, state, function (response) {
+
+                                ls.set("code", response.code);
+
                                 // you may use response.code to get the access token.
                                 alert(JSON.stringify(response));
                                 //get access_token
@@ -860,6 +863,7 @@ var app = {
             })
             .controller('LoginController', function ($scope, ls, sc, $state) {
                 if (!ls.get('guideIsChecked')) $state.go('guide');
+                alert(ls.get("code"));
                 sc.checkTicketStillActive();
                 $scope.login = function () {
                     DeviceEvent.SpinnerShow();
