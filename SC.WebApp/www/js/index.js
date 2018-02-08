@@ -41,8 +41,6 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
-        alert('hi');
-        StatusBar.overlaysWebView(true);
         //init fast click
         FastClick.attach(document.body);
     },
@@ -340,10 +338,10 @@ var app = {
                                 //get access_token
                                 alert("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code");
                                 $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
-                                    alert(JSON.stringify(data));
+                                    var rerturnData = JSON.parse(data);
                                     //get userinfo
-                                    alert("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid);
-                                    $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid, function (userInfo) {
+                                    alert("https://api.weixin.qq.com/sns/userinfo?access_token=" + rerturnData.access_token + "&openid=" + rerturnData.openid);
+                                    $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + rerturnData.access_token + "&openid=" + rerturnData.openid, function (userInfo) {
                                         alert(JSON.stringify(userInfo));
                                         var user = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
                                         //check user 

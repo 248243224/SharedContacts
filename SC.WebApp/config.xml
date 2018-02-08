@@ -15,6 +15,7 @@
   <preference name="ShowSplashScreenSpinner" value="false"/>
   <preference name="target-device" value="handset" />
   <preference name="FadeSplashScreenDuration" value="750"/>
+  <preference name="StatusBarOverlaysWebView" value="true" />
 
   <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
   <plugin name="cordova-plugin-camera" source="npm" spec="~4.0.2" />
