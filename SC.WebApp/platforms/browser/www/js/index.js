@@ -45,14 +45,8 @@ var app = {
     receivedEvent: function (id) {
         if (id == "deviceready") {
             console.log('Received Event: ' + id);
-            //init status bar
-            if (cordova.platformId != 'android') {
-                StatusBar.styleDefault();
-                StatusBar.overlaysWebView(true);
-            }
-            else {
-                StatusBar.overlaysWebView(false);
-            }
+            StatusBar.styleDefault();
+            StatusBar.overlaysWebView(true);
             //init fast click
             FastClick.attach(document.body);
         }
@@ -349,7 +343,9 @@ var app = {
                             Wechat.auth(scope, state, function (response) {
                                 // you may use response.code to get the access token.
                                 //get access_token
+                                alert("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code");
                                 $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
+                                    alert(JSON.stringify(data));
                                     //get userinfo
                                     $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid, function (userInfo) {
                                         var userInfo = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
