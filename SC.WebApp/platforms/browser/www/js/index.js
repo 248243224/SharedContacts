@@ -347,11 +347,7 @@ var app = {
                             var scope = "snsapi_userinfo",
                                 state = "_" + (+new Date());
                             Wechat.auth(scope, state, function (response) {
-
-                                ls.set("code", response.code);
-
                                 // you may use response.code to get the access token.
-                                alert(JSON.stringify(response));
                                 //get access_token
                                 $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
                                     //get userinfo

@@ -10,7 +10,7 @@
   <content src="index.html" />
   <preference name="DisallowOverscroll" value="true" />
   <preference name="android-minSdkVersion" value="14" />
-  <preference name="AndroidLaunchMode" value="singleTask" />
+  <preference name="AndroidLaunchMode" value="singleTop" />
   <preference name="SplashScreen" value="splash" />
   <preference name="SplashScreenDelay" value="3000" />
   <preference name="ShowSplashScreenSpinner" value="false"/>
@@ -39,7 +39,7 @@
   <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
   <plugin name="cordova-plugin-spinner" source="npm" spec="~1.1.0" />
   <plugin name="cordova-plugin-x-toast" spec="~2.6.0" />
-  <plugin name="cordova-plugin-wechat" source="npm" spec="~2.0.0">
+  <plugin name="cordova-plugin-wechat" source="npm" spec="~2.1.0">
     <param name="WECHATAPPID" value="wx4722ea6aded42ab7" />
   </plugin>
 
