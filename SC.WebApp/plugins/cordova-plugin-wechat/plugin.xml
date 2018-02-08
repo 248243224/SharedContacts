@@ -14,8 +14,8 @@
     <issue>https://github.com/xu-li/cordova-plugin-wechat/issues</issue>
 
     <!-- add this to your config.xml -->
-     <preference name="WECHATAPPID" value="wx4722ea6aded42ab7" /> 
-    <!--<preference name="WECHATAPPID" />-->
+    <!-- <preference name="WECHATAPPID" value="YOUR_WECHAT_APP_ID_HERE" /> -->
+    <preference name="WECHATAPPID" />
 
     <!-- js module-->
     <js-module src="www/wechat.js" name="Wechat">

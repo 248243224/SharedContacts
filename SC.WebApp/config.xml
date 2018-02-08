@@ -16,7 +16,7 @@
   <preference name="ShowSplashScreenSpinner" value="false"/>
   <preference name="target-device" value="handset" />
   <preference name="FadeSplashScreenDuration" value="750"/>
-  
+
   <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
   <plugin name="cordova-plugin-camera" source="npm" spec="~4.0.2" />
   <plugin name="cordova-plugin-media-capture" source="npm" spec="~1.2.0" />
@@ -39,8 +39,10 @@
   <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
   <plugin name="cordova-plugin-spinner" source="npm" spec="~1.1.0" />
   <plugin name="cordova-plugin-x-toast" spec="~2.6.0" />
-  <plugin name="cordova-plugin-wechat" source="npm" spec="~2.1.0" />
-  
+  <plugin name="cordova-plugin-wechat" source="npm" spec="~2.1.0">
+    <param name="WECHATAPPID" value="wx4722ea6aded42ab7" />
+  </plugin>
+
   <platform name="android">
     <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="www/res/icon/android/drawable-mdpi-icon.png" />
@@ -60,7 +62,7 @@
     <splash qualifier="port-xhdpi" src="www/res/screen/android/drawable-port-xhdpi.png" />
     <splash qualifier="port-xxhdpi" src="www/res/screen/android/drawable-port-xxhdpi.png" />
     <splash qualifier="port-xxxhdpi" src="www/res/screen/android/drawable-port-xxxhdpi.png" />
-    
+
   </platform>
   <platform name="ios">
     <icon height="57" platform="ios" src="www/res/icon/ios/icon.png" width="57" />
@@ -90,7 +92,7 @@
     <splash height="960" platform="ios" src="www/res/screen/ios/Default@2x~iphone.png" width="640" />
     <splash height="480" platform="ios" src="www/res/screen/ios/Default~iphone.png" width="320" />
   </platform>
- 
+
   <access origin="*" />
   <allow-intent href="http://*/*" />
   <allow-intent href="https://*/*" />
