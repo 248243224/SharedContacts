@@ -343,17 +343,17 @@ var app = {
                             Wechat.auth(scope, state, function (response) {
                                 // you may use response.code to get the access token.
                                 //get access_token
-                                alert("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code");
                                 $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
-                                    alert(JSON.stringify(data));
                                     //get userinfo
                                     $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid, function (userInfo) {
-                                        var userInfo = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
+                                        alert(JSON.stringify(userInfo));
+                                        var user = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
+                                        alert(JSON.stringify(user));
                                         //check user 
                                         $http({
                                             method: "post",
                                             url: scConfig.accountUrl,
-                                            data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
+                                            data: { openId: user.openId, avatarUrl: user.avatarUrl, name: user.name, sex: user.sex, unionid: user.unionid },
                                             timeout: 30000,
                                         }).success(function (d, textStatu, xhr) {
                                             ls.setObject('userInfo', d);
