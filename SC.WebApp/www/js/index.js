@@ -45,14 +45,8 @@ var app = {
     receivedEvent: function (id) {
         if (id == "deviceready") {
             console.log('Received Event: ' + id);
-            //init status bar
-            if (cordova.platformId != 'android') {
-                StatusBar.styleDefault();
-                StatusBar.overlaysWebView(true);
-            }
-            else {
-                StatusBar.overlaysWebView(false);
-            }
+            StatusBar.styleDefault();
+            StatusBar.overlaysWebView(true);
             //init fast click
             FastClick.attach(document.body);
         }
