@@ -22,8 +22,6 @@ var app = {
     initialize: function () {
         this.RouteInit();
         this.bindEvents();
-        //set cache
-        $.ajaxSetup({ cache: true });
     },
     // Bind Event Listeners
     //
@@ -32,7 +30,7 @@ var app = {
     bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         // disable back button in andriod
-        document.addEventListener("backbutton", this.BackButtonCallback, false);
+        //document.addEventListener("backbutton", this.BackButtonCallback, false);
     },
     // deviceready Event Handler
     //
@@ -43,13 +41,10 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
-        if (id == "deviceready") {
-            console.log('Received Event: ' + id);
-            StatusBar.styleBlackTranslucent();
-            StatusBar.overlaysWebView(true);
-            //init fast click
-            FastClick.attach(document.body);
-        }
+        StatusBar.styleDefault();
+        StatusBar.overlaysWebView(true);
+        //init fast click
+        FastClick.attach(document.body);
     },
     BackButtonCallback: function () { },
     RouteInit: function () {
