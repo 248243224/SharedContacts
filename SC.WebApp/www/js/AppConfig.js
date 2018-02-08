@@ -2,8 +2,8 @@
 var curPage = "";
 var curLocation = null;
 var curCity = "";
-//var SCServer = "http://10.229.18.134:8084/";
-var SCServer = "http://192.168.0.110:8084/";
+var SCServer = "http://10.229.18.134:8084/";
+//var SCServer = "http://192.168.0.110:8084/";
 
 var scConfig = {
     iMServer: SCServer.concat("signalr"),
