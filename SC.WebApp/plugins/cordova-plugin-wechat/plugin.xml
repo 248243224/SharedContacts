@@ -14,8 +14,8 @@
     <issue>https://github.com/xu-li/cordova-plugin-wechat/issues</issue>
 
     <!-- add this to your config.xml -->
-    <!-- <preference name="WECHATAPPID" value="YOUR_WECHAT_APP_ID_HERE" /> -->
-    <preference name="WECHATAPPID" />
+     <preference name="WECHATAPPID" value="wx4722ea6aded42ab7" /> 
+    <!--<preference name="WECHATAPPID" />-->
 
     <!-- js module-->
     <js-module src="www/wechat.js" name="Wechat">
@@ -29,7 +29,7 @@
                 <param name="ios-package" value="CDVWechat"/>
                 <param name="onload" value="true" />
             </feature>
-            <preference name="WECHATAPPID" value="wx4722ea6aded42ab7"/>
+            <preference name="WECHATAPPID" value="$WECHATAPPID"/>
         </config-file>
 
         <config-file target="*-Info.plist" parent="LSApplicationQueriesSchemes">
@@ -54,7 +54,7 @@
                     <string>weixin</string>
                     <key>CFBundleURLSchemes</key>
                     <array>
-                        <string>wx4722ea6aded42ab7</string>
+                        <string>$WECHATAPPID</string>
                     </array>
                 </dict>
             </array>
@@ -90,7 +90,7 @@
             <feature name="Wechat">
                 <param name="android-package" value="xu.li.cordova.wechat.Wechat"/>
             </feature>
-            <preference name="WECHATAPPID" value="wx4722ea6aded42ab7"/>
+            <preference name="WECHATAPPID" value="$WECHATAPPID"/>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/*">
@@ -109,7 +109,7 @@
                 <intent-filter>
                     <action android:name="android.intent.action.VIEW"/>
                     <category android:name="android.intent.category.DEFAULT"/>
-                    <data android:scheme="wx4722ea6aded42ab7"/>
+                    <data android:scheme="$WECHATAPPID"/>
                 </intent-filter>
             </activity>
             <activity
@@ -120,7 +120,7 @@
                 <intent-filter>
                     <action android:name="android.intent.action.VIEW"/>
                     <category android:name="android.intent.category.DEFAULT"/>
-                    <data android:scheme="wx4722ea6aded42ab7"/>
+                    <data android:scheme="$WECHATAPPID"/>
                 </intent-filter>
             </activity>
         </config-file>
