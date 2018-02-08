@@ -340,10 +340,10 @@ var app = {
                                 //get access_token
                                 $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
                                     //get userinfo
+                                    alert("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid);
                                     $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid, function (userInfo) {
                                         alert(JSON.stringify(userInfo));
                                         var user = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
-                                        alert(JSON.stringify(user));
                                         //check user 
                                         $http({
                                             method: "post",
