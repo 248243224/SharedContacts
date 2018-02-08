@@ -346,47 +346,36 @@ var app = {
                         Wechat.isInstalled(function (installed) {
                             var scope = "snsapi_userinfo",
                                 state = "_" + (+new Date());
-                            //Wechat.auth(scope, state, function (response) {
-                            //    // you may use response.code to get the access token.
-                            //    alert(JSON.stringify(response));
-                            //    //get access_token
-                            //    $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
-                            //        //get userinfo
-                            //        $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid, function (userInfo) {
-                            //            var userInfo = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
-                            //            //check user 
-                            //            $http({
-                            //                method: "post",
-                            //                url: scConfig.accountUrl,
-                            //                data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
-                            //                timeout: 30000,
-                            //            }).success(function (d, textStatu, xhr) {
-                            //                ls.setObject('userInfo', d);
-                            //                ls.set('loginTime', new Date());
-                            //                //connect chat server
-                            //                ImClient.Init(d.UserId);
-                            //                DeviceEvent.SpinnerHide();
-                            //                $state.go('map');
-                            //            }).error(function (error, textStatu, xhr) {
-                            //                DeviceEvent.SpinnerHide();
-                            //                DeviceEvent.Toast("网络异常");
-                            //            });
-
-                            //        });
-                            //    });
-                            //}, function (reason) {
-                            //    alert("Failed: " + reason);
-                            //});
-
-                            Wechat.share({
-                                text: "This is just a plain string",
-                                scene: Wechat.Scene.TIMELINE   // share to Timeline
-                            }, function () {
-                                alert("Success");
+                            Wechat.auth(scope, state, function (response) {
+                                // you may use response.code to get the access token.
+                                alert(JSON.stringify(response));
+                                //get access_token
+                                $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
+                                    //get userinfo
+                                    $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid, function (userInfo) {
+                                        var userInfo = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
+                                        //check user 
+                                        $http({
+                                            method: "post",
+                                            url: scConfig.accountUrl,
+                                            data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
+                                            timeout: 30000,
+                                        }).success(function (d, textStatu, xhr) {
+                                            ls.setObject('userInfo', d);
+                                            ls.set('loginTime', new Date());
+                                            //connect chat server
+                                            ImClient.Init(d.UserId);
+                                            DeviceEvent.SpinnerHide();
+                                            $state.go('map');
+                                        }).error(function (error, textStatu, xhr) {
+                                            DeviceEvent.SpinnerHide();
+                                            DeviceEvent.Toast("网络异常");
+                                        });
+                                    });
+                                });
                             }, function (reason) {
                                 alert("Failed: " + reason);
                             });
-
                         }, function (reason) {
                             alert("Failed: " + reason);
                         });
