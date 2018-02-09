@@ -66,6 +66,7 @@ namespace SC.ImAndDataApi.Hoster
             builder.RegisterType<UserContactService>().As<IUserContactService>().InstancePerRequest();
             builder.RegisterType<MessageRecordService>().As<IMessageRecordService>().InstancePerRequest();
             builder.RegisterType<AccountService>().As<IAccountService>().InstancePerRequest();
+            builder.RegisterType<ProfitService>().As<IProfitService>().InstancePerRequest();
         }
 
     }
