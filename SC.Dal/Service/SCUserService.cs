@@ -30,9 +30,16 @@ namespace SC.Dal.Service
                 model.AvatarUrl = user.AvatarUrl;
                 model.AgencyBeginTime = user.AgencyBeginTime;
                 model.CreateTime = user.CreateTime;
-
-                model.RecieveAmount = Math.Round(context.RedPacketCheckRecords.Where(p => p.UserId == userId).Select(p => p.Amount).Sum(), 2);
-                model.SendAmount = Math.Round(context.RedPackets.Where(p => p.UserId == userId).Select(p => p.Amount).Sum(), 2);
+                try
+                {
+                    model.RecieveAmount = Math.Round(context.RedPacketCheckRecords.Where(p => p.UserId == userId).Select(p => p.Amount).Sum(), 2);
+                }
+                catch { model.RecieveAmount = 0; }
+                try
+                {
+                    model.SendAmount = Math.Round(context.RedPackets.Where(p => p.UserId == userId).Select(p => p.Amount).Sum(), 2);
+                }
+                catch { model.SendAmount = 0; }
 
                 var profitList = context.Profits.Where(p => p.UserId.Equals(userId)).ToList();
 
@@ -42,6 +49,51 @@ namespace SC.Dal.Service
                 model.NotWithdrawProfit = profitList.Where(p => p.Status == ProfitStatus.NotWithdraw).Select(p => p.Amount).Sum();
 
                 return model;
+            }
+        }
+
+        public IEnumerable<UserInfoViewModel> GetTeamMembers(int userId)
+        {
+            var members = new List<UserInfoViewModel>();
+            using (var context = SCContext.NewInstance)
+            {
+                var users = context.SCUsers.Where(u => u.PId == userId).ToList();
+                if (users.Count() == 0) return members;
+                users.ForEach(user =>
+                {
+                    UserInfoViewModel model = new UserInfoViewModel();
+                    model.UserId = user.UserId;
+                    model.PId = user.PId;
+                    model.Name = user.Name;
+                    model.Sex = user.Sex;
+                    model.OpenId = user.OpenId;
+                    model.AliPay = user.AliPay;
+                    model.AgencyType = user.AgencyType;
+                    model.AvatarUrl = user.AvatarUrl;
+                    model.AgencyBeginTime = user.AgencyBeginTime;
+                    model.CreateTime = user.CreateTime;
+
+                    try
+                    {
+                        model.RecieveAmount = Math.Round(context.RedPacketCheckRecords.Where(p => p.UserId == user.UserId).Select(p => p.Amount).Sum(), 2);
+                    }
+                    catch { model.RecieveAmount = 0; }
+                    try
+                    {
+                        model.SendAmount = Math.Round(context.RedPackets.Where(p => p.UserId == user.UserId).Select(p => p.Amount).Sum(), 2);
+                    }
+                    catch { model.SendAmount = 0; }
+
+                    var profitList = context.Profits.Where(p => p.UserId.Equals(user.UserId)).ToList();
+
+                    model.TodayProfit = profitList.Where(p => p.CreateTime.Date == DateTime.Today).Select(p => p.Amount).Sum();
+                    model.MonthProfit = profitList.Where(p => p.CreateTime.Year == DateTime.Now.Year && p.CreateTime.Month == DateTime.Now.Month).Select(p => p.Amount).Sum();
+                    model.TotalProfit = profitList.Select(p => p.Amount).Sum();
+                    model.NotWithdrawProfit = profitList.Where(p => p.Status == ProfitStatus.NotWithdraw).Select(p => p.Amount).Sum();
+                    members.Add(model);
+                });
+
+                return members;
             }
         }
 
