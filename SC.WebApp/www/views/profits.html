@@ -12,65 +12,13 @@
             <div class="black-btn" ng-click="back()"></div>
         </div>
         <div class="all-item">
-            <div class="item-box clearfix">
+            <div class="item-box clearfix" ng-repeat="profit in profits">
                 <div class="txt-box">
-                    <p class="name">红包-来自吉祥渔乐</p>
-                    <p class="time">2018-01-16  16:15:01</p>
-                    <span class="monery">+0.01元</span>
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="txt-box">
-                    <p class="name">红包-来自吉祥渔乐</p>
-                    <p class="time">2018-01-16  16:15:01</p>
-                    <span class="monery">+0.01元</span>
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="txt-box">
-                    <p class="name">红包-来自吉祥渔乐</p>
-                    <p class="time">2018-01-16  16:15:01</p>
-                    <span class="monery">+0.01元</span>
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="txt-box">
-                    <p class="name">红包-来自吉祥渔乐</p>
-                    <p class="time">2018-01-16  16:15:01</p>
-                    <span class="monery">+0.01元</span>
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="txt-box">
-                    <p class="name">红包-来自吉祥渔乐</p>
-                    <p class="time">2018-01-16  16:15:01</p>
-                    <span class="monery">+0.01元</span>
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="txt-box">
-                    <p class="name">红包-来自吉祥渔乐</p>
-                    <p class="time">2018-01-16  16:15:01</p>
-                    <span class="monery">+0.01元</span>
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="txt-box">
-                    <p class="name">红包-来自吉祥渔乐</p>
-                    <p class="time">2018-01-16  16:15:01</p>
-                    <span class="monery">+0.01元</span>
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="txt-box">
-                    <p class="name">红包-来自吉祥渔乐</p>
-                    <p class="time">2018-01-16  16:15:01</p>
-                    <span class="monery">+0.01元</span>
+                    <p class="name" ng-show="profit.Type == 0" ng-hide="profit.Type != 0">红包-{{profit.Remark}}</p>
+                    <p class="time">{{profit.CreateTime}}</p>
+                    <span class="monery">+{{profit.Amount}}元</span>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-
-    </script>
 </body>

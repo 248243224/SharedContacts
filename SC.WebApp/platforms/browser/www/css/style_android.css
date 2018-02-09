@@ -70,7 +70,7 @@ body {
 }
 .public-header {
   position: fixed;
-  top: 20px;
+  top: 0;
   left: 0;
   z-index: 999;
   height: 1.333333rem;
@@ -219,18 +219,7 @@ body {
   background: #f0eff6;
 }
 .erwei-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-}
-.erwei-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: #ef5252;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .erwei-wrap .public-header .attention {
   float: right;
@@ -287,18 +276,7 @@ body {
   margin-bottom: 0.4rem;
 }
 .details-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-}
-.details-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: #ef5252;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .details-wrap .public-header .attention {
   float: right;
@@ -438,22 +416,9 @@ body {
   background: #efeff4;
 }
 .chat-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
   padding-bottom: 1.733333rem;
 }
-.chat-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
-}
-
-
 .chat-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
   background-size: 100% auto;
@@ -560,18 +525,7 @@ body {
   border-radius: 6px;
 }
 .agent_su-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-}
-.agent_su-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .agent_su-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -606,19 +560,7 @@ body {
   font-size: 0.666667rem;
 }
 .person_f-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-
-}
-.person_f-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .person_f-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -681,23 +623,10 @@ body {
   height: 0.666667rem;
 }
 .personal-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
   padding-left: 0.266667rem;
   padding-right: 0.266667rem;
   box-sizing: border-box;
-
-}
-.personal-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .personal-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -917,23 +846,6 @@ body {
   height: 100vh;
   box-sizing: border-box;
 }
-.map-wrap {
-  padding-bottom: 1.2rem;
-  padding-top: 1.933333rem;
-  width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
-}
-.map-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 0.6rem;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
-}
 .map-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
   background-size: 100% auto;
@@ -997,19 +909,8 @@ body {
   vertical-align: middle;
 }
 .msg-wrap {
-  margin-top: 20px;
   padding-bottom: 1.2rem;
   padding-top: 1.333333rem;
-}
-.msg-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .msg-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1105,19 +1006,7 @@ body {
   color: #969696;
 }
 .mingxi-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-
-}
-.mingxi-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .mingxi-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1151,20 +1040,8 @@ body {
   font-size: 0.453333rem;
   transform: translate(0, -50%);
 }
-
 .deposit-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-}
-.deposit-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .deposit-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1279,18 +1156,7 @@ body {
   color: #949494;
 }
 .alter-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-}
-.alter-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .alter-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1374,19 +1240,8 @@ body {
   vertical-align: middle;
 }
 .team-wrap {
-  margin-top: 20px;
-  padding-bottom: 0.266667rem;
   padding-top: 1.333333rem;
-}
-.team-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
+  padding-bottom: 0.266667rem;
 }
 .team-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1427,21 +1282,8 @@ body {
   background: #fdf5f4;
 }
 .release-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-    padding-bottom: 0.666667rem;
-
-}
-.release-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
+  padding-bottom: 0.666667rem;
 }
 .release-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1609,18 +1451,7 @@ body {
   margin-top: 0.266667rem;
 }
 .agent-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-}
-.agent-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .agent-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1715,20 +1546,7 @@ body {
   margin-bottom: 0.066667rem;
 }
 .record-wrap {
-  margin-top: 20px;
   padding-top: 1.333333rem;
-
-}
-.record-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .record-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1854,20 +1672,8 @@ body {
   color: #49484d;
 }
 .my-wrap {
-  margin-top: 20px;
-  padding-top: 1.333333rem;
   padding-bottom: 1.2rem;
-
-}
-.my-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
+  padding-top: 1.333333rem;
 }
 .my-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1961,21 +1767,8 @@ body {
   margin-right: 0.373333rem;
 }
 .red-wrap {
-  margin-top: 20px;
+  padding-bottom: 1.2rem;
   padding-top: 1.333333rem;
-   padding-bottom: 1.2rem;
-
-}
-.red-wrap:before{
-  position: fixed;
-  content: '';
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 100%;
-  background: url(../images/bg_2.jpg) top center no-repeat;
-  background-size:  100% 20px; 
-  z-index: 9999;
 }
 .red-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -2028,3 +1821,4 @@ body {
   height: auto;
   margin-right: 0.066667rem;
 }
+/*# sourceMappingURL=style.css.map */

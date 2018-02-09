@@ -666,7 +666,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.2",
     "cordova-plugin-spinner": "1.1.0",
     "cordova-plugin-x-toast": "2.6.0",
-    "cordova-plugin-actionsheet": "2.3.3"
+    "cordova-plugin-actionsheet": "2.3.3",
+    "cordova-plugin-disable-ios11-statusbar": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

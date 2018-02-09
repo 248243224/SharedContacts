@@ -16,7 +16,9 @@ var scConfig = {
     userInfoUrl: SCServer.concat("api/user/"),
     withdrawUrl: SCServer.concat("api/withdrawapply/"),
     appId: "wx4722ea6aded42ab7",
-    appSecret:"8a575ff0f4cbc92047ed126d060abf5a",
+    appSecret: "8a575ff0f4cbc92047ed126d060abf5a",
+    profitsUrl: SCServer.concat("api/profit/"),
+    teamUrl: SCServer.concat("api/team/"),
 }
 var agencyType = {
     NotAgency: 0,

@@ -26,7 +26,7 @@
     </div>
     <div class="tab-conter">
         <div class="item-box active">
-            <p class="btn-box"><span class="btn">点击购买</span></p>
+            <p class="btn-box"><span class="btn" ng-click="buyAgency(1)">点击购买</span></p>
             <dl>
                 <dt>区域代理商</dt>
                 <dd>用户可购买区域代理，市区代理300元/年。</dd>
@@ -37,7 +37,7 @@
             </dl>
         </div>
         <div class="item-box">
-            <p class="btn-box"><span class="btn">点击购买</span></p>
+            <p class="btn-box"><span class="btn" ng-click="buyAgency(2)">点击购买</span></p>
             <dl>
                 <dt>全国代理</dt>
                 <dd>用户可购买全国代理3000元/永久</dd>
@@ -49,9 +49,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $('.tab-box .col-md-6').click(function () {
-        $(this).find('.item-box').addClass('active').parents('.col-md-6').siblings().find('.item-box').removeClass('active');
-        $('.tab-conter .item-box').eq($(this).index()).addClass('active').siblings().removeClass('active');
-    })
-</script>

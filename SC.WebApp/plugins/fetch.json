@@ -190,5 +190,13 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-disable-ios11-statusbar": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-disable-ios11-statusbar"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

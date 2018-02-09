@@ -133,7 +133,8 @@ var app = {
                             }
                         },
                         params: {
-                            userId: null
+                            userId: null,
+                            returnUrl: null
                         }
                     })
                     .state('userinfo', {
@@ -594,7 +595,7 @@ var app = {
             .controller('UserpageController', function ($scope, $state, sc, $stateParams) {
                 sc.ValidateLogin();
                 $scope.back = function () {
-                    $state.go('my');
+                    $state.go($stateParams.returnUrl);
                 };
                 $.get(scConfig.userInfoUrl + "?userId=" + $stateParams.userId, function (userInfo) {
                     $scope.$apply(function () {
@@ -661,11 +662,21 @@ var app = {
                     $state.go('update', { obj: { title: "设置支付宝账号", type: "alipay", value: $scope.userInfo.Alipay } });
                 }
             })
-            .controller('TeamController', function ($scope, $state, sc) {
+            .controller('TeamController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+                $scope.goUserpage = function (userId) {
+                    $state.go('userpage', { userId: userId, returnUrl: "team" })
+                }
+                DeviceEvent.SpinnerShow();
+                $.get(scConfig.teamUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (members) {
+                    $scope.$apply(function () {
+                        $scope.teamInfo = members;
+                        DeviceEvent.SpinnerHide();
+                    });
+                });
             })
             .controller('WithdrawController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
@@ -718,17 +729,59 @@ var app = {
                     }
                 });
             })
-            .controller('AgencyController', function ($scope, $state, sc) {
+            .controller('AgencyController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+
+                $scope.buyAgency = function (type) {
+                    DeviceEvent.SpinnerShow();
+
+                    var title = "";
+                    var amount = 0;
+                    if (type == 1) {
+                        if (ls.getObject("userInfo").AgencyType == 1 || ls.getObject("userInfo").AgencyType == 2) {
+                            DeviceEvent.Toast("您已经是代理");
+                            DeviceEvent.SpinnerHide();
+                            return;
+                        }
+                        title = "市区代理已生效";
+                        amount = 300;
+                    }
+                    else {
+                        if (ls.getObject("userInfo").AgencyType == 2) {
+                            DeviceEvent.Toast("您已经是全国代理");
+                            DeviceEvent.SpinnerHide();
+                            return;
+                        }
+                        title = "全国代理已生效";
+                        amount = 3000;
+                    }
+
+                    var userInfo = { UserId: ls.getObject("userInfo").UserId, AgencyType: type };
+                    $.post(scConfig.userInfoUrl, userInfo, function (user) {
+                        //update user info
+                        ls.setObject("userInfo", user);
+                        DeviceEvent.SpinnerHide();
+                        $state.go('success', { obj: { header: "购买成功", title: title, details: "您已完成本次交易", amount: amount } });
+                    })
+                }
+                $('.tab-box .col-md-6').click(function () {
+                    $(this).find('.item-box').addClass('active').parents('.col-md-6').siblings().find('.item-box').removeClass('active');
+                    $('.tab-conter .item-box').eq($(this).index()).addClass('active').siblings().removeClass('active');
+                })
             })
-            .controller('ProfitsController', function ($scope, $state, sc) {
+            .controller('ProfitsController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+                $.get(scConfig.profitsUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (data) {
+                    $scope.$apply(function () {
+                        $scope.profits = data;
+                    });
+                });
             })
             .controller('QrcodeController', function ($scope, $state, sc) {
                 sc.ValidateLogin();
@@ -869,7 +922,7 @@ var app = {
                 sc.ValidateLogin();
                 $scope.userInfo = ls.getObject("userInfo");
                 $scope.goUserpage = function () {
-                    $state.go('userpage', { userId: $scope.userInfo.UserId })
+                    $state.go('userpage', { userId: $scope.userInfo.UserId, returnUrl: "my" })
                 }
                 $scope.goWithdraw = function () {
                     if ($scope.userInfo.AliPay == null) {

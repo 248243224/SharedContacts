@@ -72,6 +72,9 @@
         },
         "cordova-plugin-actionsheet": {
             "PACKAGE_NAME": "com.sc.app"
+        },
+        "cordova-plugin-disable-ios11-statusbar": {
+            "PACKAGE_NAME": "com.sharedcontacts.app"
         }
     },
     "dependent_plugins": {

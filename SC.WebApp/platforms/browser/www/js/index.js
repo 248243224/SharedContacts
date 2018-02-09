@@ -20,10 +20,8 @@
 var app = {
     // Application Constructor
     initialize: function () {
-        this.bindEvents();
         this.RouteInit();
-        //set cache
-        $.ajaxSetup({ cache: true });
+        this.bindEvents();
     },
     // Bind Event Listeners
     //
@@ -32,7 +30,7 @@ var app = {
     bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         // disable back button in andriod
-        document.addEventListener("backbutton", this.BackButtonCallback, false);
+        //document.addEventListener("backbutton", this.BackButtonCallback, false);
     },
     // deviceready Event Handler
     //
@@ -43,13 +41,10 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
-        if (id == "deviceready") {
-            console.log('Received Event: ' + id);
-            StatusBar.styleDefault();
-            StatusBar.overlaysWebView(true);
-            //init fast click
-            FastClick.attach(document.body);
-        }
+        StatusBar.styleDefault();
+        StatusBar.overlaysWebView(true);
+        //init fast click
+        FastClick.attach(document.body);
     },
     BackButtonCallback: function () { },
     RouteInit: function () {
@@ -138,7 +133,8 @@ var app = {
                             }
                         },
                         params: {
-                            userId: null
+                            userId: null,
+                            returnUrl: null
                         }
                     })
                     .state('userinfo', {
@@ -336,73 +332,73 @@ var app = {
                 };
                 this.Login = function () {
                     //get from tencent
-                    try {
-                        Wechat.isInstalled(function (installed) {
-                            var scope = "snsapi_userinfo",
-                                state = "_" + (+new Date());
-                            Wechat.auth(scope, state, function (response) {
-                                // you may use response.code to get the access token.
-                                //get access_token
-                                alert("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code");
-                                $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
-                                    alert(JSON.stringify(data));
-                                    //get userinfo
-                                    $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + data.access_token + "&openid=" + data.openid, function (userInfo) {
-                                        var userInfo = { openId: userInfo.openid, avatarUrl: userInfo.headimgurl, unionId: userInfo.unionid, name: userInfo.nickname, sex: userInfo.sex };
-                                        //check user 
-                                        $http({
-                                            method: "post",
-                                            url: scConfig.accountUrl,
-                                            data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
-                                            timeout: 30000,
-                                        }).success(function (d, textStatu, xhr) {
-                                            ls.setObject('userInfo', d);
-                                            ls.set('loginTime', new Date());
-                                            //connect chat server
-                                            ImClient.Init(d.UserId);
-                                            DeviceEvent.SpinnerHide();
-                                            $state.go('map');
-                                        }).error(function (error, textStatu, xhr) {
-                                            DeviceEvent.SpinnerHide();
-                                            DeviceEvent.Toast("网络异常");
-                                        });
-                                    });
-                                });
-                            }, function (reason) {
-                                alert("Failed: " + reason);
-                            });
-                        }, function (reason) {
-                            alert("Failed: " + reason);
-                        });
-                    }
-                    catch (e) {
-                        console.log(e);
-                        DeviceEvent.Toast("网络错误");
-                    }
-
-                    //var userInfo = { openId: "17623852229", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
                     //try {
-                    //    $http({
-                    //        method: "post",
-                    //        url: scConfig.accountUrl,
-                    //        data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
-                    //        timeout: 30000,
-                    //    }).success(function (d, textStatu, xhr) {
-                    //        ls.setObject('userInfo', d);
-                    //        ls.set('loginTime', new Date());
-                    //        //connect chat server
-                    //        ImClient.Init(d.UserId);
-                    //        DeviceEvent.SpinnerHide();
-                    //        $state.go('map');
-                    //    }).error(function (error, textStatu, xhr) {
-                    //        DeviceEvent.SpinnerHide();
-                    //        DeviceEvent.Toast("网络异常");
+                    //    Wechat.isInstalled(function (installed) {
+                    //        var scope = "snsapi_userinfo",
+                    //            state = "_" + (+new Date());
+                    //        Wechat.auth(scope, state, function (response) {
+                    //            // you may use response.code to get the access token.
+                    //            //get access_token
+                    //            $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
+                    //                var rerturnData = JSON.parse(data);
+                    //                //get userinfo
+                    //                $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + rerturnData.access_token + "&openid=" + rerturnData.openid, function (userInfo) {
+                    //                    var user_info = JSON.parse(userInfo);
+                    //                    var user = { openId: user_info.openid, avatarUrl: user_info.headimgurl, unionId: rerturnData.unionid, name: user_info.nickname, sex: user_info.sex };
+                    //                    //check user 
+                    //                    $http({
+                    //                        method: "post",
+                    //                        url: scConfig.accountUrl,
+                    //                        data: { openId: user.openId, avatarUrl: user.avatarUrl, name: user.name, sex: user.sex, unionid: user.unionid },
+                    //                        timeout: 30000,
+                    //                    }).success(function (d, textStatu, xhr) {
+                    //                        ls.setObject('userInfo', d);
+                    //                        ls.set('loginTime', new Date());
+                    //                        //connect chat server
+                    //                        ImClient.Init(d.UserId);
+                    //                        DeviceEvent.SpinnerHide();
+                    //                        $state.go('map');
+                    //                    }).error(function (error, textStatu, xhr) {
+                    //                        DeviceEvent.SpinnerHide();
+                    //                        DeviceEvent.Toast("网络异常");
+                    //                    });
+                    //                });
+                    //            });
+                    //        }, function (reason) {
+                    //            alert("Failed: " + reason);
+                    //        });
+                    //    }, function (reason) {
+                    //        alert("Failed: " + reason);
                     //    });
                     //}
                     //catch (e) {
                     //    console.log(e);
                     //    DeviceEvent.Toast("网络错误");
                     //}
+
+                    var userInfo = { openId: "17623852229", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
+                    try {
+                        $http({
+                            method: "post",
+                            url: scConfig.accountUrl,
+                            data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
+                            timeout: 30000,
+                        }).success(function (d, textStatu, xhr) {
+                            ls.setObject('userInfo', d);
+                            ls.set('loginTime', new Date());
+                            //connect chat server
+                            ImClient.Init(d.UserId);
+                            DeviceEvent.SpinnerHide();
+                            $state.go('map');
+                        }).error(function (error, textStatu, xhr) {
+                            DeviceEvent.SpinnerHide();
+                            DeviceEvent.Toast("网络异常");
+                        });
+                    }
+                    catch (e) {
+                        console.log(e);
+                        DeviceEvent.Toast("网络错误");
+                    }
                 };
                 this.logOut = function () {
                     DeviceEvent.Confirm("退出之后需要重新登陆",
@@ -599,7 +595,7 @@ var app = {
             .controller('UserpageController', function ($scope, $state, sc, $stateParams) {
                 sc.ValidateLogin();
                 $scope.back = function () {
-                    $state.go('my');
+                    $state.go($stateParams.returnUrl);
                 };
                 $.get(scConfig.userInfoUrl + "?userId=" + $stateParams.userId, function (userInfo) {
                     $scope.$apply(function () {
@@ -666,11 +662,21 @@ var app = {
                     $state.go('update', { obj: { title: "设置支付宝账号", type: "alipay", value: $scope.userInfo.Alipay } });
                 }
             })
-            .controller('TeamController', function ($scope, $state, sc) {
+            .controller('TeamController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+                $scope.goUserpage = function (userId) {
+                    $state.go('userpage', { userId: userId, returnUrl: "team" })
+                }
+                DeviceEvent.SpinnerShow();
+                $.get(scConfig.teamUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (members) {
+                    $scope.$apply(function () {
+                        $scope.teamInfo = members;
+                        DeviceEvent.SpinnerHide();
+                    });
+                });
             })
             .controller('WithdrawController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
@@ -723,17 +729,59 @@ var app = {
                     }
                 });
             })
-            .controller('AgencyController', function ($scope, $state, sc) {
+            .controller('AgencyController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+
+                $scope.buyAgency = function (type) {
+                    DeviceEvent.SpinnerShow();
+
+                    var title = "";
+                    var amount = 0;
+                    if (type == 1) {
+                        if (ls.getObject("userInfo").AgencyType == 1 || ls.getObject("userInfo").AgencyType == 2) {
+                            DeviceEvent.Toast("您已经是代理");
+                            DeviceEvent.SpinnerHide();
+                            return;
+                        }
+                        title = "市区代理已生效";
+                        amount = 300;
+                    }
+                    else {
+                        if (ls.getObject("userInfo").AgencyType == 2) {
+                            DeviceEvent.Toast("您已经是全国代理");
+                            DeviceEvent.SpinnerHide();
+                            return;
+                        }
+                        title = "全国代理已生效";
+                        amount = 3000;
+                    }
+
+                    var userInfo = { UserId: ls.getObject("userInfo").UserId, AgencyType: type };
+                    $.post(scConfig.userInfoUrl, userInfo, function (user) {
+                        //update user info
+                        ls.setObject("userInfo", user);
+                        DeviceEvent.SpinnerHide();
+                        $state.go('success', { obj: { header: "购买成功", title: title, details: "您已完成本次交易", amount: amount } });
+                    })
+                }
+                $('.tab-box .col-md-6').click(function () {
+                    $(this).find('.item-box').addClass('active').parents('.col-md-6').siblings().find('.item-box').removeClass('active');
+                    $('.tab-conter .item-box').eq($(this).index()).addClass('active').siblings().removeClass('active');
+                })
             })
-            .controller('ProfitsController', function ($scope, $state, sc) {
+            .controller('ProfitsController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+                $.get(scConfig.profitsUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (data) {
+                    $scope.$apply(function () {
+                        $scope.profits = data;
+                    });
+                });
             })
             .controller('QrcodeController', function ($scope, $state, sc) {
                 sc.ValidateLogin();
@@ -874,7 +922,7 @@ var app = {
                 sc.ValidateLogin();
                 $scope.userInfo = ls.getObject("userInfo");
                 $scope.goUserpage = function () {
-                    $state.go('userpage', { userId: $scope.userInfo.UserId })
+                    $state.go('userpage', { userId: $scope.userInfo.UserId, returnUrl: "my" })
                 }
                 $scope.goWithdraw = function () {
                     if ($scope.userInfo.AliPay == null) {
