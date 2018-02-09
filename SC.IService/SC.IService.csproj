@@ -45,6 +45,7 @@
     <Compile Include="IAccountService.cs" />
     <Compile Include="IAttachmentService.cs" />
     <Compile Include="IMessageRecordService.cs" />
+    <Compile Include="IProfitService.cs" />
     <Compile Include="IRedPacketService.cs" />
     <Compile Include="ISCUserService.cs" />
     <Compile Include="IUserContactService.cs" />

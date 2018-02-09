@@ -12,5 +12,6 @@ namespace SC.IService
     {
         UserInfoViewModel GetUserInfo(int userId);
         Task<SCUser> UpdateUserInfoAsync(UserInfoViewModel userInfo);
+        IEnumerable<UserInfoViewModel> GetTeamMembers(int userId);
     }
 }
