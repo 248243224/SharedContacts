@@ -23,7 +23,6 @@ namespace SC.Model.Entity
         public DateTime CreateTime { get; set; }
 
         public Sex? Sex { get; set; }
-        [MaxLength(50, ErrorMessage = "头像路径长度不能超过50")]
         public string AvatarUrl { get; set; }
 
         public int? PId { get; set; }
