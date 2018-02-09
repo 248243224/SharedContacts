@@ -70,7 +70,7 @@ body {
 }
 .public-header {
   position: fixed;
-  top: 0;
+  top: 20px;
   left: 0;
   z-index: 999;
   height: 1.333333rem;
@@ -1451,7 +1451,18 @@ body {
   margin-top: 0.266667rem;
 }
 .agent-wrap {
+  margin-top: 20px;
   padding-top: 1.333333rem;
+}
+.agent-wrap:before{
+  position: fixed;
+  content: '';
+  top: 0;
+  height: 20px;
+  width: 100%;
+  background: url(../images/bg_2.jpg) top center no-repeat;
+  background-size:  100% 20px; 
+  z-index: 9999;
 }
 .agent-wrap .public-header {
   background: url(../images/bg_2.jpg) center center no-repeat;
@@ -1821,4 +1832,3 @@ body {
   height: auto;
   margin-right: 0.066667rem;
 }
-/*# sourceMappingURL=style.css.map */
