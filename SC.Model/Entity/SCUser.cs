@@ -50,8 +50,8 @@ namespace SC.Model.Entity
 
     public enum Sex
     {
-        Male,
-        Female
+        Male = 1,
+        Female = 2
     }
 
     public enum AccountStatus
