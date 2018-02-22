@@ -2,7 +2,7 @@
 var curPage = "";
 var curLocation = null;
 var curCity = "";
-var SCServer = "http://192.168.0.110:8084/";
+var SCServer = "http://192.168.48.1:8084/";
 
 var scConfig = {
     iMServer: SCServer.concat("signalr"),
@@ -18,6 +18,7 @@ var scConfig = {
     appSecret: "8a575ff0f4cbc92047ed126d060abf5a",
     profitsUrl: SCServer.concat("api/profit/"),
     teamUrl: SCServer.concat("api/team/"),
+    userContactsUrl: SCServer.concat("api/usercontacts/"),
 }
 var agencyType = {
     NotAgency: 0,

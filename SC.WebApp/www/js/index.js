@@ -424,11 +424,21 @@ var app = {
                     }
                 });
             })
-            .controller('PacketInfoController', function ($scope, $state, sc, $stateParams) {
+            .controller('PacketInfoController', function ($scope, $state, sc, ls, $stateParams) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go($stateParams.returnUrl);
                 };
+                $scope.addFriend = function () {
+                    if (ls.getObject("userInfo").UserId == $scope.packetInfo.UserId) {
+                        DeviceEvent.Toast("不能关注自己");
+                        return;
+                    }
+                    $.post(scConfig.userContactsUrl.concat("?userId=" + ls.getObject("userInfo").UserId + "&friendId=" + $scope.packetInfo.UserId), function (ret) {
+                        if (ret == 0) DeviceEvent.Toast("已经关注过该用户了");
+                        else if (ret == 1) DeviceEvent.Toast("关注成功");
+                    });
+                }
                 $scope.attchmentRootUrl = scConfig.attachmentUrl;
                 if ($stateParams.returnUrl == "map")
                     $scope.packetInfo = $stateParams.obj.Result;
@@ -447,6 +457,49 @@ var app = {
                 $scope.back = function () {
                     $state.go(curPage);
                 };
+                var locationChooseMapInit = function () {
+                    $("#locationMap").css("height", document.body.clientHeight / 2);
+                    $("#locationMap").css("width", document.body.clientWidth);
+                    // 百度地图API功能
+                    var map = new BMap.Map("locationMap", { minZoom: 8, enableClicking: true });    // 创建Map实例
+                    map.enableScrollWheelZoom(true);
+                    map.centerAndZoom(curLocation, 18);
+
+                    var packetIcon = new BMap.Icon("images/large_packet.png", new BMap.Size(35, 45), { offset: new BMap.Size(10, 25) });
+                    var marker = new BMap.Marker(curLocation, { icon: packetIcon });
+                    map.addOverlay(marker);
+                    map.addEventListener("click", function (e) {
+                        map.clearOverlays();
+                        var mk = new BMap.Marker(e.point, { icon: packetIcon });
+                        map.addOverlay(mk);
+                        map.centerAndZoom(e.point, 18);
+                        $scope.packetInfo.Lng = e.point.lng;
+                        $scope.packetInfo.Lat = e.point.lat;
+                    });
+
+                    $(".yes-btn").hide();
+                    $(".black-btn").show();
+                    $("#locationMap").hide();
+                };
+                locationChooseMapInit();
+
+                $scope.locationChooseShow = function () {
+                    $("#locationMap").show();
+                    $(".yes-btn").show();
+                    $(".black-btn").hide();
+                    $(".content-box").hide();
+                    $(".all-input").hide();
+                    $("#title").text("红包发布位置选择");
+                };
+                $scope.locationChooseHide = function () {
+                    $("#locationMap").hide();
+                    $(".yes-btn").hide();
+                    $(".black-btn").show();
+                    $(".content-box").show();
+                    $(".all-input").show();
+                    $("#title").text("红包信息");
+                };
+
                 $scope.packetInfo = {
                     TotalNumber: null,
                     Amount: null,
@@ -909,8 +962,13 @@ var app = {
                     sc.Login();
                 };
             })
-            .controller('ContactsController', function ($scope, sc) {
+            .controller('ContactsController', function ($scope, sc, ls) {
                 curPage = "contacts";
+                $.get(scConfig.userContactsUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (data) {
+                    $scope.$apply(function () {
+                        $scope.Contacts = data;
+                    });
+                });
                 sc.ValidateLogin();
             })
             .controller('MessageController', function ($scope, sc) {

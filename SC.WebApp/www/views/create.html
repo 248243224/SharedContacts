@@ -1,10 +1,11 @@
 ﻿<div class="bgfdf5f4">
     <div class="release-wrap">
         <div class="public-header">
-            <h3 class="title">
+            <h3 class="title" id="title">
                 红包信息
             </h3>
             <div class="black-btn" ng-click="back()"></div>
+            <div class="yes-btn" ng-click="locationChooseHide()">完成</div>
         </div>
         <div class="content-box">
             <textarea id="textContent" placeholder="输入想要对大家说的话，不超过200字..." ng-model="packetInfo.TextContent"></textarea>
@@ -32,22 +33,16 @@
                 </div>
             </div>
             <div class="input-box">
-                <span class="title">位置范围</span>
-                <div class="other-box">
+                <span class="title">红包位置</span>
+                <div class="other-box" ng-click="locationChooseShow()">
                     <!-- <input type="text" name="" placeholder="填写个数"> -->
-                    全市
+                    默认当前位置<a style="color:blue">（自定义位置）</a>
                 </div>
             </div>
             <p class="select">
                 <span>精准筛选<i><img src="images/icon_33.png"><img src="images/icon_34.png" class="active"></i></span>
             </p>
             <div class="sift-box">
-                <div class="input-box">
-                    <span class="title">发布对象</span>
-                    <div class="other-box">
-                        <input type="number" name="" placeholder="请选择">
-                    </div>
-                </div>
                 <div class="input-box">
                     <span class="title">外部链接</span>
                     <div class="other-box">
@@ -65,8 +60,23 @@
                 塞钱进红包
             </div>
         </div>
+        <div class="map" id="locationMap"></div>
     </div>
-    <script type="text/javascript">
-
-    </script>
 </div>
+
+<style>
+    .anchorBL {
+        display: none;
+    }
+
+    .release-wrap .yes-btn {
+        position: absolute;
+        top: 0px;
+        right: 0.4rem;
+        height: 100%;
+        line-height: 1.333333rem;
+        color: #fff;
+        font-size: 0.426667rem;
+        opacity: 1;
+    }
+</style>

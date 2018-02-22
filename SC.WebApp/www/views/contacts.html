@@ -12,38 +12,18 @@
         </div>
         <div class="pulic-search-box">
             <div class="input-box">
-                <input type="text" name="">
+                <input type="text" ng-model="query" name="">
                 <i><img src="images/search.png"></i>
             </div>
         </div>
 
         <div class="all-item">
-            <div class="item-box" ui-sref="chat">
+            <div class="item-box" ui-sref="chat" ng-repeat="userInfo in Contacts| filter:query">
                 <div class="img-box">
-                    <img src="upload/user_2.jpg">
+                    <img src="{{userInfo.FriendAvatar}}">
+>
                 </div>
-                <p>吉祥渔乐推广客服红包</p>
-                <span class="attention"><img src="images/red.png">已关注</span>
-            </div>
-            <div class="item-box" ui-sref="chat">
-                <div class="img-box">
-                    <img src="upload/user_2.jpg">
-                </div>
-                <p>吉祥渔乐推广客服红包</p>
-                <span class="attention"><img src="images/red.png">已关注</span>
-            </div>
-            <div class="item-box" ui-sref="chat">
-                <div class="img-box">
-                    <img src="upload/user_2.jpg">
-                </div>
-                <p>吉祥渔乐推广客服红包</p>
-                <span class="attention"><img src="images/red.png">已关注</span>
-            </div>
-            <div class="item-box" ui-sref="chat">
-                <div class="img-box">
-                    <img src="upload/user_2.jpg">
-                </div>
-                <p>吉祥渔乐推广客服红包</p>
+                <p>{{userInfo.FriendName}}</p>
                 <span class="attention"><img src="images/red.png">已关注</span>
             </div>
         </div>
