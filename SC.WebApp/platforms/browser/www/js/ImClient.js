@@ -3,7 +3,7 @@
     return {
 
         MessageArrived: function (from, content) {
-            alert(content);
+            $("#footer-msg").addClass("remind");
         },
 
         ConnectionEstablishedFunction: function (connectionId) {

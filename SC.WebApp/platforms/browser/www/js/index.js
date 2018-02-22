@@ -122,6 +122,10 @@ var app = {
                                 templateUrl: 'views/chat.html',
                                 controller: 'ChatController'
                             }
+                        },
+                        params: {
+                            title: null,
+                            records: null
                         }
                     })
                     .state('userpage', {
@@ -386,8 +390,6 @@ var app = {
                         }).success(function (d, textStatu, xhr) {
                             ls.setObject('userInfo', d);
                             ls.set('loginTime', new Date());
-                            //connect chat server
-                            ImClient.Init(d.UserId);
                             DeviceEvent.SpinnerHide();
                             $state.go('map');
                         }).error(function (error, textStatu, xhr) {
@@ -460,8 +462,7 @@ var app = {
                 var locationChooseMapInit = function () {
                     $("#locationMap").css("height", document.body.clientHeight / 2);
                     $("#locationMap").css("width", document.body.clientWidth);
-                    // 百度地图API功能
-                    var map = new BMap.Map("locationMap", { minZoom: 8, enableClicking: true });    // 创建Map实例
+                    var map = new BMap.Map("locationMap", { minZoom: 8, enableClicking: true });
                     map.enableScrollWheelZoom(true);
                     map.centerAndZoom(curLocation, 18);
 
@@ -887,6 +888,10 @@ var app = {
             .controller('MapController', function ($scope, $state, $http, sc, $rootScope, ls) {
                 curPage = "map";
                 sc.ValidateLogin();
+
+                //connect im server
+                ImClient.Init(ls.getObject("userInfo").UserId);
+
                 $scope.openRedPacket = function ($event) {
                     $event.stopPropagation();
                     DeviceEvent.SpinnerShow();

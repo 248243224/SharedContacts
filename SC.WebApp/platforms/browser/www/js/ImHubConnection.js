@@ -80,9 +80,11 @@
 
             if (isFunction(twc.connectionEstablishedFunction))
                 twc.connectionEstablishedFunction(twc.connection.id);
-
             twc.isConnecting = false;
-            console.log("ImHubConnection: connect success");
+            if (twc.isConnected)
+                console.log("ImHubConnection: connect success");
+            else
+                console.log("ImHubConnection: connect failed");
         }).fail(function () {
             console.log("ImHubConnection: connect failed");
             twc.isConnected = false;
