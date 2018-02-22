@@ -7,6 +7,7 @@ using SC.Model.Entity;
 using System.Web.Http;
 using SC.Model;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SC.ImAndDataApi.Hoster.Controller
 {
@@ -34,12 +35,12 @@ namespace SC.ImAndDataApi.Hoster.Controller
             }
         }
         [HttpPost]
-        public IHttpActionResult AddContacts(int userId, int friendId)
+        public async Task<IHttpActionResult> AddContacts(int userId, int friendId)
         {
             try
             {
-                _userContactService.AddContactsAsync(userId, friendId);
-                return Ok();
+                var ret = await _userContactService.AddContactsAsync(userId, friendId);
+                return Ok(ret);
             }
             catch (Exception ex)
             {
