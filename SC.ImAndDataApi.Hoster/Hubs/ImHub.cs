@@ -14,20 +14,18 @@ namespace SC.ImAndDataApi.Hoster.Hubs
     [HubName("SCImHub")]
     public class ImHub : Hub
     {
-        static IMessageRecordService _messageRecordService;
-        public ImHub(IMessageRecordService m)
+        public ImHub()
         {
-            _messageRecordService = m;
+            
         }
 
         internal static void Send(Message msg)
         {
             try
             {
-                _messageRecordService.AddAsync(msg.From, msg.To, msg.Content);
+                //_messageRecordService.AddAsync(msg.From, msg.To, msg.Content);
 
                 var connectionId = FindConnectionId(msg.To);
-
                 if (!string.IsNullOrWhiteSpace(connectionId))
                 {
                     var _context = GlobalHost.ConnectionManager.GetHubContext<ImHub>();

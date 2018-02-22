@@ -43,7 +43,7 @@ namespace SC.ImAndDataApi.Hoster
             LogConfig();
             if (SCEnvironment.Init())
             {
-                // AddLocalhostCertificateToTrustedRootIfNotAlreadyAdded();
+                //AddLocalhostCertificateToTrustedRootIfNotAlreadyAdded();
                 using (WebApp.Start("http://192.168.48.1:8084"))
                 {
                     Trace.TraceInformation("web api has been hosted");
