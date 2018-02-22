@@ -10,6 +10,6 @@ namespace SC.IService
     public interface IUserContactService
     {
         IEnumerable<UserContactsViewModel> GetContacts(int userId);
-        void AddContactsAsync(int userId, int friendId);
+        Task<int> AddContactsAsync(int userId, int friendId);
     }
 }
