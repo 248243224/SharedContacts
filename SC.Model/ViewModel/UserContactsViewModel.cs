@@ -11,6 +11,7 @@ namespace SC.Model.ViewModel
     {
         public int FriendId { get; set; }
         public string FriendName { get; set; }
+        public string FriendAvatar { get; set; }
         public string LastMessage { get; set; }
         public List<MessageRecord> MessageRecords { get; set; }
     }
