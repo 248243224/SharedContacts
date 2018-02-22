@@ -26,11 +26,13 @@ namespace SC.Dal.Service
                 {
                     var friendInfo = context.SCUsers.Where(u => u.UserId.Equals(f)).FirstOrDefault();
                     var messageRecords = context.MessageRecords.Where(m => m.UserId.Equals(userId) && m.FriendId.Equals(f)).OrderByDescending(m => m.CreateTime).ToList();
-                    string lastMessage = Regex.Split(Regex.Split(messageRecords?.FirstOrDefault().Content, $"<{userId}>").LastOrDefault(), $"<{f}>").LastOrDefault();
-
+                    string lastMessage = "";
+                    if (messageRecords != null && messageRecords.Count > 0)
+                        lastMessage = Regex.Split(Regex.Split(messageRecords.FirstOrDefault().Content, $"<{userId}>").LastOrDefault(), $"<{f}>").LastOrDefault();
                     UserContactsViewModel model = new UserContactsViewModel();
                     model.FriendId = f;
                     model.FriendName = friendInfo.Name;
+                    model.FriendAvatar = friendInfo.AvatarUrl;
                     model.MessageRecords = messageRecords;
                     model.LastMessage = lastMessage;
 
@@ -40,20 +42,22 @@ namespace SC.Dal.Service
             return contacts;
         }
 
-        public async void AddContactsAsync(int userId, int friendId)
+        public async Task<int> AddContactsAsync(int userId, int friendId)
         {
             using (var context = SCContext.NewInstance)
             {
                 var contact = context.UserContacts.Where(u => (u.UserId.Equals(userId) && u.FriendId.Equals(friendId))
                 || (u.UserId.Equals(friendId) && u.FriendId.Equals(userId))).FirstOrDefault();
-                if (contact != null) return;
+                if (contact != null) return 0;
                 var userContact = new UserContact()
                 {
                     CreateTime = DateTime.Now,
                     FriendId = friendId,
                     UserId = userId
                 };
+                context.UserContacts.Add(userContact);
                 await context.SaveChangesAsync();
+                return 1;
             }
         }
     }

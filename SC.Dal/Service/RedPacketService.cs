@@ -79,9 +79,9 @@ namespace SC.Dal.Service
             var cityList = new List<RedPacket>();
             using (var context = SCContext.NewInstance)
             {
-                cityList = agencyType == (int)AgencyType.Country ? context.RedPackets.Include("CheckRecords").Where(p => p.RestNumber > 0
+                cityList = agencyType == (int)AgencyType.Country ? context.RedPackets.Include("SCUser").Include("CheckRecords").Where(p => p.RestNumber > 0
                 && !p.CheckRecords.Any(r => r.UserId == userId)).ToList()
-                    : context.RedPackets.Where(p => p.City.Equals(city) && p.RestNumber > 0 && !p.CheckRecords.Any(r => r.UserId == userId)).ToList();
+                    : context.RedPackets.Include("SCUser").Include("CheckRecords").Where(p => p.City.Equals(city) && p.RestNumber > 0 && !p.CheckRecords.Any(r => r.UserId == userId)).ToList();
             }
             if (agencyType != (int)AgencyType.NotAgency) retList.AddRange(cityList);
             else
