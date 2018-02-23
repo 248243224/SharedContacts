@@ -29,7 +29,7 @@ namespace SC.Dal.Service
             using (var context = SCContext.NewInstance)
             {
                 var checkRecords = context.RedPacketCheckRecords.Include("RedPacket.SCUser").Where(p => p.UserId == userId);
-                var checkRecordsAmouts = checkRecords.Select(p => p.Amount);
+                var checkRecordsAmouts = checkRecords.Select(p => p.Amount).ToList();
                 var sendRecords = context.RedPackets.Include("SCUser").Where(p => p.UserId == userId).Select(packet => new RedPacketViewModel
                 {
                     UserId = packet.UserId,
@@ -52,7 +52,7 @@ namespace SC.Dal.Service
                 });
 
                 model.Recieved.Amount = Math.Round(checkRecordsAmouts.Sum(), 2);
-                model.Recieved.Largest = Math.Round(checkRecordsAmouts.Max(), 2);
+                model.Recieved.Largest = checkRecordsAmouts.Count > 0 ? Math.Round(checkRecordsAmouts.Max(), 2) : 0;
                 model.Recieved.PacketList = checkRecords.Select(r => new RedPacketViewModel
                 {
                     UserId = r.RedPacket.UserId,
