@@ -10,5 +10,7 @@ namespace SC.Model
         public int From { get; set; }
         public int To { get; set; }
         public string Content { get; set; }
+        public string Avatar { get; set; }
+        public string Name { get; set; }
     }
 }
