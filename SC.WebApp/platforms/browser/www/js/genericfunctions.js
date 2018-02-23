@@ -80,6 +80,29 @@ function dataURItoBlob(dataURI) {
     //New Code
     return new Blob([ab], { type: mimeString });
 }
+
+function getJsonItem(arr, n, v) {
+    for (var i = 0; i < arr.length; i++)
+        if (arr[i][n] == v)
+            return arr[i];
+}  
+
+function getNowFormatDate() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getHours() + seperator2 + date.getMinutes();
+    return currentdate;
+}
+
 function validateAmount(element) {
     element.bind('keypress', function (e) {
         // 在 keypress 事件中拦截错误输入

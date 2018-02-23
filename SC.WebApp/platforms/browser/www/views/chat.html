@@ -1,72 +1,21 @@
-﻿<div class="bgefeff4">
+﻿<style>
+    .ng-scope {
+        background: #efeff4;
+    }
+</style>
+<div class="bgefeff4">
     <div class="chat-wrap">
         <div class="public-header">
             <h3 class="title">
-                吉祥渔乐
+                {{title}}
             </h3>
             <div class="black-btn" ng-click="back()"></div>
         </div>
         <div class="chat-box">
-            <div class="item-box clearfix">
-                <div class="img-box">
-                    <img src="upload/user.jpg">
-                </div>
-                <div class="txt-box">
-                    镇江有玩。
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="img-box">
-                    <img src="upload/user.jpg">
-                </div>
-                <div class="txt-box">
-                    镇江有玩手机捕鱼游戏的扫图加客服，说共享人脉即可领取100元金币。
-                </div>
-            </div>
-            <div class="item-box clearfix oneself">
-                <div class="img-box">
-                    <img src="upload/user.jpg">
-                </div>
-                <div class="txt-box">
-                    镇江有玩手机捕鱼游戏的扫图加客服，说共享人脉即可领取100元金币。
-                </div>
-            </div>
-            <div class="item-box clearfix oneself">
-                <div class="img-box">
-                    <img src="upload/user.jpg">
-                </div>
-                <div class="txt-box">
-                    镇江有玩手机捕鱼游戏的扫图加客服，说共享人脉即可领取100元金币。
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="img-box">
-                    <img src="upload/user.jpg">
-                </div>
-                <div class="txt-box">
-                    镇江有玩手机捕鱼游戏的扫图加客服，说共享人脉即可领取100元金币。
-                </div>
-            </div>
-            <div class="item-box clearfix oneself">
-                <div class="img-box">
-                    <img src="upload/user.jpg">
-                </div>
-                <div class="txt-box">
-                    镇江有玩手机捕鱼游戏的扫图加客服，说共享人脉即可领取100元金币。
-                </div>
-            </div>
-            <div class="item-box clearfix">
-                <div class="img-box">
-                    <img src="upload/user.jpg">
-                </div>
-                <div class="txt-box">
-                    镇江有玩手机捕鱼游戏的扫图加客服，说共享人脉即可领取100元金币。
-                </div>
-            </div>
         </div>
         <div class="send-box">
-            <input type="text" name="">
-            <span>发送</span>
+            <input type="text" ng-model="content" name="">
+            <span ng-click="sendMsg()">发送</span>
         </div>
     </div>
 </div>

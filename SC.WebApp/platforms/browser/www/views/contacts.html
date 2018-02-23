@@ -18,17 +18,13 @@
         </div>
 
         <div class="all-item">
-            <div class="item-box" ui-sref="chat" ng-repeat="userInfo in Contacts| filter:query">
+            <div class="item-box" ng-click="goChat(userInfo.FriendId,userInfo.FriendName)" ng-repeat="userInfo in Contacts| filter:query">
                 <div class="img-box">
-                    <img src="{{userInfo.FriendAvatar}}">
->
+                    <img src="{{userInfo.FriendAvatar}}" />
                 </div>
                 <p>{{userInfo.FriendName}}</p>
                 <span class="attention"><img src="images/red.png">已关注</span>
             </div>
         </div>
-        <script type="text/javascript">
-
-        </script>
     </div>
 </div>

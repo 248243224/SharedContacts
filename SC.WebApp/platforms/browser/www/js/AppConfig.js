@@ -19,6 +19,7 @@ var scConfig = {
     profitsUrl: SCServer.concat("api/profit/"),
     teamUrl: SCServer.concat("api/team/"),
     userContactsUrl: SCServer.concat("api/usercontacts/"),
+    chatUrl: SCServer.concat("api/message/"),
 }
 var agencyType = {
     NotAgency: 0,

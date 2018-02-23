@@ -124,6 +124,7 @@ var app = {
                             }
                         },
                         params: {
+                            userId: null,
                             title: null,
                             records: null
                         }
@@ -640,11 +641,23 @@ var app = {
                 });
 
             })
-            .controller('ChatController', function ($scope, $state, sc) {
+            .controller('ChatController', function ($scope, $state, sc, $stateParams, ls) {
                 sc.ValidateLogin();
+                $scope.title = $stateParams.title;
+                $scope.friendId = $stateParams.userId;
+                $scope.avatar = $stateParams.avatar;
+                $scope.msgRecords = $stateParams.records;
                 $scope.back = function () {
                     $state.go(curPage);
                 };
+                $scope.content = "";
+                $scope.sendMsg = function () {
+                    var msgHtml = "<div class='item-box clearfix oneself'><div class='img-box'><img src='" + ls.getObject("userInfo").AvatarUrl + "'></div> <div class='txt-box'>" + $scope.content + "</div></div>"
+                    $(".chat-box").append(msgHtml);
+                    $.post(scConfig.chatUrl.concat('?userId=' + ls.getObject("userInfo").UserId + '&friendId=' + $stateParams.userId + '&content=' + $scope.content + '&avatar=' + ls.getObject("userInfo").AvatarUrl + '&name=' + ls.getObject("userInfo").Name), function () {
+                    });
+                    $scope.content = "";
+                }
             })
             .controller('UserpageController', function ($scope, $state, sc, $stateParams) {
                 sc.ValidateLogin();
@@ -967,8 +980,11 @@ var app = {
                     sc.Login();
                 };
             })
-            .controller('ContactsController', function ($scope, sc, ls) {
+            .controller('ContactsController', function ($scope, sc, ls, $state) {
                 curPage = "contacts";
+                $scope.goChat = function (friendId, friendName) {
+                    $state.go('chat', { userId: friendId, title: friendName, records: "" });
+                }
                 $.get(scConfig.userContactsUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (data) {
                     $scope.$apply(function () {
                         $scope.Contacts = data;
@@ -976,9 +992,23 @@ var app = {
                 });
                 sc.ValidateLogin();
             })
-            .controller('MessageController', function ($scope, sc) {
+            .controller('MessageController', function ($scope, sc, $state) {
                 curPage = "message";
                 sc.ValidateLogin();
+
+                $scope.goChat = function (friendId, friendName) {
+                    var preChatInfo = JSON.parse(localStorage.getItem("recentChats_" + friendId));
+                    preChatInfo.unReadNumber = 0;
+                    localStorage.setItem("recentChats_" + friendId, JSON.stringify(preChatInfo));
+                    $state.go('chat', { userId: friendId, title: friendName, records: "" });
+                }
+
+                var msgRecords = [];
+                for (var i = localStorage.length - 1; i >= 0; i--) {
+                    if (localStorage.key(i).indexOf("recentChats_") != -1)
+                        msgRecords.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+                }
+                $scope.msgRecords = msgRecords;
             })
             .controller('MyController', function ($scope, $state, sc, ls) {
                 curPage = "my";
