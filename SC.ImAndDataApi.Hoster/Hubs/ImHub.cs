@@ -16,7 +16,7 @@ namespace SC.ImAndDataApi.Hoster.Hubs
     {
         public ImHub()
         {
-            
+
         }
 
         internal static void Send(Message msg)
@@ -29,7 +29,7 @@ namespace SC.ImAndDataApi.Hoster.Hubs
                 if (!string.IsNullOrWhiteSpace(connectionId))
                 {
                     var _context = GlobalHost.ConnectionManager.GetHubContext<ImHub>();
-                    _context.Clients.Client(connectionId).messageArrived(msg.From, msg.Content);
+                    _context.Clients.Client(connectionId).messageArrived(msg.From, msg.Name, msg.Avatar, msg.Content);
                 }
             }
             catch (Exception ex)
