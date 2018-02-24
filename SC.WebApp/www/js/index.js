@@ -397,11 +397,11 @@ var app = {
                     //        DeviceEvent.SpinnerHide();
                     //        DeviceEvent.Toast("网络异常");
                     //    });
-                    }
-                    catch (e) {
-                        console.log(e);
-                        DeviceEvent.Toast("网络错误");
-                    }
+                    //}
+                    //catch (e) {
+                    //    console.log(e);
+                    //    DeviceEvent.Toast("网络错误");
+                    //}
                 };
                 this.logOut = function () {
                     DeviceEvent.Confirm("退出之后需要重新登陆",
