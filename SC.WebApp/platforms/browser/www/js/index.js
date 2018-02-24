@@ -646,7 +646,7 @@ var app = {
                 $scope.title = $stateParams.title;
                 $scope.friendId = $stateParams.userId;
                 $scope.avatar = $stateParams.avatar;
-                $scope.msgRecords = $stateParams.records;
+               // $scope.msgRecords = $stateParams.records;
                 $scope.back = function () {
                     $state.go(curPage);
                 };
@@ -995,6 +995,30 @@ var app = {
             .controller('MessageController', function ($scope, sc, $state) {
                 curPage = "message";
                 sc.ValidateLogin();
+
+                var messageArrived = function (from, name, avatar, content) {
+                    $("#footer-msg").addClass("remind");
+                    var msgHtml = "<div class='item-box clearfix'><div class='img-box'><img src='" + avatar + "'></div> <div class='txt-box'>" + content + "</div></div>"
+                    $(".chat-box").append(msgHtml);
+
+                    var preChatInfo = JSON.parse(localStorage.getItem("recentChats_" + from));
+                    var curTime = getNowFormatDate();
+                    var unReadNumber = 0;
+                    if (preChatInfo != null)
+                        unReadNumber = preChatInfo.unReadNumber;
+                    var chatInfo = { friendId: from, avatar: avatar, name: name, lastMsg: content, unReadNumber: unReadNumber + 1, time: curTime };
+                    localStorage.setItem("recentChats_" + from, JSON.stringify(chatInfo));
+                    var msgRecords = [];
+                    for (var i = localStorage.length - 1; i >= 0; i--) {
+                        if (localStorage.key(i).indexOf("recentChats_") != -1)
+                            msgRecords.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+                    }
+
+                    $scope.$apply(function () {
+                        $scope.msgRecords = msgRecords;
+                    });
+                }
+                imConnection.setFunctions(messageArrived, null);
 
                 $scope.goChat = function (friendId, friendName) {
                     var preChatInfo = JSON.parse(localStorage.getItem("recentChats_" + friendId));
