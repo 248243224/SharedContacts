@@ -359,8 +359,6 @@ var app = {
                                         }).success(function (d, textStatu, xhr) {
                                             ls.setObject('userInfo', d);
                                             ls.set('loginTime', new Date());
-                                            //connect chat server
-                                            ImClient.Init(d.UserId);
                                             DeviceEvent.SpinnerHide();
                                             $state.go('map');
                                         }).error(function (error, textStatu, xhr) {
@@ -370,14 +368,13 @@ var app = {
                                     });
                                 });
                             }, function (reason) {
-                                alert("Failed: " + reason);
+                                DeviceEvent.Toast("Failed: " + reason);
                             });
                         }, function (reason) {
-                            alert("Failed: " + reason);
+                            DeviceEvent.Toast("Failed: " + reason);
                         });
                     }
                     catch (e) {
-                        console.log(e);
                         DeviceEvent.Toast("网络错误");
                     }
 
