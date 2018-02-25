@@ -337,71 +337,68 @@ var app = {
                 };
                 this.Login = function () {
                     //get from tencent
+                    try {
+                        Wechat.isInstalled(function (installed) {
+                            var scope = "snsapi_userinfo",
+                                state = "_" + (+new Date());
+                            Wechat.auth(scope, state, function (response) {
+                                // you may use response.code to get the access token.
+                                //get access_token
+                                $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
+                                    var rerturnData = JSON.parse(data);
+                                    //get userinfo
+                                    $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + rerturnData.access_token + "&openid=" + rerturnData.openid, function (userInfo) {
+                                        var user_info = JSON.parse(userInfo);
+                                        var user = { openId: user_info.openid, avatarUrl: user_info.headimgurl, unionId: rerturnData.unionid, name: user_info.nickname, sex: user_info.sex };
+                                        //check user 
+                                        $http({
+                                            method: "post",
+                                            url: scConfig.accountUrl,
+                                            data: { openId: user.openId, avatarUrl: user.avatarUrl, name: user.name, sex: user.sex, unionid: user.unionid },
+                                            timeout: 30000,
+                                        }).success(function (d, textStatu, xhr) {
+                                            ls.setObject('userInfo', d);
+                                            ls.set('loginTime', new Date());
+                                            DeviceEvent.SpinnerHide();
+                                            $state.go('map');
+                                        }).error(function (error, textStatu, xhr) {
+                                            DeviceEvent.SpinnerHide();
+                                            DeviceEvent.Toast("网络异常");
+                                        });
+                                    });
+                                });
+                            }, function (reason) {
+                                DeviceEvent.Toast("Failed: " + reason);
+                            });
+                        }, function (reason) {
+                            DeviceEvent.Toast("Failed: " + reason);
+                        });
+                    }
+                    catch (e) {
+                        DeviceEvent.Toast("网络错误");
+                    }
+
+                    //var userInfo = { openId: "omqdW05Fnx7rDPPnhd5R3ayAt7kc", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
                     //try {
-                    //    Wechat.isInstalled(function (installed) {
-                    //        var scope = "snsapi_userinfo",
-                    //            state = "_" + (+new Date());
-                    //        Wechat.auth(scope, state, function (response) {
-                    //            // you may use response.code to get the access token.
-                    //            //get access_token
-                    //            $.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + scConfig.appId + "&secret=" + scConfig.appSecret + "&code=" + response.code + "&grant_type=authorization_code", function (data) {
-                    //                var rerturnData = JSON.parse(data);
-                    //                //get userinfo
-                    //                $.get("https://api.weixin.qq.com/sns/userinfo?access_token=" + rerturnData.access_token + "&openid=" + rerturnData.openid, function (userInfo) {
-                    //                    var user_info = JSON.parse(userInfo);
-                    //                    var user = { openId: user_info.openid, avatarUrl: user_info.headimgurl, unionId: rerturnData.unionid, name: user_info.nickname, sex: user_info.sex };
-                    //                    //check user 
-                    //                    $http({
-                    //                        method: "post",
-                    //                        url: scConfig.accountUrl,
-                    //                        data: { openId: user.openId, avatarUrl: user.avatarUrl, name: user.name, sex: user.sex, unionid: user.unionid },
-                    //                        timeout: 30000,
-                    //                    }).success(function (d, textStatu, xhr) {
-                    //                        ls.setObject('userInfo', d);
-                    //                        ls.set('loginTime', new Date());
-                    //                        //connect chat server
-                    //                        ImClient.Init(d.UserId);
-                    //                        DeviceEvent.SpinnerHide();
-                    //                        $state.go('map');
-                    //                    }).error(function (error, textStatu, xhr) {
-                    //                        DeviceEvent.SpinnerHide();
-                    //                        DeviceEvent.Toast("网络异常");
-                    //                    });
-                    //                });
-                    //            });
-                    //        }, function (reason) {
-                    //            alert("Failed: " + reason);
-                    //        });
-                    //    }, function (reason) {
-                    //        alert("Failed: " + reason);
+                    //    $http({
+                    //        method: "post",
+                    //        url: scConfig.accountUrl,
+                    //        data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
+                    //        timeout: 30000,
+                    //    }).success(function (d, textStatu, xhr) {
+                    //        ls.setObject('userInfo', d);
+                    //        ls.set('loginTime', new Date());
+                    //        DeviceEvent.SpinnerHide();
+                    //        $state.go('map');
+                    //    }).error(function (error, textStatu, xhr) {
+                    //        DeviceEvent.SpinnerHide();
+                    //        DeviceEvent.Toast("网络异常");
                     //    });
                     //}
                     //catch (e) {
                     //    console.log(e);
                     //    DeviceEvent.Toast("网络错误");
                     //}
-
-                    var userInfo = { openId: "17623852229", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
-                    try {
-                        $http({
-                            method: "post",
-                            url: scConfig.accountUrl,
-                            data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
-                            timeout: 30000,
-                        }).success(function (d, textStatu, xhr) {
-                            ls.setObject('userInfo', d);
-                            ls.set('loginTime', new Date());
-                            DeviceEvent.SpinnerHide();
-                            $state.go('map');
-                        }).error(function (error, textStatu, xhr) {
-                            DeviceEvent.SpinnerHide();
-                            DeviceEvent.Toast("网络异常");
-                        });
-                    }
-                    catch (e) {
-                        console.log(e);
-                        DeviceEvent.Toast("网络错误");
-                    }
                 };
                 this.logOut = function () {
                     DeviceEvent.Confirm("退出之后需要重新登陆",

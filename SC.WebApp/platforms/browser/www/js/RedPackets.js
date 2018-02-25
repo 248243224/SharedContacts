@@ -13,7 +13,14 @@
         rp._map.enableScrollWheelZoom(true);
         this.RefreshCurrentLocation();
         //refresh location every 2 minutes
-        //setInterval(function () { rp.RefreshCurrentLocation(); }, scConfig.mapRefreshInterval);
+        if (typeof (mapRefreshInterval) != 'undefined') {
+            clearInterval(mapRefreshInterval), function () {
+                mapRefreshInterval = setInterval(function () { rp.RefreshCurrentLocation(); }, scConfig.mapRefreshInterval);
+            }
+        }
+        else {
+            mapRefreshInterval = setInterval(function () { rp.RefreshCurrentLocation(); }, scConfig.mapRefreshInterval);
+        }
     };
     RedPackets.prototype.MarkCurrentLocation = function () {
         var rp = this;
