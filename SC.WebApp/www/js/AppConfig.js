@@ -2,8 +2,8 @@
 var curPage = "";
 var curLocation = null;
 var curCity = "";
-var SCServer = "http://192.168.48.1:8084/";
-//var SCServer = "http://sc.handsave.com/";
+//var SCServer = "http://192.168.48.1:8084/";
+var SCServer = "http://sc.handsave.com/";
 var mapRefreshInterval = null;
 
 var scConfig = {

@@ -378,12 +378,12 @@ var app = {
                         DeviceEvent.Toast("网络错误");
                     }
 
-                    //var userInfo = { openId: "omqdW05Fnx7rDPPnhd5R3ayAt7kc", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
+                    //var userInfo = { openId: "17623852228", avatarUrl: "http://119.28.54.31:8055/user_2.jpg", unionId: "10191656", name: "蜡笔小新", sex: 0 };
                     //try {
                     //    $http({
                     //        method: "post",
                     //        url: scConfig.accountUrl,
-                    //        data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex },
+                    //        data: { openId: userInfo.openId, avatarUrl: userInfo.avatarUrl, name: userInfo.name, sex: userInfo.sex, unionId: userInfo.unionId },
                     //        timeout: 30000,
                     //    }).success(function (d, textStatu, xhr) {
                     //        ls.setObject('userInfo', d);
