@@ -126,6 +126,7 @@
     <allow-intent href="market:*" />
   </platform>
   <platform name="ios">
+    <config-file target="*-Info.plist" parent="NSCameraUsageDescription"> <string>共享人脉需要您的同意,才能访问相机</string>
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
   </platform>
