@@ -39,6 +39,34 @@
         },
         SpinnerHide: function () {
             SpinnerPlugin.activityStop();
+        },
+        OpenCamera: function (onSuccess, onFail) {
+            navigator.camera.getPicture(onSuccess, onFail, {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 500,
+                targetHeight: 730,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            });
+        },
+        OpenAlbum: function (onSuccess, onFail) {
+            navigator.camera.getPicture(onSuccess, onFail,
+                {
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    popoverOptions: new CameraPopoverOptions(300, 300, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY)
+                });
+
+            // Reposition the popover if the orientation changes.
+            window.onorientationchange = function () {
+                var cameraPopoverHandle = new CameraPopoverHandle();
+                var cameraPopoverOptions = new CameraPopoverOptions(0, 0, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY);
+                cameraPopoverHandle.setPosition(cameraPopoverOptions);
+            }
         }
     };
 

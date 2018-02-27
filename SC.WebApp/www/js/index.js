@@ -457,6 +457,56 @@ var app = {
                 $scope.back = function () {
                     $state.go(curPage);
                 };
+
+                var callback = function (buttonIndex) {
+                    setTimeout(function () {
+                        function onSuccess(imageData) {
+                            if ($('.item-box').length < 2) {
+                                $('.btn-box').css('padding-top', '0.6rem');
+                                $('.btn-box p').hide();
+                            } else {
+                                $('.btn-box p').show();
+                                $('.btn-box').css('padding-top', '0.4rem');
+                            }
+                            if (fileContents.size() >= 8) return;
+                            var fileName = guid();
+                            var imgSrc = 'data:image/jpeg;base64,' + imageData;
+                            fileContents.insert(fileName, imgSrc);
+                            var html = '<div class="item-box">' +
+                                '<img src="' + imgSrc + '">' +
+                                '<div class="iconfont-close" data-filename="' + fileName + '"></div>' +
+                                '</div>';
+                            $('.imgs-box').prepend(html);
+                        }
+                        function onFail(message) {
+                            DeviceEvent.Toast(message);
+                        }
+                        // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1) 
+                        if (buttonIndex == 1) {
+                            DeviceEvent.OpenCamera(onSuccess, onFail);
+                        }
+                        if (buttonIndex == 2) {
+                            DeviceEvent.OpenAlbum(onSuccess, onFail);
+                        }
+                    });
+                };
+
+                $scope.getImg = function () {
+                    var options = {
+                        androidTheme: window.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT, // default is THEME_TRADITIONAL 
+                        title: '选择图片来源',
+                        buttonLabels: ['拍照', '从相册中选择'],
+                        androidEnableCancelButton: true, // default false 
+                        winphoneEnableCancelButton: true, // default false 
+                        addCancelButtonWithLabel: '取消',
+                        position: [20, 40], // for iPad pass in the [x, y] position of the popover 
+                        destructiveButtonLast: true // you can choose where the destructive button is shown 
+                    };
+                    // Depending on the buttonIndex, you can now call shareViaFacebook or shareViaTwitter 
+                    // of the SocialSharing plugin (https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin) 
+                    window.plugins.actionsheet.show(options, callback);
+                };
+
                 var locationChooseMapInit = function () {
                     $("#locationMap").css("height", document.body.clientHeight / 2);
                     $("#locationMap").css("width", document.body.clientWidth);
@@ -563,10 +613,6 @@ var app = {
                     var packetAmount = parseInt($("#pakectAmount").val());
                     var textContentLength = $.trim($("#textContent").val()).length;
 
-                    console.log(packetNumber);
-                    console.log(packetAmount);
-                    console.log(textContentLength);
-
                     if (textContentLength > 200) DeviceEvent.Toast("文字内容不能超过200个字");
                     if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100) {
                         enableSubmit = true;
@@ -605,38 +651,10 @@ var app = {
                         $(this).addClass('active');
                     }
                 })
-                $('#file').on('change', function () {
-                    if ($('.item-box').length < 2) {
-                        $('.btn-box').css('padding-top', '0.6rem');
-                        $('.btn-box p').hide();
-                    } else {
-                        $('.btn-box p').show();
-                        $('.btn-box').css('padding-top', '0.4rem');
-                    }
-
-                    var fileObj = document.getElementById("file");
-                    $.each(fileObj.files, function (index, element) {
-
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            if (fileContents.size() >= 8) return;
-                            var fileName = guid();
-                            fileContents.insert(fileName, e.target.result);
-                            var src = e.target.result;
-                            var html = '<div class="item-box">' +
-                                '<img src="' + src + '">' +
-                                '<div class="iconfont-close" data-filename="' + fileName + '"></div>' +
-                                '</div>';
-                            $('.imgs-box').prepend(html);
-                        };
-                        reader.readAsDataURL(element);
-                    });
-                });
                 $('.imgs-box').on('click', '.iconfont-close', function () {
                     $(this).parent('.item-box').remove();
                     fileContents.erase($(this).data("filename"));
                 });
-
             })
             .controller('ChatController', function ($scope, $state, sc, $stateParams, ls) {
                 sc.ValidateLogin();
