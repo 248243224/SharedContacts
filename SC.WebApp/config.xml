@@ -102,18 +102,18 @@
     <splash height="480" platform="ios" src="www/res/screen/ios/Default~iphone.png" width="320" />
   </platform>
 
-  <!--<edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need camera access to take pictures</string>
+  <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">
+    <string>App需要您的同意,才能访问相机</string>
   </edit-config>
   <edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need to photo library access to get pictures from there</string>
+    <string>App需要您的同意,才能访问相册</string>
   </edit-config>
   <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need location access to find things nearby</string>
+    <string>App需要您的同意,才能获得您当前位置</string>
   </edit-config>
   <edit-config target="NSPhotoLibraryAddUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need to photo library access to save pictures there</string>
-  </edit-config>-->
+    <string>App需要您的同意,才能写入相册</string>
+  </edit-config>
   
   <access origin="*" />
   <allow-intent href="http://*/*" />
