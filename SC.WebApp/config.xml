@@ -25,10 +25,7 @@
   </feature>
 
   <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
-  <plugin name="cordova-plugin-camera" source="npm" spec="~4.0.2">
-    <variable name="CAMERA_USAGE_DESCRIPTION" value="共享人脉需要您的同意,才能访问相机" />
-    <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="共享人脉需要您的同意,才能访问相册" />
-  </plugin>
+  <plugin name="cordova-plugin-camera" source="npm" spec="~4.0.2" />
   <plugin name="cordova-plugin-media-capture" source="npm" spec="~1.2.0" />
   <plugin name="cordova-plugin-console" source="npm" spec="~1.0.2" />
   <plugin name="cordova-plugin-contacts" source="npm" spec="~2.0.1" />
@@ -106,17 +103,17 @@
   </platform>
   
   <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need camera access to take pictures</string>
+    <string>共享人脉需要您的同意,才能访问相机</string>
   </edit-config>
   <edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need photo library access to get pictures from there</string>
+    <string>共享人脉需要您的同意,才能访问相册</string>
   </edit-config>
   <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need location access to find things nearby</string>
+    <string>共享人脉需要您的同意,才能获得您当前位置</string>
   </edit-config>
- <edit-config target="NSPhotoLibraryAddUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need photo library access to save pictures there</string>
- </edit-config>
+  <edit-config target="NSPhotoLibraryAddUsageDescription" file="*-Info.plist" mode="merge">
+    <string>共享人脉需要您的同意,才能写入相册</string>
+  </edit-config>
   
   <access origin="*" />
   <allow-intent href="http://*/*" />
