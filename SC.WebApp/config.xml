@@ -102,6 +102,19 @@
     <splash height="960" platform="ios" src="www/res/screen/ios/Default@2x~iphone.png" width="640" />
     <splash height="480" platform="ios" src="www/res/screen/ios/Default~iphone.png" width="320" />
   </platform>
+
+  <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">
+    <string>共享人脉需要您的同意,才能访问相机</string>
+  </edit-config>
+  <edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="merge">
+    <string>共享人脉需要您的同意,才能访问相册</string>
+  </edit-config>
+  <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+    <string>共享人脉需要您的同意,才能获得您当前位置</string>
+  </edit-config>
+  <edit-config target="NSPhotoLibraryAddUsageDescription" file="*-Info.plist" mode="merge">
+    <string>共享人脉需要您的同意,才能写入相册</string>
+  </edit-config>
   
   <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">
     <string>共享人脉需要您的同意,才能访问相机</string>
