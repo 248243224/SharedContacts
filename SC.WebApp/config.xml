@@ -50,6 +50,7 @@
   <plugin name="cordova-plugin-wechat" source="npm" spec="~1.2.0">
     <param name="WECHATAPPID" value="wx4722ea6aded42ab7" />
   </plugin>
+  <plugin name="cordova-plugin-actionsheet" spec="^2.3.3" />
 
   <platform name="android">
     <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
