@@ -1,0 +1,30 @@
+﻿<style>
+    .ng-scope {
+        background: #efeff4;
+    }
+</style>
+<div class="bgefeff4">
+    <div class="red-wrap">
+        <div class="public-header">
+            <h3 class="title">
+                我的关注
+            </h3>
+        </div>
+        <div class="pulic-search-box">
+            <div class="input-box">
+                <input type="text" ng-model="query" name="">
+                <i><img src="images/search.png"></i>
+            </div>
+        </div>
+
+        <div class="all-item">
+            <div class="item-box" ng-click="goChat(userInfo.FriendId,userInfo.FriendName)" ng-repeat="userInfo in Contacts| filter:query">
+                <div class="img-box">
+                    <img src="{{userInfo.FriendAvatar}}" />
+                </div>
+                <p>{{userInfo.FriendName}}</p>
+                <span class="attention"><img src="images/red.png">已关注</span>
+            </div>
+        </div>
+    </div>
+</div>

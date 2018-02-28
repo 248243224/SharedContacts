@@ -1,0 +1,51 @@
+﻿<style>
+    .ng-scope {
+        background: #efeff4;
+    }
+    .footer-box {
+        background: #f7f7f7;
+    }
+</style>
+<div class="bgefeff4">
+    <div class="my-wrap">
+        <div class="public-header">
+            <h3 class="title">
+                我的
+            </h3>
+        </div>
+        <div class="user-box mt30 clearfix" ui-sref="userinfo">
+            <div class="img-box">
+                <img src="{{userInfo.AvatarUrl}}">
+            </div>
+            <div class="txt-box">
+                <p class="name">{{userInfo.Name}}</p>
+                <!--<p class="code">微信开放ID：{{userInfo.OpenId}}</p>-->
+                <p class="code">微信开放ID：12345677555</p>
+            </div>
+            <div class="erwei">
+                <img src="images/eriwei.png">
+            </div>
+        </div>
+        <div class="input-box" ng-click="goUserpage()">
+            <span class="title"><img src="images/icon_20.png">个人中心</span>
+        </div>
+        <div class="input-box mt30" ui-sref="team">
+            <span class="title"><img src="images/icon_21.png">团队列表</span>
+        </div>
+        <div class="input-box" ng-click="goWithdraw()">
+            <span class="title"><img src="images/icon_22.png">提现</span>
+        </div>
+        <div class="input-box" ui-sref="profits">
+            <span class="title"><img src="images/icon_23.png">收入明细</span>
+        </div>
+        <div class="input-box" ui-sref="qrcode">
+            <span class="title"><img src="images/icon_24.png">推广二维码</span>
+        </div>
+        <div class="input-box" ui-sref="agency">
+            <span class="title"><img src="images/icon_25.png">区域代理商</span>
+        </div>
+        <div class="input-box mt30" ng-click="logOut()">
+            <span class="title"><img src="images/icon_26.png">退出</span>
+        </div>
+    </div>
+</div>

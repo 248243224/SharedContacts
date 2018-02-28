@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<script type="text/javascript">
+    //Load content via ajax
+    jQuery(function ($) {
+        if ('enable_ajax_content' in ace) {
+            var options = {
+                content_url: function (url) {
+                    switch (url) {
+                        case "page":
+                        case "home":
+                            return '/controlcenter/home';
+                            break;
+                        case "redpacket":
+                            return '/redpacket/index';
+                            break;
+                        case "withdrawapply":
+                            return '/withdrawapply/index';
+                            break;
+                        default:
+
+                    }
+                },
+                loading_icon: 'fa-spinner fa-2x blue',
+                loading_text: '',
+                default_url: '#home'//default url
+            }
+            ace.enable_ajax_content($, options)
+        }
+    })
+</script>

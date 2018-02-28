@@ -1,0 +1,51 @@
+﻿<style>
+    .ng-scope {
+        background: #efeff4;
+    }
+</style>
+<div class="agent-wrap">
+    <div class="public-header">
+        <h3 class="title">
+            区域代理
+        </h3>
+        <div class="black-btn" ng-click="back()"></div>
+    </div>
+    <div class="tab-box clearfix">
+        <div class="col-md-6">
+            <div class="item-box active">
+                <p>市区代理</p>
+                <p>300元/年</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="item-box">
+                <p>全国代理</p>
+                <p>3000元/永久</p>
+            </div>
+        </div>
+    </div>
+    <div class="tab-conter">
+        <div class="item-box active">
+            <p class="btn-box"><span class="btn" ng-click="buyAgency(1)">点击购买</span></p>
+            <dl>
+                <dt>区域代理商</dt>
+                <dd>用户可购买区域代理，市区代理300元/年。</dd>
+            </dl>
+            <dl>
+                <dt>代理特权</dt>
+                <dd>市区代理特权：可抢该定位地址所在市区的所有红包</dd>
+            </dl>
+        </div>
+        <div class="item-box">
+            <p class="btn-box"><span class="btn" ng-click="buyAgency(2)">点击购买</span></p>
+            <dl>
+                <dt>全国代理</dt>
+                <dd>用户可购买全国代理3000元/永久</dd>
+            </dl>
+            <dl>
+                <dt>代理特权</dt>
+                <dd>全国代理特权：可抢全国所有红包</dd>
+            </dl>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿<style>
+    .ng-scope {
+        background: #efeff4;
+    }
+</style>
+<body class="bgefeff4">
+    <div class="mingxi-wrap">
+        <div class="public-header">
+            <h3 class="title">
+                收入明细
+            </h3>
+            <div class="black-btn" ng-click="back()"></div>
+        </div>
+        <div class="all-item">
+            <div class="item-box clearfix" ng-repeat="profit in profits">
+                <div class="txt-box">
+                    <p class="name" ng-show="profit.Type == 0" ng-hide="profit.Type != 0">红包-{{profit.Remark}}</p>
+                    <p class="time">{{profit.CreateTime}}</p>
+                    <span class="monery">+{{profit.Amount}}元</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

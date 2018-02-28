@@ -1,0 +1,95 @@
+﻿<style>
+    .ng-scope {
+        background: #efeff4;
+    }
+</style>
+<div class="bgefeff4">
+    <div class="record-wrap">
+        <div class="public-header">
+            <h3 class="title">
+                <div class="other-tab">
+                    <span class="active">抢到的红包</span>
+                    <span>我发的红包</span>
+                </div>
+            </h3>
+            <div class="black-btn" ng-click="back()"></div>
+        </div>
+        <div class="record-box">
+            <div class="record-item active">
+                <div class="tab-box clearfix">
+                    <div class="item">
+                        <p class="nub">{{Records.Recieved.Amount}}</p>
+                        <p>收到总金额</p>
+                    </div>
+                    <div class="item active">
+                        <p class="nub">{{Records.Recieved.Largest}}</p>
+                        <p>最佳手气</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <div class="all-box active">
+                        <div class="item-box clearfix" ng-click="showDetails('recieve',$index)" ng-repeat="packet in Records.Recieved.PacketList">
+                            <div class="img-box">
+                                <img src="{{packet.UserAvatar}}">
+                            </div>
+                            <div class="othter-box">
+                                <p class="title">{{packet.Username}}的红包</p>
+                                <div class="info-box">
+                                    <div class="i-box">
+                                        <img src="{{attchmentRootUrl}}{{packet.ImageContent[0]}}">
+                                    </div>
+                                    <div class="txt-box">
+                                        <p>{{packet.TextContent|limitTo:40}}...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="record-item">
+                <div class="tab-box clearfix">
+                    <div class="item">
+                        <p class="nub">{{Records.Send.Amount}}</p>
+                        <p>发出总金额</p>
+                    </div>
+                    <div class="item active">
+                        <p class="nub">{{Records.Send.Largest}}</p>
+                        <p>最大红包金额</p>
+                    </div>
+                </div>
+                <div class="content-box">
+
+                    <div class="all-box active">
+                        <div class="item-box clearfix" ng-click="showDetails('send',$index)" ng-repeat="packet in Records.Send.PacketList">
+                            <div class="img-box">
+                                <img src="{{packet.UserAvatar}}">
+                            </div>
+                            <div class="othter-box">
+                                <p class="title">当前已影响：{{packet.AffectNumber}} 人</p>
+                                <div class="info-box">
+                                    <div class="i-box">
+                                        <img src="{{attchmentRootUrl}}{{packet.ImageContent[0]}}">
+                                    </div>
+                                    <div class="txt-box">
+                                        <p>{{packet.TextContent|limitTo:40}}...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('.tab-box .item').click(function () {
+            $(this).addClass('active').siblings('').removeClass('active');
+            $(this).parents('.record-item').find('.content-box .all-box').eq($(this).index()).addClass('active').siblings().removeClass('active');
+        })
+        $('.other-tab span').click(function () {
+            $(this).addClass('active').siblings('').removeClass('active');
+            $('.record-box .record-item').eq($(this).index()).addClass('active').siblings().removeClass('active');
+        })
+    </script>
+</div>

@@ -1,0 +1,30 @@
+﻿<style>
+    .ng-scope {
+        background: #efeff4;
+    }
+</style>
+<div class="bgefeff4">
+    <div class="team-wrap">
+        <div class="public-header">
+            <h3 class="title">
+                团队列表
+            </h3>
+            <div class="black-btn" ng-click="back()"></div>
+        </div>
+        <div class="pulic-search-box">
+            <div class="input-box">
+                <input type="text" ng-model="query" name="">
+                <i><img src="images/search.png"></i>
+            </div>
+        </div>
+        <div class="all-item">
+            <div class="item-box" ng-click="goUserpage(user.UserId)" ng-repeat="user in teamInfo| filter:query">
+                <div class="img-box"><img src="{{user.AvatarUrl}}"></div>
+                <p>{{user.Name}}</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+</div>

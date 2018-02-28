@@ -1,0 +1,42 @@
+﻿<style>
+    .anchorBL {
+        display: none;
+    }
+</style>
+<div class="map-wrap">
+    <div class="public-header">
+        <h3 class="title">
+            现金红包
+        </h3>
+    </div>
+    <div class="map-box">
+        <div class="info">
+            <span class="icon"><img src="images/icon_31.png"></span>
+            限时活动：单次发布200元送一个月VIP
+        </div>
+        <div class="img-box">
+            <div class="map" style="width:100%;height:100%" id="redPackestMap"></div>
+        </div>
+        <div class="refresh">
+            <img src="images/refresh.png">
+        </div>
+        <div class="hot-box" ui-sref="records">
+            <img src="images/hot_page_2.png">
+        </div>
+    </div>
+</div>
+<div class="pop-box">
+    <div class="hot-box" ng-click="openRedPacket($event)">
+        <div class="img-box">
+            <img src="">
+        </div>
+        <p class="name"></p>
+        <p class="info">恭喜发财，大吉大利！</p>
+        <div class="off"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".pop-box").click(function () {
+        $('.pop-box').hide();
+    });
+</script>

@@ -1,0 +1,70 @@
+﻿
+<div class="details-wrap">
+    <div class="public-header">
+        <h3 class="title">红包信息</h3>
+        <div class="black-btn" ng-click="back()"></div>
+        <span class="attention" ng-click="addFriend()">+关注</span>
+    </div>
+    <div class="user-box">
+        <div class="user-top">
+            <img src="images/icon_4.png">
+        </div>
+        <div class="user-info">
+            <div class="user-img">
+                <img src="{{packetInfo.UserAvatar}}">
+            </div>
+            <div class="user-txt">
+                <p class="info">{{packetInfo.Username}}的红包 <span>全市</span></p>
+                <h3>{{packetInfo.Amount}}<i>元</i></h3>
+                <p class="hint">已存入零钱</p>
+            </div>
+        </div>
+    </div>
+    <div class="friends-box">
+        <div class="info">
+            <p>已领取，添加该好友之后，可再领取<span>{{packetInfo.Amount}}</span>元红包。 <span class="icon_txt"><img src="images/icon_6.png"></span></p>
+        </div>
+        <div class="all-friends clearfix">
+            <div class="item-box">
+                <a href="#"><img src="images/user_1.jpg"></a>
+            </div>
+            <div class="item-box">
+                <a href="#"><img src="images/user_2.jpg"></a>
+            </div>
+            <div class="item-box">
+                <a href="#"><img src="images/user_3.jpg"></a>
+            </div>
+            <div class="item-box">
+                <a href="#"><img src="images/user_1.jpg"></a>
+            </div>
+            <div class="item-box">
+                <a href="#"><img src="images/user_2.jpg"></a>
+            </div>
+            <div class="item-box">
+                <a href="#"><img src="images/user_3.jpg"></a>
+            </div>
+            <div class="item-box">
+                <a href="#"><img src="images/user_3.jpg"></a>
+            </div>
+            <div class="item-box">
+                <a href="#"><img src="images/right.png"></a>
+            </div>
+        </div>
+    </div>
+    <div class="msg-box">
+        <div class="txt-box">
+            <p>
+                {{packetInfo.TextContent}}
+            </p>
+            <p><a href="{{packetInfo.Link}}">打开外部链接</a></p>
+        </div>
+        <div class="img-box">
+            <div class="col-md-3" ng-repeat="img in packetInfo.ImageContent">
+                <a class="example-image-link" href="{{attchmentRootUrl}}{{img}}" data-lightbox="example-1">
+                    <img class="example-image" height="100" src="{{attchmentRootUrl}}{{img}}" alt="image-1" />
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
