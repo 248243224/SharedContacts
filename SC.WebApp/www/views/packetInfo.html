@@ -56,7 +56,7 @@
             <p>
                 {{packetInfo.TextContent}}
             </p>
-            <p><a href="{{packetInfo.Link}}">打开外部链接</a></p>
+            <p><a ng-show="packetInfo.Link != ''&&packetInfo.Link != null" ng-hide="packetInfo.Link == null||packetInfo.Link == ''" ng-click="showLink(packetInfo.Link)">打开外部链接</a></p>
         </div>
         <div class="img-box">
             <div class="col-md-3" ng-repeat="img in packetInfo.ImageContent">

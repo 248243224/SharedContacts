@@ -429,6 +429,10 @@ var app = {
                 $scope.back = function () {
                     $state.go($stateParams.returnUrl);
                 };
+                $scope.showLink = function (link) {
+                    var inAppBrowserRef = cordova.InAppBrowser.open(link, '_blank', 'location=yes');
+                    inAppBrowserRef.show();
+                }
                 $scope.addFriend = function () {
                     if (ls.getObject("userInfo").UserId == $scope.packetInfo.UserId) {
                         DeviceEvent.Toast("不能关注自己");
