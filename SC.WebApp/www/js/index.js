@@ -368,13 +368,16 @@ var app = {
                                     });
                                 });
                             }, function (reason) {
+                                DeviceEvent.SpinnerHide();
                                 DeviceEvent.Toast("Failed: " + reason);
                             });
                         }, function (reason) {
+                            DeviceEvent.SpinnerHide();
                             DeviceEvent.Toast("Failed: " + reason);
                         });
                     }
                     catch (e) {
+                        DeviceEvent.SpinnerHide();
                         DeviceEvent.Toast("网络错误");
                     }
 
@@ -823,9 +826,11 @@ var app = {
 
                 $scope.buyAgency = function (type) {
                     DeviceEvent.SpinnerShow();
-
                     var title = "";
                     var amount = 0;
+                    var subject = "";
+                    var payInfo = "";
+
                     if (type == 1) {
                         if (ls.getObject("userInfo").AgencyType == 1 || ls.getObject("userInfo").AgencyType == 2) {
                             DeviceEvent.Toast("您已经是代理");
@@ -833,7 +838,8 @@ var app = {
                             return;
                         }
                         title = "市区代理已生效";
-                        amount = 300;
+                        subject = "市区代理";
+                        amount = 0.01;
                     }
                     else {
                         if (ls.getObject("userInfo").AgencyType == 2) {
@@ -842,16 +848,26 @@ var app = {
                             return;
                         }
                         title = "全国代理已生效";
-                        amount = 3000;
+                        subject = "全国代理";
+                        amount = 0.01;
                     }
-
-                    var userInfo = { UserId: ls.getObject("userInfo").UserId, AgencyType: type };
-                    $.post(scConfig.userInfoUrl, userInfo, function (user) {
-                        //update user info
-                        ls.setObject("userInfo", user);
-                        DeviceEvent.SpinnerHide();
-                        $state.go('success', { obj: { header: "购买成功", title: title, details: "您已完成本次交易", amount: amount } });
-                    })
+                    // 第一步：订单在服务端签名生成订单信息，具体请参考官网进行签名处理 https://docs.open.alipay.com/204/105465/
+                    $.get(scConfig.alipayUrl + "?subject=" + subject + "&&totalAmount=" + amount, function (data) {
+                        payInfo = data;
+                        // 第二步：调用支付插件            
+                        cordova.plugins.alipay.payment(payInfo, function success(e) {
+                            var userInfo = { UserId: ls.getObject("userInfo").UserId, AgencyType: type };
+                            $.post(scConfig.userInfoUrl, userInfo, function (user) {
+                                DeviceEvent.SpinnerHide();
+                                //update user info
+                                ls.setObject("userInfo", user);
+                                $state.go('success', { obj: { header: "购买成功", title: title, details: "您已完成本次交易", amount: amount } });
+                            })
+                        }, function error(e) {
+                            DeviceEvent.SpinnerHide();
+                            DeviceEvent.Toast("支付失败");
+                        });
+                    });
                 }
                 $('.tab-box .col-md-6').click(function () {
                     $(this).find('.item-box').addClass('active').parents('.col-md-6').siblings().find('.item-box').removeClass('active');
