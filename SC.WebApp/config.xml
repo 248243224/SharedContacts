@@ -52,6 +52,9 @@
   </plugin>
   <plugin name="cordova-plugin-actionsheet" spec="~2.3.3" />
   <plugin name="cordova-plugin-ios-camera-permissions" spec="~1.2.0" />
+  <plugin name="cordova-plugin-alipay-v2" spec="0.0.4">
+    <variable name="APP_ID" value="2018020902171382" />
+  </plugin>
 
   <platform name="android">
     <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
