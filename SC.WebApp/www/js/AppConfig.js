@@ -1,5 +1,4 @@
-﻿
-var curPage = "";
+﻿var curPage = "";
 var curLocation = null;
 var curCity = "";
 //var SCServer = "http://192.168.48.1:8084/";
@@ -16,6 +15,7 @@ var scConfig = {
     packetRecordsUrl: SCServer.concat("api/packetrecord/"),
     userInfoUrl: SCServer.concat("api/user/"),
     withdrawUrl: SCServer.concat("api/withdrawapply/"),
+    alipayUrl: SCServer.concat("api/alipay/"),
     appId: "wx4722ea6aded42ab7",
     appSecret: "8a575ff0f4cbc92047ed126d060abf5a",
     profitsUrl: SCServer.concat("api/profit/"),
@@ -28,6 +28,11 @@ var agencyType = {
     City: 1,
     Country: 2,
 }
+
+
+
+
+
 
 
 
