@@ -668,7 +668,7 @@ var app = {
                 $scope.title = $stateParams.title;
                 $scope.friendId = $stateParams.userId;
                 $scope.avatar = $stateParams.avatar;
-               // $scope.msgRecords = $stateParams.records;
+                // $scope.msgRecords = $stateParams.records;
                 $scope.back = function () {
                     $state.go(curPage);
                 };
@@ -852,7 +852,7 @@ var app = {
                         amount = 0.01;
                     }
                     // 第一步：订单在服务端签名生成订单信息，具体请参考官网进行签名处理 https://docs.open.alipay.com/204/105465/
-                    $.get(scConfig.alipayUrl + "?subject=" + subject + "&&totalAmount=" + amount, function (data) {
+                    $.post(scConfig.alipayUrl + "?subject=" + subject + "&&totalAmount=" + amount, function (data) {
                         payInfo = data;
                         // 第二步：调用支付插件            
                         cordova.plugins.alipay.payment(payInfo, function success(e) {
@@ -885,11 +885,20 @@ var app = {
                     });
                 });
             })
-            .controller('QrcodeController', function ($scope, $state, sc) {
+            .controller('QrcodeController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
                 $scope.back = function () {
                     $state.go('my');
                 };
+                var obj = new WxLogin({
+                    id: "login_container",
+                    appid: "wxb6ad20458051a8fd",
+                    scope: "snsapi_login",
+                    redirect_uri: "http://www.nbd123.com/WechatAuth/AuthCallback",
+                    state: ls.getObject("userInfo").UserId,
+                    style: "",
+                    href: ""
+                });
             })
             .controller('RecordsController', function ($scope, $state, sc, ls) {
                 sc.ValidateLogin();
