@@ -354,7 +354,7 @@ var app = {
                                         $http({
                                             method: "post",
                                             url: scConfig.accountUrl,
-                                            data: { openId: user.openId, avatarUrl: user.avatarUrl, name: user.name, sex: user.sex, unionid: user.unionid },
+                                            data: { openId: user.openId, avatarUrl: user.avatarUrl, name: user.name, sex: user.sex, unionid: user.unionId },
                                             timeout: 30000,
                                         }).success(function (d, textStatu, xhr) {
                                             ls.setObject('userInfo', d);
@@ -890,14 +890,14 @@ var app = {
                 $scope.back = function () {
                     $state.go('my');
                 };
-                var obj = new WxLogin({
-                    id: "login_container",
-                    appid: "wxb6ad20458051a8fd",
-                    scope: "snsapi_login",
-                    redirect_uri: "http://www.nbd123.com/WechatAuth/AuthCallback",
-                    state: ls.getObject("userInfo").UserId,
-                    style: "",
-                    href: ""
+                $scope.userAvatar = ls.getObject("userInfo").AvatarUrl;
+                //二维码生成
+                $("#qrCode").empty();
+                $("#qrCode").qrcode({
+                    render: "canvas",
+                    width: window.innerWidth - 100,
+                    height: window.innerHeight / 2.5,
+                    text: "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx457087c6f3e2d3be&redirect_uri=http://scadmin.handsave.com/WechatAuth/AuthCallback&response_type=code&scope=snsapi_userinfo&state=" + ls.getObject("userInfo").UserId+"&connect_redirect=1#wechat_redirect"
                 });
             })
             .controller('RecordsController', function ($scope, $state, sc, ls) {
