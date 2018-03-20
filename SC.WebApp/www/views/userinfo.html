@@ -17,30 +17,37 @@
                 <img src="{{userInfo.AvatarUrl}}">
             </div>
         </div>
-        <div class="input-box" ng-click="updateName()">
+        <div class="input-box right" ng-click="updateName()">
             <span class="title">昵称</span>
             <span class="txt-box">{{userInfo.Name}}</span>
         </div>
         <div class="input-box">
+            <span class="title">性别</span>
+            <span class="txt-box" ng-show="userInfo.Sex == 1" ng-hide="userInfo.Sex != 1">男</span>
+            <span class="txt-box" ng-show="userInfo.Sex == 2" ng-hide="userInfo.Sex != 2">女</span>
+        </div>
+        <!--<div class="input-box">
             <span class="title">个性签名</span>
             <span class="txt-box"></span>
-        </div>
-        <div class="input-box">
+        </div>-->
+        <!--<div class="input-box">
             <span class="title">我的二维码</span>
             <span class="erwei-box">
                 <img src="images/eriwei.png">
             </span>
-        </div>
-        <div class="input-box" ng-click="updateAlipay()">
+        </div>-->
+        <div class="input-box right mt30" ng-click="updateAlipay()">
             <span class="title">支付宝账号</span>
             <span class="txt-box">{{userInfo.AliPay}}</span>
         </div>
-        <div class="input-box mt30">
-            <span class="title">性别</span>
-            <span class="txt-box"  ng-show="userInfo.Sex == 1" ng-hide="userInfo.Sex != 1">男</span>
-            <span class="txt-box" ng-show="userInfo.Sex == 2" ng-hide="userInfo.Sex != 2">女</span>
+
+        <div class="input-box right" ng-click="updateAlipayName()">
+            <span class="title">支付宝姓名</span>
+            <span class="txt-box">{{userInfo.AliPayName}}</span>
         </div>
-        <div class="input-box">
+        
+
+        <!--<div class="input-box">
             <span class="title">常驻地区</span>
             <span class="txt-box">设置后有红包提醒</span>
         </div>
@@ -51,7 +58,7 @@
         <div class="input-box mt30">
             <span class="title">分享APP</span>
             <span class="txt-box"></span>
-        </div>
+        </div>-->
 
     </div>
 </div>

@@ -642,11 +642,23 @@ body {
   top: 50%;
   margin-top: -0.12rem;
   content: '';
-  background: url(../images/right.png);
+  /*background: url(../images/right.png);*/
   background-size: 0.16rem 0.24rem;
   width: 0.16rem;
   height: 0.24rem;
 }
+
+    .person_f-wrap .input-box.right:before {
+        position: absolute;
+        right: 0.6rem;
+        top: 50%;
+        margin-top: -0.12rem;
+        content: '';
+        background: url(../images/right.png);
+        background-size: 0.16rem 0.24rem;
+        width: 0.16rem;
+        height: 0.24rem;
+    }
 
 .person_f-wrap .input-box .title {
   font-size: 0.453333rem;

@@ -570,24 +570,35 @@ var app = {
                     if (enableSubmit) {
                         try {
                             DeviceEvent.SpinnerShow();
-                            var fd = new FormData();
-                            $scope.packetInfo.Amount = parseInt($scope.packetInfo.Amount);
-                            fd.append('packetinfo', JSON.stringify($scope.packetInfo));
-                            $.each(fileContents._vals, function (i, file) {
-                                var resizedImage = ResizeImage(file);
-                                fd.append('files', resizedImage);
+
+                            // 第一步：订单在服务端签名生成订单信息，具体请参考官网进行签名处理 https://docs.open.alipay.com/204/105465/
+                            $.post(scConfig.alipayUrl + "?subject=红包&totalAmount=" + $scope.packetInfo.Amount, function (data) {
+                                payInfo = data;
+                                // 第二步：调用支付插件            
+                                cordova.plugins.alipay.payment(payInfo, function success(e) {
+                                    var fd = new FormData();
+                                    $scope.packetInfo.Amount = parseInt($scope.packetInfo.Amount);
+                                    fd.append('packetinfo', JSON.stringify($scope.packetInfo));
+                                    $.each(fileContents._vals, function (i, file) {
+                                        var resizedImage = ResizeImage(file);
+                                        fd.append('files', resizedImage);
+                                    });
+                                    $.ajax({
+                                        url: scConfig.redPacketsUrl,
+                                        type: 'POST',
+                                        contentType: false,
+                                        data: fd,
+                                        cache: false,
+                                        processData: false
+                                    }).success(function () {
+                                        DeviceEvent.SpinnerHide();
+                                        $state.go('success', { obj: { header: "发布成功", title: "红包已发布", details: "非常感谢您的支持", amount: $scope.packetInfo.Amount } });
+                                    }).error(function () { DeviceEvent.Toast("发布失败"); });
+                                }, function error(e) {
+                                    DeviceEvent.SpinnerHide();
+                                    DeviceEvent.Toast("支付失败");
+                                });
                             });
-                            $.ajax({
-                                url: scConfig.redPacketsUrl,
-                                type: 'POST',
-                                contentType: false,
-                                data: fd,
-                                cache: false,
-                                processData: false
-                            }).success(function () {
-                                DeviceEvent.SpinnerHide();
-                                $state.go('success', { obj: { header: "发布成功", title: "红包已发布", details: "非常感谢您的支持", amount: $scope.packetInfo.Amount } });
-                            }).error(function () { alert("发布失败"); });
                         }
                         catch (e) {
                             console.log(e);
@@ -599,13 +610,15 @@ var app = {
                 //validate
                 validateAmount($('#pakectAmount'));
 
+
                 $('#pakectAmount').bind('keyup paste', function () {
 
                     var packetNumber = parseInt($("#pakectNumber").val());
                     var packetAmount = parseInt($("#pakectAmount").val());
                     var textContentLength = $.trim($("#textContent").val()).length;
 
-                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100) {
+                    if (packetAmount < 0.1 * packetNumber) { DeviceEvent.Toast("每个红包金额不能小于0.1元"); }
+                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100 && packetAmount >= 0.1 * packetNumber) {
                         enableSubmit = true;
                         $(".btn").css("background", "#fe625c");
                     }
@@ -621,7 +634,7 @@ var app = {
                     var textContentLength = $.trim($("#textContent").val()).length;
 
                     if (textContentLength > 200) DeviceEvent.Toast("文字内容不能超过200个字");
-                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100) {
+                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100 && packetAmount >= 0.1 * packetNumber) {
                         enableSubmit = true;
                         $(".btn").css("background", "#fe625c");
                     }
@@ -636,8 +649,8 @@ var app = {
                     var packetAmount = parseInt($("#pakectAmount").val());
                     var textContentLength = $.trim($("#textContent").val()).length;
 
-                    if (packetNumber == 0 || packetNumber > 100) { $("#pakectNumber").val(""); DeviceEvent.Toast("红包个数不能超过100") }//红包个数最小1个最大100个
-                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100) {
+                    if (packetNumber == 0 || packetNumber > 100) { $("#pakectNumber").val(""); DeviceEvent.Toast("红包个数不能超过100"); }//红包个数最小1个最大100个
+                    if (textContentLength > 0 && textContentLength <= 200 && packetAmount > 0 && packetNumber > 0 && packetNumber <= 100 && packetAmount >= 0.1 * packetNumber) {
                         enableSubmit = true;
                         $(".btn").css("background", "#fe625c");
                     }
@@ -710,6 +723,9 @@ var app = {
                             case "alipay":
                                 userInfo = { UserId: ls.getObject("userInfo").UserId, AliPay: $scope.updateInfo.value };
                                 break;
+                            case "alipayName":
+                                userInfo = { UserId: ls.getObject("userInfo").UserId, AliPayName: $scope.updateInfo.value };
+                                break;
                         }
                         $.post(scConfig.userInfoUrl, userInfo, function (user) {
                             //update userInfo
@@ -749,6 +765,9 @@ var app = {
                 }
                 $scope.updateAlipay = function () {
                     $state.go('update', { obj: { title: "设置支付宝账号", type: "alipay", value: $scope.userInfo.Alipay } });
+                }
+                $scope.updateAlipayName = function () {
+                    $state.go('update', { obj: { title: "设置支付宝姓名", type: "alipayName", value: $scope.userInfo.AliPayName } });
                 }
             })
             .controller('TeamController', function ($scope, $state, sc, ls) {
@@ -1086,8 +1105,8 @@ var app = {
                     $state.go('userpage', { userId: $scope.userInfo.UserId, returnUrl: "my" })
                 }
                 $scope.goWithdraw = function () {
-                    if ($scope.userInfo.AliPay == null) {
-                        DeviceEvent.Confirm("您还未填写支付宝账号",
+                    if ($scope.userInfo.AliPay == null || $scope.userInfo.AliPayName == null) {
+                        DeviceEvent.Confirm("您还未填写支付宝账号或姓名",
                             function (buttonIndex) {
                                 if (buttonIndex == 1) {
                                     $state.go('userinfo');
