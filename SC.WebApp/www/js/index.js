@@ -126,7 +126,8 @@ var app = {
                         params: {
                             userId: null,
                             title: null,
-                            records: null
+                            records: null,
+                            avatar: null
                         }
                     })
                     .state('userpage', {
@@ -710,7 +711,7 @@ var app = {
                         var preChatInfo = JSON.parse(localStorage.getItem("recentChats_" + from));
                         var curTime = getNowFormatDate();
 
-                        var chatInfo = { friendId: from, avatar: ls.getObject("userInfo").AvatarUrl, name: $stateParams.title, lastMsg: lastMsg, unReadNumber: 0, time: curTime };
+                        var chatInfo = { friendId: from, avatar: $stateParams.avatar, name: $stateParams.title, lastMsg: lastMsg, unReadNumber: 0, time: curTime };
                         localStorage.setItem("recentChats_" + from, JSON.stringify(chatInfo));
                     }
                 }
@@ -1067,7 +1068,7 @@ var app = {
             .controller('ContactsController', function ($scope, sc, ls, $state) {
                 curPage = "contacts";
                 $scope.goChat = function (friendId, friendName) {
-                    $state.go('chat', { userId: friendId, title: friendName, records: "" });
+                    $state.go('chat', { userId: friendId, title: friendName, records: "", avatar: ls.getObject("userInfo").AvatarUrl });
                 }
                 $.get(scConfig.userContactsUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (data) {
                     $scope.$apply(function () {
@@ -1108,7 +1109,7 @@ var app = {
                     var preChatInfo = JSON.parse(localStorage.getItem("recentChats_" + friendId));
                     preChatInfo.unReadNumber = 0;
                     localStorage.setItem("recentChats_" + friendId, JSON.stringify(preChatInfo));
-                    $state.go('chat', { userId: friendId, title: friendName, records: "" });
+                    $state.go('chat', { userId: friendId, title: friendName, records: "", avatar: preChatInfo.avatar });
                 }
 
                 var msgRecords = [];
