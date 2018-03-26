@@ -18,7 +18,7 @@
         </div>
 
         <div class="all-item">
-            <div class="item-box" ng-click="goChat(userInfo.FriendId,userInfo.FriendName)" ng-repeat="userInfo in Contacts| filter:query">
+            <div class="item-box" ng-click="goChat(userInfo.FriendId,userInfo.FriendName,userInfo.FriendAvatar)" ng-repeat="userInfo in Contacts| filter:query">
                 <div class="img-box">
                     <img src="{{userInfo.FriendAvatar}}" />
                 </div>

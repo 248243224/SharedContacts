@@ -1067,8 +1067,8 @@ var app = {
             })
             .controller('ContactsController', function ($scope, sc, ls, $state) {
                 curPage = "contacts";
-                $scope.goChat = function (friendId, friendName) {
-                    $state.go('chat', { userId: friendId, title: friendName, records: "", avatar: ls.getObject("userInfo").AvatarUrl });
+                $scope.goChat = function (friendId, friendName,friendAvatar) {
+                    $state.go('chat', { userId: friendId, title: friendName, records: "", avatar: friendAvatar });
                 }
                 $.get(scConfig.userContactsUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (data) {
                     $scope.$apply(function () {
