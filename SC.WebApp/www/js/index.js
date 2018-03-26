@@ -937,7 +937,7 @@ var app = {
                     render: "canvas",
                     width: window.innerWidth - 100,
                     height: window.innerHeight / 2.5,
-                    text: "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx457087c6f3e2d3be&redirect_uri=http://scadmin.handsave.com/WechatAuth/AuthCallback&response_type=code&scope=snsapi_userinfo&state=" + ls.getObject("userInfo").UserId+"&connect_redirect=1#wechat_redirect"
+                    text: "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx457087c6f3e2d3be&redirect_uri=http://scadmin.handsave.com/WechatAuth/AuthCallback&response_type=code&scope=snsapi_userinfo&state=" + ls.getObject("userInfo").UserId + "&connect_redirect=1#wechat_redirect"
                 });
             })
             .controller('RecordsController', function ($scope, $state, sc, ls) {
@@ -1116,9 +1116,7 @@ var app = {
                     if (localStorage.key(i).indexOf("recentChats_") != -1)
                         msgRecords.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
                 }
-                $scope.$apply(function () {
-                    $scope.msgRecords = msgRecords;
-                });
+                $scope.msgRecords = msgRecords;
             })
             .controller('MyController', function ($scope, $state, sc, ls) {
                 curPage = "my";
