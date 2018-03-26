@@ -681,17 +681,38 @@ var app = {
                 $scope.title = $stateParams.title;
                 $scope.friendId = $stateParams.userId;
                 $scope.avatar = $stateParams.avatar;
+                var enableSend = false;
                 // $scope.msgRecords = $stateParams.records;
                 $scope.back = function () {
                     $state.go(curPage);
                 };
+                $('#content').bind('keyup paste', function () {
+                    if ($.trim($(this).val()).length > 0) {
+                        $("#btnSend").css("background", "#fe625c");
+                        enableSend = true;
+                    }
+                    else {
+                        $("#btnSend").css("background", "#b3b3b3");
+                        enableSend = false;
+                    }
+                });
                 $scope.content = "";
                 $scope.sendMsg = function () {
-                    var msgHtml = "<div class='item-box clearfix oneself'><div class='img-box'><img src='" + ls.getObject("userInfo").AvatarUrl + "'></div> <div class='txt-box'>" + $scope.content + "</div></div>"
-                    $(".chat-box").append(msgHtml);
-                    $.post(scConfig.chatUrl.concat('?userId=' + ls.getObject("userInfo").UserId + '&friendId=' + $stateParams.userId + '&content=' + $scope.content + '&avatar=' + ls.getObject("userInfo").AvatarUrl + '&name=' + ls.getObject("userInfo").Name), function () {
-                    });
-                    $scope.content = "";
+                    if (enableSend) {
+                        var msgHtml = "<div class='item-box clearfix oneself'><div class='img-box'><img src='" + ls.getObject("userInfo").AvatarUrl + "'></div> <div class='txt-box'>" + $scope.content + "</div></div>"
+                        $(".chat-box").append(msgHtml);
+                        $.post(scConfig.chatUrl.concat('?userId=' + ls.getObject("userInfo").UserId + '&friendId=' + $stateParams.userId + '&content=' + $scope.content + '&avatar=' + ls.getObject("userInfo").AvatarUrl + '&name=' + ls.getObject("userInfo").Name), function () {
+                        });
+                        var lastMsg = $scope.content;
+                        $scope.content = "";
+
+                        var from = $stateParams.userId;
+                        var preChatInfo = JSON.parse(localStorage.getItem("recentChats_" + from));
+                        var curTime = getNowFormatDate();
+
+                        var chatInfo = { friendId: from, avatar: ls.getObject("userInfo").AvatarUrl, name: $stateParams.title, lastMsg: lastMsg, unReadNumber: 0, time: curTime };
+                        localStorage.setItem("recentChats_" + from, JSON.stringify(chatInfo));
+                    }
                 }
             })
             .controller('UserpageController', function ($scope, $state, sc, $stateParams) {
@@ -1095,7 +1116,9 @@ var app = {
                     if (localStorage.key(i).indexOf("recentChats_") != -1)
                         msgRecords.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
                 }
-                $scope.msgRecords = msgRecords;
+                $scope.$apply(function () {
+                    $scope.msgRecords = msgRecords;
+                });
             })
             .controller('MyController', function ($scope, $state, sc, ls) {
                 curPage = "my";
