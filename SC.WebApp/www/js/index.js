@@ -1038,7 +1038,7 @@ var app = {
                     DeviceEvent.Toast("网络异常");
                 }
             })
-            .controller('FooterController', function ($scope, $state) {
+            .controller('FooterController', function ($scope, $state, ls) {
                 //connect im server
                 ImClient.Init(ls.getObject("userInfo").UserId);
                 switch (curPage) {
@@ -1066,7 +1066,7 @@ var app = {
             })
             .controller('ContactsController', function ($scope, sc, ls, $state) {
                 curPage = "contacts";
-                $scope.goChat = function (friendId, friendName,friendAvatar) {
+                $scope.goChat = function (friendId, friendName, friendAvatar) {
                     $state.go('chat', { userId: friendId, title: friendName, records: "", avatar: friendAvatar });
                 }
                 $.get(scConfig.userContactsUrl.concat("?userId=" + ls.getObject("userInfo").UserId), function (data) {
