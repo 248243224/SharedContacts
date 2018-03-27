@@ -987,9 +987,6 @@ var app = {
                 curPage = "map";
                 sc.ValidateLogin();
 
-                //connect im server
-                ImClient.Init(ls.getObject("userInfo").UserId);
-
                 $scope.openRedPacket = function ($event) {
                     $event.stopPropagation();
                     DeviceEvent.SpinnerShow();
@@ -1042,6 +1039,8 @@ var app = {
                 }
             })
             .controller('FooterController', function ($scope, $state) {
+                //connect im server
+                ImClient.Init(ls.getObject("userInfo").UserId);
                 switch (curPage) {
                     case "map":
                         $(".item-box.map").addClass("active");
