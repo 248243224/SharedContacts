@@ -442,7 +442,7 @@ var app = {
                         DeviceEvent.Toast("不能关注自己");
                         return;
                     }
-                    $.post(scConfig.userContactsUrl.concat("?userId=" + ls.getObject("userInfo").UserId + "&friendId=" + $scope.packetInfo.UserId), function (ret) {
+                    $.post(scConfig.userContactsUrl.concat("?userId=" + ls.getObject("userInfo").UserId + "&friendId=" + $scope.packetInfo.UserId + "&profits=" + $scope.packetInfo.Amount), function (ret) {
                         if (ret == 0) DeviceEvent.Toast("已经关注过该用户了");
                         else if (ret == 1) DeviceEvent.Toast("关注成功");
                     });
