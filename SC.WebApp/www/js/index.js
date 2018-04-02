@@ -786,7 +786,7 @@ var app = {
                     $state.go('update', { obj: { title: "设置你的昵称", type: "name", value: $scope.userInfo.Name } });
                 }
                 $scope.updateAlipay = function () {
-                    $state.go('update', { obj: { title: "设置支付宝账号", type: "alipay", value: $scope.userInfo.Alipay } });
+                    $state.go('update', { obj: { title: "设置支付宝账号", type: "alipay", value: $scope.userInfo.AliPay } });
                 }
                 $scope.updateAlipayName = function () {
                     $state.go('update', { obj: { title: "设置支付宝姓名", type: "alipayName", value: $scope.userInfo.AliPayName } });
@@ -815,13 +815,16 @@ var app = {
                 $scope.back = function () {
                     $state.go('my');
                 };
+                $scope.updateAlipay = function () {
+                    $state.go('update', { obj: { title: "设置支付宝账号", type: "alipay", value: $scope.userInfo.AliPay } });
+                };
                 DeviceEvent.SpinnerShow();
                 $scope.withdrawInfo = { totalAmount: null, withdrawAmount: null };
                 $.get(scConfig.withdrawUrl.concat("?userId=" + $scope.userInfo.UserId), function (totalAmount) {
                     $scope.$apply(function () {
                         $scope.withdrawInfo = { totalAmount: totalAmount, withdrawAmount: totalAmount };
                     });
-                    if (totalAmount > 0) {
+                    if (totalAmount >= 10) {
                         enableSubmit = true;
                         $(".btn").css("background", "#ff8569");
                     }
@@ -839,7 +842,7 @@ var app = {
                 };
                 $scope.withdrawAll = function () {
                     $scope.withdrawInfo.withdrawAmount = $scope.withdrawInfo.totalAmount;
-                    if ($scope.withdrawInfo.withdrawAmount != null && $scope.withdrawInfo.withdrawAmount > 0) {
+                    if ($scope.withdrawInfo.withdrawAmount != null && $scope.withdrawInfo.withdrawAmount >= 0) {
                         enableSubmit = true;
                         $(".btn").css("background", "#ff8569");
                     }
@@ -1011,9 +1014,9 @@ var app = {
                                 //refresh location
                                 rpMapApi._currentLocationPoint = data.points[0];
                                 curLocation = data.points[0];
-                                console.log("point converted: Longitude:" + rpMapApi._currentLocationPoint.lng + "\n Latitude:" + rpMapApi._currentLocationPoint.lat);
                                 //refresh center and zoom
-                                rpMapApi._map.centerAndZoom(rpMapApi._currentLocationPoint, 17);
+                                if (ls.getObject("userInfo").AgencyType == agencyType.City) rpMapApi._map.centerAndZoom(rpMapApi._currentLocationPoint, 9);
+                                else rpMapApi._map.centerAndZoom(rpMapApi._currentLocationPoint, 17);
                                 if (ls.getObject("userInfo").AgencyType == agencyType.NotAgency) {
                                     //rewrite visible circle
                                     rpMapApi.RefreshVisibleCircle();

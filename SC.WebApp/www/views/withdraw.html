@@ -15,9 +15,9 @@
             <div class="img-box">
                 <img src="images/icon_27.png">
             </div>
-            <div class="txt-box">
+            <div class="txt-box" ng-click="updateAlipay()">
                 <p class="title">支付宝</p>
-                <p class="code">{{userInfo.AliPay}}</p>
+                <p class="code">{{userInfo.AliPay}}（{{userInfo.AliPayName}}）</p>
             </div>
         </div>
         <div class="pay-box clearfix">
@@ -33,10 +33,10 @@
         </div>
         <div class="other-box">
             <p>提现说明</p>
-            <p>1、每日可以提现1次</p>
+            <p>1、余额大于10元才能提现</p>
             <p>2、若提现失败，将会退回原账户</p>
             <p>3、若遇法定节假日、公假日，到帐日期顺延</p>
-            <p>4、系统默认将钱打入登录共享人脉APP的微信账户</p>
+            <p>4、系统默认将钱打入支付宝账户</p>
         </div>
     </div>
     <script type="text/javascript">

@@ -44,6 +44,25 @@
         var positionDetailsCB = function (details) {
             details = JSON.parse(details);
             curCity = details.result.addressComponent.city;
+            if (agencyType == 1) {
+                //draw city boundary
+                var bdary = new BMap.Boundary();
+                bdary.get(curCity, function (rs) {       //获取行政区域
+                    var count = rs.boundaries.length; //行政区域的点有多少个
+                    for (var i = 0; i < count; i++) {
+                        var ply = new BMap.Polygon(rs.boundaries[i], {
+                            strokeColor: "#ff0000",
+                            strokeWeight: 3,
+                            strokeStyle: "solid",//dashed or solid
+                            fillColor: "#E2E8F1",
+                            fillOpacity: 0.3
+                        }); //建立多边形覆盖物
+                        rp._map.addOverlay(ply);  //添加覆盖物
+                        //  rp._map.setViewport(ply.getPath());    //调整视野    
+                    }
+                });
+            }
+
             $.get(scConfig.redPacketsUrl, { userId: userId, lon: rp._currentLocationPoint.lng, lat: rp._currentLocationPoint.lat, city: details.result.addressComponent.city, agencyType: agencyType }, function (data) {
                 $.each(data, function () {
                     var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);

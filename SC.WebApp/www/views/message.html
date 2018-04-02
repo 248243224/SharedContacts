@@ -17,17 +17,17 @@
             </div>
         </div>
         <div class="all-item">
-            <div class="item-box clearfix">
+            <!--<div class="item-box clearfix">
                 <div class="img-box">
                     <img src="upload/logo.png">
-                    <!--<span class="nub">1</span>-->
+                    <span class="nub">1</span>
                 </div>
                 <div class="txt-box">
                     <p class="name">官方助手 </p>
                     <p class="txt">感谢您使用共享人脉APP  </p>
                 </div>
-                <!--<span class="time">11:17</span>-->
-            </div>
+                <span class="time">11:17</span>
+            </div>-->
             <div class="item-box clearfix" ng-click="goChat(chat.friendId,chat.name)" ng-repeat="chat in msgRecords| filter:query" ui-sref="chat">
                 <div class="img-box">
                     <img src="{{chat.avatar}}">

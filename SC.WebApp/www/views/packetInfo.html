@@ -3,7 +3,6 @@
     <div class="public-header">
         <h3 class="title">红包信息</h3>
         <div class="black-btn" ng-click="back()"></div>
-        <span class="attention" ng-click="addFriend()">+关注</span>
     </div>
     <div class="user-box">
         <div class="user-top">
@@ -22,7 +21,7 @@
     </div>
     <div class="friends-box">
         <div class="info">
-            <p>已领取，添加该好友之后，可再领取<span>{{packetInfo.Amount}}</span>元红包。 <span class="icon_txt"><img src="images/icon_6.png"></span></p>
+            <p>已领取，添加该好友之后，可再领取<span>{{packetInfo.Amount}}</span>元红包。<span class="attention" style="font-weight:bold" ng-click="addFriend()">+添加好友</span> <span class="icon_txt"><img src="images/icon_6.png"></span></p>
         </div>
         <div class="all-friends clearfix">
             <div class="item-box">
