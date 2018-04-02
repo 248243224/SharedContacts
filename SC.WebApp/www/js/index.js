@@ -939,8 +939,8 @@ var app = {
                 $("#qrCode").empty();
                 $("#qrCode").qrcode({
                     render: "canvas",
-                    width: window.innerWidth - 100,
-                    height: window.innerHeight / 2.5,
+                    width: window.innerWidth - 150,
+                    height: window.innerHeight / 3,
                     text: "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx457087c6f3e2d3be&redirect_uri=http://scadmin.handsave.com/WechatAuth/AuthCallback&response_type=code&scope=snsapi_userinfo&state=" + ls.getObject("userInfo").UserId + "&connect_redirect=1#wechat_redirect"
                 });
             })
