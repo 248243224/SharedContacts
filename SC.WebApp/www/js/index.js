@@ -1034,7 +1034,7 @@ var app = {
                         }
                     };
                     var rpMapApi = new RedPackets(translateCallback);
-                    rpMapApi.MapInit();
+                    rpMapApi.MapInit(ls.getObject("userInfo").AgencyType);
                 }
                 catch (e) {
                     console.log(e);

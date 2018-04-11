@@ -9,7 +9,9 @@
 
     RedPackets.prototype.MapInit = function () {
         var rp = this;
-        rp._map = new BMap.Map("redPackestMap", { minZoom: 8, enableClicking: true });
+        var minZoom = 8;
+        if (agencyType == 0) minZoom = 17;
+        rp._map = new BMap.Map("redPackestMap", { minZoom: minZoom, enableClicking: true });
         rp._map.enableScrollWheelZoom(true);
         this.RefreshCurrentLocation();
         //refresh location every 2 minutes
@@ -65,8 +67,13 @@
 
             $.get(scConfig.redPacketsUrl, { userId: userId, lon: rp._currentLocationPoint.lng, lat: rp._currentLocationPoint.lat, city: details.result.addressComponent.city, agencyType: agencyType }, function (data) {
                 $.each(data, function () {
-                    var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);
-                    rp.AddPacketMarker(point, $(this)[0].PacketId + "," + $(this)[0].SCUser.Name + "," + $(this)[0].SCUser.AvatarUrl);
+                    if ($(this)[0].UserId == 29) {
+                        var point = new BMap.Point(rp._currentLocationPoint.lng + Math.random() * 0.005, rp._currentLocationPoint.lat + Math.random() * 0.001);
+                        rp.AddPacketMarker(point, $(this)[0].PacketId + "," + $(this)[0].SCUser.Name + "," + $(this)[0].SCUser.AvatarUrl);
+                    } else {
+                        var point = new BMap.Point($(this)[0].Lng, $(this)[0].Lat);
+                        rp.AddPacketMarker(point, $(this)[0].PacketId + "," + $(this)[0].SCUser.Name + "," + $(this)[0].SCUser.AvatarUrl);
+                    }
                 })
             });
         }
