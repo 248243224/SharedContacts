@@ -7,7 +7,7 @@
         this._translateCallback = TranslateCallback;
     };
 
-    RedPackets.prototype.MapInit = function () {
+    RedPackets.prototype.MapInit = function (agencyType) {
         var rp = this;
         var minZoom = 8;
         if (agencyType == 0) minZoom = 17;
